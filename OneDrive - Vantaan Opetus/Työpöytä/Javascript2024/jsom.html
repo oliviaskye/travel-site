@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h4>js Querysellectors</h4>
+    <p> paraghragh-1</p>
+    <p>paraghragh-2</p>
+    <p>paraghragh-3</p>
+    <p>paraghragh-4</p>
+
+    <script>
+
+        const paraghragh = document.querySelectorAll("p");
+        i = 0
+        while (i < paraghragh.length) {
+            paraghragh[i].textContent = "23 mak"
+            i++
+            if (i == 1) {
+                paraghragh[i].style.backgroundColor = "yellow"
+            }
+
+        }
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

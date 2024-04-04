@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>using fetch method to read data.txt file</h1>
+    <div id="info"></div>
+    <button onclick="mak()" style="background-color: blueviolet;">show text</button>
+</body>
+<script>
+    //fetch method
+
+
+    /* fetch("TextFile.text").then((txt) => {
+ 
+         return txt.text();
+     }).then((data) => {
+         console.log(data)
+         document.getElementById("info").innerHTML += data
+     })
+  */
+
+
+    async function mak() {
+        const txt = await fetch("TextFile.text");
+        const data = await txt.text();
+        console.log(data)
+        document.getElementById("info").innerHTML = data
+
+    }
+</script>
+
+</html>

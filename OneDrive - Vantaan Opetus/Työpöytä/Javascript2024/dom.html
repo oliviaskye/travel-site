@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>javascrip Dom basic</h2>
+    <div id="info"></div>
+    <div id="info2"></div>
+    <h1 id="me"> class 23 mak</h1>
+    <div class="student"></div>
+    <p class="par1">class 2</p>
+
+
+    <script>
+        const header = document.getElementbyId("me").style.backgroundColor = "red";
+        header.style.font
+        const x = function (x) {
+            return x * 2;
+        }
+        const output = x(25)
+        header.innerHTML = "we can change the header text to our own " + output;
+
+        const par2 = document.getElementsByClassName("par2").innerHTML = "class -2 text"
+        let elements = document.getElementsByClassName("student");
+        elements[0].innerHTML = "class text"
+        console.log(elements)
+
+    </script>
+
+
+
+</body>
+
+</html>

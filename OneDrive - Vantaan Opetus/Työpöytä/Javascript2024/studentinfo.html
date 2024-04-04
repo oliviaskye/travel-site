@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="showData()">showData</button>
+    <div id="info" style="border:2px solid green "></div>
+
+
+    <script>
+     function showData(){
+        var urlparam=new URLSearchParams(window.location.search);
+     var id = urlparam.get("id") ;
+     var name = urlparam.get("name");
+     var bill = urlparam.get("bill");
+     
+     document.getElementById("info").innerHTML="id is --" +id +"name is "+name+ " student bill is -"+bill;
+     }
+
+     
+
+
+
+    </script>
+    
+</body>
+</html>

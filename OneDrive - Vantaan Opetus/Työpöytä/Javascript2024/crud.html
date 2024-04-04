@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //crud creat read update and delet
+
+
+
+
+        //adding employee uniqum id, name and salary
+        let employee = [];
+        function addEmploee(id, name, salary){
+            employee.push(id,name,salary)
+        }
+         addEmploee(1,"student-1",400)
+         addEmploee(2,"student-1",500)
+         addEmploee(3,"student-1",200)
+         addEmploee(4,"student-1",600)
+         
+        function employeeinfo(id){
+            employee.forEach((value)=>{
+                document.write("emplpee id is "+ value.id+"emploee name is"+value.name)
+            })
+        }
+
+
+
+         
+    </script>
+
+
+
+</body>
+</html>

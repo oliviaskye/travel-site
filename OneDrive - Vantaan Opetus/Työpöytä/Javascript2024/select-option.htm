@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     
+<style>
+
+</style>
+    <h2>Filtering With  select</h2>
+
+<select id ="cars">
+    <option value="volvo">Volvo</option>
+    <option value="saab">Saab</option>
+    <option value="Mercedes">Mercedese</option>
+    <option value="Audi">Audi</option>
+    <option value="BMW">BMW</option>
+<select id="Models"  style="Display:none;" ></select> 
+
+</select> 
+<script>
+    var carValue=document.getElementById("cars")
+    cars.addEventListener("change", ()=>{
+        var carValue= this.value;
+        console.log(cars);
+    })
+    if(carValue==="toyota"){
+        console.log(carValue)
+        var Models=document.getElementById("models")
+        var ToyotaModels=["toyota CHR","toyota RAV4","toyota LANDcr"]
+        ToyotaModels.forEach((toyota)=>{
+            var option = document.createElement("option");
+            var textValue = document.createTextNode(toyota)
+            option.appendChild(textValue)
+            Models.appendChild(option)
+        })
+        models.style.display="block"
+    }
+
+
+
+</script>   
+    
+</body>
+</html>

@@ -1,0 +1,8 @@
+[
+    {"id":1 , "name":"student-1","location":"vantaa"},
+    {"id":2 , "name":"student-2","location":"espoo"},
+    {"id":3, "name":"student-3","location":"helsinki"},
+    {"id":4 , "name":"student-4","location":"prvoo"},
+    {"id":5 , "name":"student-5","location":"turku"}
+
+]

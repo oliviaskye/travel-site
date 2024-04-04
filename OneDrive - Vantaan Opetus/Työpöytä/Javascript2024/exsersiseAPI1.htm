@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>API Exsersise</h1>
+    <div id="text"></div>
+    <img src="" id="image">
+    <div id="info"></div>
+
+    <button onclick="text">Fetch Text</button>
+    <button onclick="image">Fetch Image</button>
+    <button onclick="info">Fetch JSON</button>
+
+    <script>
+        fetch("see.jpg").then((promise) => {
+
+            return promise.blob()
+        }).then((data) => {
+            document.getElementById("image").src = URL.createObjectURL(data)
+        })
+
+
+        fetch("jsonData.json").then((promise) => {
+            return promise.json()
+        }).then((info) => {
+            data.forEach((element) => {
+                document.getElementById("info").innerHTML +=
+                    "id is- " + element.id + " ::: name is - " +
+                    element.name + "  " + element.location + "<br>"
+            });
+
+        })
+    </script>
+
+</body>
+
+</html>

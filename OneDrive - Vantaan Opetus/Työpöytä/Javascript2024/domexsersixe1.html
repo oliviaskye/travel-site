@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="background-color: aqua;">
+    <p id="changeMe">Original Text</p>
+    <div id="styleMe">Style this div</div>
+    <script>
+        const minoo = document.getElementById("changeMe");
+        minoo.innerHTML = "Text has been changed!"
+        minoo.style = "bold"
+        minoo.style.fontSize = "50px"
+        const Ryan = document.getElementById("styleMe");
+        Ryan.style.backgroundColor = "blue"
+        Ryan.style.color = "white"
+        Ryan.style.fontSize = "39px"
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1> String Method</h1>
+    <script>
+        // var stringOne = "student1,student2,student3, student4"
+        //document.write(stringOne.replaceAll("student1", "minoo"))
+        // document.write(stringOne.repeat(9))
+        //document.write(stringOne.indexOf("student3"))
+        //document.write(stringOne.lastIndexOf("student3"))
+        //console.log(stringOne.indexOf("student4"));
+        // var name = "student-1";
+        // var string2 = "student-2"
+        //var string3 = "student-3"
+        //if(string2<string3){
+        //var newstring=string2.concat(string3);
+        //document.write(newstring);
+        //}
+        //else{
+
+        // document.write("some other logic");
+        //}
+        //console.log(name.concat(string2, string3));
+        // document.write("show me what you have in index1 ", name.charAt(1))
+
+        //difrent part
+        // const string="   Hello Word  "
+        //document.write(string.trim());
+        //document.write("<br>")
+        //document.write(string)
+
+
+
+        // difrent part 
+        const string = "           Hello Word  ";
+        var start = 0;
+        var end = string.length - 1;
+        // console.log(end)
+        while (start < end && string.charAt(start) === " ") {
+            start++;
+            //start = start + 1
+        }
+        while (end > start && string.charAt(end) === " ") {
+            end--;
+            //end = end - 1
+        }
+        var trimeString = string.substring(start, end + 1);
+        console.log(string.length)
+        console.log("<br>")
+        console.log(trimeString.length)
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
