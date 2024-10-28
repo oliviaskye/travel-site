@@ -1,28 +1,23 @@
 import { CheckCircleOutline } from '@mui/icons-material';
 import { Box, ImageListItem } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import CircularProgressWithLabel from '../progressList/CircularProgressWithLabel ';
 import { v4 as uuidv4 } from 'uuid';
-import uploadFileProgress from  '../../../../firebase/uploadFileProgress'
 import { useValue } from '../../../../context/ContextProvider';
 
 const ProgressItem = ({ file }) => {
   const [progress, setProgress] = useState(0);
   const [imageURL, setImageURL] = useState(null);
   const {
-    state: { currentUser },
+    state: { currentUser }, 
     dispatch,
   } = useValue();
+
   useEffect(() => {
     const uploadImage = async () => {
       const imageName = uuidv4() + '.' + file.name.split('.').pop();
       try {
-        const url = await uploadFileProgress(
-          file,
-          `rooms/${currentUser?.id}`,
-          imageName,
-          setProgress
-        );
+        // استبدل هذا الجزء بكود رفع الملفات الفعلي
+        const url = await fakeUploadFile(file, imageName);
 
         dispatch({ type: 'UPDATE_IMAGES', payload: url });
         setImageURL(null);
@@ -34,16 +29,35 @@ const ProgressItem = ({ file }) => {
         console.log(error);
       }
     };
+
     setImageURL(URL.createObjectURL(file));
     uploadImage();
-  }, [file]);
+  }, [file, dispatch]);
+
+  const fakeUploadFile = async (file, imageName) => {
+    return new Promise((resolve) => {
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            resolve(`http://fakeurl.com/${imageName}`); // هنا يجب أن تكون URL الفعلية
+            return 100;
+          }
+          return prev + 10; // محاكاة تقدم التحميل
+        });
+      }, 100);
+    });
+  };
+
   return (
     imageURL && (
       <ImageListItem cols={1} rows={1}>
         <img src={imageURL} alt="gallery" loading="lazy" />
         <Box sx={backDrop}>
           {progress < 100 ? (
-            <CircularProgressWithLabel value={progress} />
+            <div> {/* هنا يمكنك إضافة مكون آخر بدلاً من CircularProgressWithLabel */}
+              <p>{`Loading: ${progress}%`}</p>
+            </div>
           ) : (
             <CheckCircleOutline
               sx={{ width: 60, height: 60, color: 'lightgreen' }}

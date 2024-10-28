@@ -1,10 +1,9 @@
-import { Box } from '@mui/material';
-import ReactMapGL, {Marker} from 'react-map-gl';
-import { useValue } from '../../../context/ContextProvider';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { useEffect, useRef } from 'react';
-
-
+import { Box } from "@mui/material";
+import ReactMapGL, { Marker, NavigationControl,GeolocateControl} from "react-map-gl";
+import { useValue } from "../../../context/ContextProvider";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { useEffect, useRef } from "react";
+import Geocoder from './Geocoder'
 const AddLocation = () => {
   const {
     state: {
@@ -16,7 +15,7 @@ const AddLocation = () => {
 
   useEffect(() => {
     if (!lng && !lat) {
-      fetch('https://ipapi.co/json')
+      fetch("https://ipapi.co/json")
         .then((response) => {
           return response.json();
         })
@@ -25,17 +24,17 @@ const AddLocation = () => {
             center: [data.longitude, data.latitude],
           });
           dispatch({
-            type: 'UPDATE_LOCATION',
+            type: "UPDATE_LOCATION",
             payload: { lng: data.longitude, lat: data.latitude },
           });
         });
     }
-  }, );
+  });
   return (
     <Box
       sx={{
         height: 400,
-        position: 'relative',
+        position: "relative",
       }}
     >
       <ReactMapGL
@@ -54,14 +53,24 @@ const AddLocation = () => {
           draggable
           onDragEnd={(e) =>
             dispatch({
-              type: 'UPDATE_LOCATION',
+              type: "UPDATE_LOCATION",
               payload: { lng: e.lngLat.lng, lat: e.lngLat.lat },
             })
           }
         />
-        
-        
-        
+
+        <NavigationControl position="bottom-right" />
+        <GeolocateControl
+          position="top-left"
+          trackUserLocation
+          onGeolocate={(e) =>
+            dispatch({
+              type: 'UPDATE_LOCATION',
+              payload: { lng: e.coords.longitude, lat: e.coords.latitude },
+            })
+          }
+        />
+        <Geocoder />
       </ReactMapGL>
     </Box>
   );

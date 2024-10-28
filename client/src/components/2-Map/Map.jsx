@@ -1,7 +1,7 @@
 import { BottomNavigation,BottomNavigationAction,Box,Paper,} from '@mui/material';
 import { AddLocationAlt, Bed, LocationOn } from '@mui/icons-material';
 import {useState, useEffect, useRef} from 'react';
-import ClusterMap from "./ClusterMap ";
+
 import Rooms from "../3-Rooms/Rooms";
 import AddRoom from "../4-AddRoom/AddRoom";
 
@@ -17,9 +17,9 @@ const Map = () =>{
         <Box  ref={ref}>
       {
         {
-          0: <ClusterMap />,
-          1: <Rooms />,
-          2: <AddRoom />,
+        
+          0: <Rooms />,
+          1: <AddRoom />,
         }[value]
       }
 
