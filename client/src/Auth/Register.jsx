@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios"; 
 import CountrySelect from "./CountrySelect"; 
 import { useValue } from "../context/ContextProvider"; 
-
+import { useNavigate } from "react-router-dom"; 
 
 const Register = () => {
   const [inputs, setInputs] = useState({
@@ -18,7 +18,9 @@ const Register = () => {
 
   
   const [err, setErr] = useState(null);
-  const { dispatch } = useValue(); 
+  const { dispatch } = useValue();
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -36,6 +38,7 @@ const Register = () => {
         setErr(null);
         alert("Registration successful!"); 
         dispatch({ type: "UPDATE_USER", payload: response.data.user });
+        navigate("/rooms"); 
         
       } catch (error) {
         console.error('Error during registration:', error.response.data);

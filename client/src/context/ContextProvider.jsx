@@ -1,36 +1,32 @@
-import { createContext, useContext, useReducer } from 'react';
-import reducer from "./reducer";
+import React, { createContext, useContext, useReducer } from 'react';
 
-
-const initialState = {
-  currentUser: null,
-  openLogin: false,
-  loading: false,
-  alert: { open: false, severity: 'info', message: '' },
-  profile: { open: false, file: null, photoURL: '' },
-  images: [],
-  details :{title: '', description: '', price: 0},
-  location: { lng: 0, lat: 0 },
-  rooms: [],
-  priceFilter: 50,
-  addressFilter: null,
-  filteredRooms: [],
-};
-
-const Context = createContext(initialState);
-
-
+const MyContext = createContext();
 
 export const useValue = () => {
-  return useContext(Context);
+    return useContext(MyContext);
 };
 
-const ContextProvider = ({children }) => {
+const initialState = {
+    user: null,
+};
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'UPDATE_USER':
+            return { ...state, user: action.payload };
+        default:
+            return state;
+    }
+};
+
+const ContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
-    
-  return (
-    <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
-  );
+
+    return (
+        <MyContext.Provider value={{ state, dispatch }}>
+            {children}
+        </MyContext.Provider>
+    );
 };
 
-export default ContextProvider;
+export default ContextProvider; 
