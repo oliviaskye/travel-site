@@ -1,75 +1,8 @@
-// import Room from '../models/Room.js'; 
-// import multer from 'multer';
-
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'uploads/'); 
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, file.originalname); 
-//   },
-// });
-
-// const upload = multer({ storage: storage });
-
-// export const createRoom = async (req, res) => {
-//   try {
-//     const { title, details, price, location } = req.body; 
-    
-//     const img = req.file.path; 
-//     const newRoom = new Room({
-//       title,
-//       details,
-//       img,
-//       price,
-//       location,
-//     });
-
-//     await newRoom.save();
-
-//     res.status(201).json({
-//       message: 'Room added successfully',
-//       room: newRoom,
-//     });
-//   } catch (error) {
-//     console.error("Error adding room:", error);
-//     res.status(500).json({ message: 'Failed to add room', error: error.message });
-//   }
-// };
-
-
-// export const getRooms = async (req, res) => {
-//   try {
-    
-//     const rooms = await Room.find(); 
-//     res.status(200).json(rooms); 
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Error fetching rooms' }); 
-//   }
-// };
-
-
 import Room from '../models/Room.js';
-import multer from "multer";
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); 
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
-
 
 export const createRoom = async (req, res) => {
   try {
-    const { title, details, price, location } = req.body; 
-    
-   
+    const { title, details, price, location } = req.body;
     const img = req.file ? req.file.path : null;
 
     const newRoom = new Room({
@@ -78,6 +11,7 @@ export const createRoom = async (req, res) => {
       img,
       price,
       location,
+      hotel: req.params.hotelId,
     });
 
     await newRoom.save();
@@ -92,28 +26,69 @@ export const createRoom = async (req, res) => {
   }
 };
 
+export const getHotelRooms = async (req, res) => {
+  const hotelId = req.params.hotelId;
+  try {
+    const rooms = await Room.find({ hotel: hotelId });
+    if (!rooms.length) {
+      return res.status(404).json({ message: "No rooms found for this hotel" });
+    }
+    res.status(200).json(rooms);
+  } catch (error) {
+    console.error("Error fetching hotel rooms:", error);
+    res.status(500).json({ message: 'Error fetching hotel rooms' });
+  }
+};
 
 export const getRooms = async (req, res) => {
+  const { hotelId, roomid } = req.params;
   try {
-    const rooms = await Room.find(); 
-    res.status(200).json(rooms); 
+    const room = await Room.findOne({ hotel: hotelId, _id: roomid });
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+    res.status(200).json(room);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error fetching rooms' }); 
+    console.error("Error fetching room:", error);
+    res.status(500).json({ message: 'Error fetching room' });
   }
 };
 
 
-export const getRoomById = async (req, res) => {
-  const roomId = req.params.id;
+export const UpdateRooms = async (req, res) => {
+  const { roomid } = req.params;
+  const updatedData = req.body;
+
   try {
-    const room = await Room.findById(roomId); 
+   
+    const sanitizedRoomId = roomid.trim();
+    
+    const room = await Room.findByIdAndUpdate(sanitizedRoomId, updatedData, { new: true });
     if (!room) {
       return res.status(404).json({ message: "Room not found" });
     }
-    res.json(room);
+    res.status(200).json(room); 
   } catch (error) {
-    console.error("Error fetching room:", error); 
-    res.status(500).json({ message: "Something went wrong", error: error.message });
+    console.error("Error updating room:", error);
+    res.status(500).json({ message: 'Error updating room' });
+  }
+};
+
+
+export const DeleteRoom = async (req, res) => {
+  const { roomid } = req.params;
+
+  try {
+    const sanitizedRoomId = roomid.trim();
+    console.log("Deleting room with ID:", sanitizedRoomId); 
+
+    const room = await Room.findByIdAndDelete(sanitizedRoomId);
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+    res.status(200).json({ message: "Room deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting room:", error);
+    res.status(500).json({ message: 'Error deleting room' });
   }
 };

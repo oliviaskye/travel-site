@@ -20,7 +20,7 @@ const connectDatabases = async () => {
       socketTimeoutMS: 30000,
     });
 
-    const reservationDB = mongoose.createConnection(`${process.env.MONGO_URL}/reservation`, {
+    const reservationDB = mongoose.createConnection(`${process.env.MONGO_URL}/reservations`, {
       serverSelectionTimeoutMS: 30000,
       socketTimeoutMS: 30000,
     });

@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-const Rooms = () => {
-  const [rooms, setRooms] = useState([]);
-  const [loading, setLoading] = useState(true);
+const HotelRoomsx = () => {
+  const { hotelId } = useParams(); 
+  const [rooms, setRooms] = useState([]); 
+  const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
-
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/room");
-        setRooms(response.data);
-        setLoading(false);
+     
+        const response = await axios.get(`http://localhost:5000/api/hotels/${hotelId}/rooms`); 
+        setRooms(response.data); 
+        setLoading(false); 
       } catch (error) {
         console.error("Error fetching rooms:", error);
-        setError("Failed to fetch rooms. Please try again.");
-        setLoading(false);
+        setError("Failed to fetch rooms. Please try again."); 
+        setLoading(false); 
+        console.log(setRooms)
       }
-    };
+    }
 
     fetchRooms();
-  }, []);
+  }, [hotelId]);
 
-  if (loading) return <p>Loading rooms...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p>Loading rooms...</p>; 
+  if (error) return <p>{error}</p>; 
 
   return (
     <div>
@@ -41,7 +43,9 @@ const Rooms = () => {
             <p>{room.details}</p>
             <p><strong>Price:</strong> ${room.price}</p>
             <p><strong>Location:</strong> {room.location}</p>
-            <Link to={`/reservation/${room._id}`}>Make a Reservation</Link>
+            <Link to={`/hotels/${hotelId}/rooms/${room._id}`}>Room Details</Link>
+
+            
           </div>
         ))}
       </div>
@@ -49,4 +53,4 @@ const Rooms = () => {
   );
 };
 
-export default Rooms;
+export default HotelRoomsx;

@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-
-
 const RoomSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -23,11 +21,13 @@ const RoomSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  hotel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Hotel', 
+    required: true, 
+  },
 });
 
 const Room = mongoose.model("Room", RoomSchema);
 
 export default Room;
-
-
-
