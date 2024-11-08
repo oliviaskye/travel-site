@@ -3,7 +3,7 @@ import axios from "axios";
 
 const UserProfile = () => {
 
-    const [user, setUser] = useState('');
+    const [user, setUser] = useState([]);
     
     useEffect(() => {
         const User = async () => {
@@ -16,7 +16,7 @@ const UserProfile = () => {
             }
         };
         User();
-    });
+    }, []);
     
     return(
         <>

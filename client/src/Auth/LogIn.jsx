@@ -35,7 +35,7 @@ const Login = () => {
     
         localStorage.setItem("userId", response.data.result.id);
 
-        //CHANGE BACK TO /rooms
+        //TODO: change back to /rooms
         navigate("/UserProfile");
       }
     } catch (error) {
