@@ -1,83 +1,95 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-const AddRoomForm = () => {
-  const [formData, setFormData] = useState({
-    title: '',
-    details: '',
-    img: null, 
-    price: '',
-    location: '',
-  });
+const AddRooms = () => {
+  const { hotelId } = useParams(); 
+  const [title, setTitle] = useState("");
+  const [details, setDetails] = useState("");
+  const [price, setPrice] = useState("");
+  const [roomNumber, setRoomNumber] = useState(""); 
+  const [image, setImage] = useState(null);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-
-    if (name === 'img') {
-      setFormData({
-        ...formData,
-        img: files[0],
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const data = new FormData();
-    data.append('title', formData.title);
-    data.append('details', formData.details);
-    data.append('img', formData.img);
-    data.append('price', formData.price);
-    data.append('location', formData.location);
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("details", details);
+    formData.append("price", price);
+    formData.append("roomNumber", roomNumber); 
+    formData.append("image", image);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/room', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      alert(response.data.message);
+      const response = await axios.post(
+        `http://localhost:5000/api/hotels/${hotelId}/rooms`, 
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      setMessage(response.data.message);
+      setError("");
     } catch (error) {
-      console.error('Error adding room:', error);
-      alert('Failed to add room. Please try again.');
+      console.error("Error creating room:", error);
+      setError("Failed to add room. Please try again.");
+      setMessage("");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '20px auto', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
-      <div style={{ marginBottom: '15px' }}>
-        <label>Title:</label>
-        <input type="text" name="title" value={formData.title} onChange={handleChange} required style={{ width: '100%', padding: '8px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }} />
-      </div>
-      <div style={{ marginBottom: '15px' }}>
-        <label>Details:</label>
-        <textarea name="details" value={formData.details} onChange={handleChange} required style={{ width: '100%', padding: '8px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }} />
-      </div>
-      <div style={{ marginBottom: '15px' }}>
-        <label>Image:</label>
-        <input type="file" name="img" onChange={handleChange} required style={{ width: '100%', padding: '8px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }} />
-      </div>
-      <div style={{ marginBottom: '15px' }}>
-        <label>Price:</label>
-        <input type="number" name="price" value={formData.price} onChange={handleChange} required style={{ width: '100%', padding: '8px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }} />
-      </div>
-      <div style={{ marginBottom: '15px' }}>
-        <label>Location:</label>
-        <input type="text" name="location" value={formData.location} onChange={handleChange} required style={{ width: '100%', padding: '8px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }} />
-      </div>
-      <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '4px', border: 'none', backgroundColor: '#007bff', color: 'white', fontSize: '16px', cursor: 'pointer' }}>
-        Add Room
-      </button>
-    </form>
+    <div>
+      <h2>Create New Room for Hotel {hotelId}</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Title:</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Details:</label>
+          <textarea
+            value={details}
+            onChange={(e) => setDetails(e.target.value)}
+            required
+          ></textarea>
+        </div>
+        <div>
+          <label>Price:</label>
+          <input
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Room Number:</label>
+          <input
+            type="text"
+            value={roomNumber}
+            onChange={(e) => setRoomNumber(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Image:</label>
+          <input type="file" onChange={handleImageChange} required />
+        </div>
+        <button type="submit">Add Room</button>
+      </form>
+      {message && <p style={{ color: "green" }}>{message}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+    </div>
   );
 };
 
-export default AddRoomForm;
-
-
+export default AddRooms;

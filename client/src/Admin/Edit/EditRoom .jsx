@@ -10,7 +10,7 @@ const EditRoom = () => {
     details: "",
     img: "",
     price: "",
-    location: "",
+    roomNumber: "",
   });
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null); 
@@ -97,11 +97,11 @@ const EditRoom = () => {
         required
       />
 
-      <label>Location:</label>
+      <label>roomNumber:</label>
       <input
         type="text"
-        name="location"
-        value={room.location || ""}
+        name="roomNumber"
+        value={room.roomNumber || ""}
         onChange={handleChange}
         required
       />

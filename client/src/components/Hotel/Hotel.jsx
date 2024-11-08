@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ClusterMap from "../2-Map/ClusterMap ";
 
 const Hotels = () => {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -22,6 +24,11 @@ const Hotels = () => {
 
     fetchHotels();
   }, []);
+
+  const handleShowLocation = (latitude, longitude) => {
+    setSelectedLocation([longitude, latitude]);
+    
+  };
 
   if (loading) return <p>Loading hotels...</p>;
   if (error) return <p>{error}</p>;
@@ -41,11 +48,20 @@ const Hotels = () => {
             <p>{hotel.details}</p>
             <p><strong>Price:</strong> ${hotel.price}</p>
             <p><strong>Location:</strong> {hotel.location}</p>
-          
             <Link to={`/hotels/${hotel._id}/rooms`}>Go to Rooms</Link>
+            <button onClick={() => handleShowLocation(hotel.latitude, hotel.longitude)}>
+              Show on Map
+            </button>
           </div>
         ))}
       </div>
+      
+    
+      {selectedLocation && (
+        <div style={{ height: "400px", marginTop: "20px" }}>
+          <ClusterMap onCenter={(centerMap) => centerMap(selectedLocation)} />
+        </div>
+      )}
     </div>
   );
 };

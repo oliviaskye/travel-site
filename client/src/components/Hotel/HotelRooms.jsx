@@ -42,7 +42,7 @@ const HotelRoomsx = () => {
             <h3>{room.title}</h3>
             <p>{room.details}</p>
             <p><strong>Price:</strong> ${room.price}</p>
-            <p><strong>Location:</strong> {room.location}</p>
+            <p><strong>roomNumber:</strong> {room.roomNumber}</p>
             <Link to={`/hotels/${hotelId}/rooms/${room._id}`}>Room Details</Link>
 
             

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-
 const HotelList = () => {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -50,12 +50,32 @@ const HotelList = () => {
     }
   };
 
+  
+  const filteredHotels = hotels.filter((hotel) =>
+    hotel.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (loading) return <p>Loading hotels...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div>
       <h2>Hotel List</h2>
+
+      
+      <input
+        type="text"
+        placeholder="Search by hotel name"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{
+          marginBottom: "20px",
+          padding: "10px",
+          width: "100%",
+          borderRadius: "4px",
+          border: "1px solid #ddd",
+        }}
+      />
 
       <Link to="/admin/hotels/AddHotels">
         <button
@@ -85,7 +105,7 @@ const HotelList = () => {
           </tr>
         </thead>
         <tbody>
-          {hotels.map((hotel) => (
+          {filteredHotels.map((hotel) => (
             <tr key={hotel._id}>
               <td>{hotel.name}</td>
               <td>{hotel.city}</td>
@@ -102,13 +122,12 @@ const HotelList = () => {
                 <Link to={`/hotels/${hotel._id}/add-room`}>
                   <button>Add Room</button>
                 </Link>
-
                 <Link to={`/admin/hotels/${hotel._id}/rooms`}>
                   <button>View Rooms</button>
                 </Link>
               </td>
             </tr>
-          ))}cd 
+          ))}
         </tbody>
       </table>
     </div>
@@ -116,4 +135,3 @@ const HotelList = () => {
 };
 
 export default HotelList;
-

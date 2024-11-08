@@ -6,8 +6,10 @@ const HotelRooms = () => {
   const { hotelId } = useParams();
 
   const [rooms, setRooms] = useState([]);
+  const [filteredRooms, setFilteredRooms] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [search, setSearch] = useState(""); 
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -16,6 +18,7 @@ const HotelRooms = () => {
           `http://localhost:5000/api/hotels/${hotelId}/rooms`
         );
         setRooms(response.data);
+        setFilteredRooms(response.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching rooms:", error);
@@ -32,9 +35,26 @@ const HotelRooms = () => {
         `http://localhost:5000/api/hotels/${hotelId}/rooms/${roomId}`
       );
       setRooms((prevRooms) => prevRooms.filter((room) => room._id !== roomId));
+      setFilteredRooms((prevRooms) => prevRooms.filter((room) => room._id !== roomId)); 
     } catch (error) {
       console.error("Error deleting room:", error);
       setError("Failed to delete room. Please try again.");
+    }
+  };
+
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearch(query);
+
+    if (query === "") {
+      setFilteredRooms(rooms); 
+    } else {
+ 
+      const filtered = rooms.filter((room) =>
+        room.roomNumber.toString().includes(query)
+      );
+      setFilteredRooms(filtered);
     }
   };
 
@@ -44,21 +64,20 @@ const HotelRooms = () => {
   return (
     <div>
       <h2>Available Rooms</h2>
-      <Link to="/hotels/:hotelId/add-room">
-        <button
-          style={{
-            marginBottom: "20px",
-            padding: "10px",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
-          Add New Room
-        </button>
+
+      <div>
+        <input
+          type="text"
+          placeholder="Search by Room Number"
+          value={search}
+          onChange={handleSearchChange}
+        />
+      </div>
+
+      <Link to={`/hotels/${hotelId}/add-room`}>
+        <button>Add Room</button>
       </Link>
+
       <table className="table">
         <thead>
           <tr>
@@ -66,12 +85,12 @@ const HotelRooms = () => {
             <th scope="col">Title</th>
             <th scope="col">Details</th>
             <th scope="col">Price</th>
-            <th scope="col">Location</th>
+            <th scope="col">Room Number</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {rooms.map((room) => (
+          {filteredRooms.map((room) => (
             <tr key={room._id}>
               <td>
                 <img
@@ -87,7 +106,7 @@ const HotelRooms = () => {
               <td>{room.title}</td>
               <td>{room.details}</td>
               <td>${room.price}</td>
-              <td>{room.location}</td>
+              <td>{room.roomNumber}</td>
               <td>
                 <Link
                   to={`/hotels/${hotelId}/rooms/${room._id}/edit`}

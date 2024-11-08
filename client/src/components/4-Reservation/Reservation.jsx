@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useValue } from '../../context/ContextProvider';
 
-const ReservationForm = ({ roomId, hotelId }) => { // Accept roomId and hotelId as props
+const ReservationForm = ({ roomId, hotelId }) => { 
   const { state } = useValue();
   
   const [formData, setFormData] = useState({
@@ -16,13 +16,13 @@ const ReservationForm = ({ roomId, hotelId }) => { // Accept roomId and hotelId 
   const [reservation, setReservation] = useState(null);
   const [error, setError] = useState(null);
 
-  // Update the form data when the component mounts
+  
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
-      roomId: roomId, // Set the roomId from props
-      userId: state.user ? state.user.id : '', // Use user ID from context
-      hotelId: hotelId // Set the hotelId from props
+      roomId: roomId, 
+      userId: state.user ? state.user.id : '',
+      hotelId: hotelId 
     }));
   }, [state.user, roomId, hotelId]);
 
@@ -50,8 +50,8 @@ const ReservationForm = ({ roomId, hotelId }) => { // Accept roomId and hotelId 
     <div>
       <h2>Create a Reservation</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Room ID:</label>
+        {/* <div> */}
+          {/* <label>Room ID:</label>
           <input
             type="text"
             name="roomId"
@@ -60,7 +60,7 @@ const ReservationForm = ({ roomId, hotelId }) => { // Accept roomId and hotelId 
             required
             readOnly
           />
-        </div>
+        </div> */}
         <div>
           <label>User ID:</label>
           <input
@@ -92,7 +92,7 @@ const ReservationForm = ({ roomId, hotelId }) => { // Accept roomId and hotelId 
             required
           />
         </div>
-        <div>
+        {/* <div>
           <label>Hotel ID:</label>
           <input
             type="text"
@@ -102,7 +102,7 @@ const ReservationForm = ({ roomId, hotelId }) => { // Accept roomId and hotelId 
             required
             readOnly
           />
-        </div>
+        </div> */}
         <button type="submit">Create Reservation</button>
       </form>
 

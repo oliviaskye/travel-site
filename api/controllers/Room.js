@@ -1,8 +1,39 @@
 import Room from '../models/Room.js';
 
+// export const createRoom = async (req, res) => {
+
+
+//   try {
+//     const { title, details, price, location } = req.body;
+//     const img = req.file ? req.file.path : null;
+
+//     const newRoom = new Room({
+//       title,
+//       details,
+//       img,
+//       price,
+//       location,
+//       hotel: req.params.hotelId,
+//     });
+
+//     await newRoom.save();
+
+//     res.status(201).json({
+//       message: 'Room added successfully',
+//       room: newRoom,
+//     });
+//   } catch (error) {
+//     console.error("Error adding room:", error);
+//     res.status(500).json({ message: 'Failed to add room', error: error.message });
+//   }
+// };
+
+
+
+
 export const createRoom = async (req, res) => {
   try {
-    const { title, details, price, location } = req.body;
+    const { title, details, price, roomNumber } = req.body;
     const img = req.file ? req.file.path : null;
 
     const newRoom = new Room({
@@ -10,7 +41,7 @@ export const createRoom = async (req, res) => {
       details,
       img,
       price,
-      location,
+      roomNumber,
       hotel: req.params.hotelId,
     });
 
@@ -25,6 +56,7 @@ export const createRoom = async (req, res) => {
     res.status(500).json({ message: 'Failed to add room', error: error.message });
   }
 };
+
 
 export const getHotelRooms = async (req, res) => {
   const hotelId = req.params.hotelId;

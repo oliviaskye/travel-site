@@ -3,13 +3,15 @@ import axios from "axios";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]); 
+  const [search, setSearch] = useState(""); 
 
-  
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/users");
         setUsers(response.data);
+        setFilteredUsers(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -19,21 +21,46 @@ const UserList = () => {
   }, []);
 
 
+  const handleSearchChange = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearch(query);
+
+    if (query === "") {
+      setFilteredUsers(users);
+    } else {
+
+      const filtered = users.filter(
+        (user) =>
+          user.name.toLowerCase().includes(query) ||
+          user.email.toLowerCase().includes(query)
+      );
+      setFilteredUsers(filtered);
+    }
+  };
+
   const deleteUser = async (userId) => {
     try {
       await axios.delete(`http://localhost:5000/api/users/${userId}`);
-     
       setUsers(users.filter((user) => user._id !== userId));
+      setFilteredUsers(filteredUsers.filter((user) => user._id !== userId)); 
     } catch (error) {
       console.error("Error deleting user:", error);
     }
   };
 
-
-
   return (
     <div>
       <h1>User List</h1>
+
+      <div>
+        <input
+          type="text"
+          placeholder="Search by name or email"
+          value={search}
+          onChange={handleSearchChange}
+        />
+      </div>
+
       <table>
         <thead>
           <tr>
@@ -47,7 +74,7 @@ const UserList = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <tr key={user._id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
@@ -56,7 +83,6 @@ const UserList = () => {
               <td>{user.country}</td>
               <td>{user.gender}</td>
               <td>
-             
                 <button onClick={() => deleteUser(user._id)}>Delete</button>
               </td>
             </tr>
