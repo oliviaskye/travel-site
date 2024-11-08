@@ -35,8 +35,8 @@ const Login = () => {
     
         localStorage.setItem("userId", response.data.result.id);
 
-
-        navigate("/rooms");
+        //CHANGE BACK TO /rooms
+        navigate("/UserProfile");
       }
     } catch (error) {
       const errorMessage =
@@ -49,25 +49,27 @@ const Login = () => {
   };
 
   return (
-    <div className="login">
+    <div className="container">
       <div>
-        <div>
-          <h1>Login</h1>
+        <div className="input">
+          <h2 className="title">Login</h2>
           <form onSubmit={handleLogin}>
+            <label for='input'>email/phone number</label><br/>
             <input
               type="text"
               placeholder="Email or Phone Number"
               name="emailOrPhone"
               onChange={handleChange}
               required
-            />
+            /><br/>
+            <label for='input'>password</label><br/>
             <input
               type="password"
               placeholder="Password"
               name="password"
               onChange={handleChange}
               required
-            />
+            /><br/>
             {err && <p className="error">{err}</p>}
             <button type="submit" disabled={isLoading}>
               {isLoading ? "Logging in..." : "Login"}

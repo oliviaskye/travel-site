@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+// import 'Reservation.css';
 
 const Reservation = () => {
   const [userId, setUserId] = useState("");
@@ -63,10 +64,10 @@ const Reservation = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
+    <div className="container">
       <h2>Reservation Form</h2>
       {roomDetails && (
-        <div style={{ border: "1px solid #ccc", padding: "10px", borderRadius: "8px", marginBottom: "20px" }}>
+        <div className="subcontainer">
           <h3>{roomDetails.title}</h3>
           <p>{roomDetails.details}</p>
           <p><strong>Price:</strong> ${roomDetails.price}</p>
@@ -78,8 +79,8 @@ const Reservation = () => {
           />
         </div>
       )}
-      <form onSubmit={handleSubmit}>
-        <label>Date Range:</label>
+      <form className='reservation-form' onSubmit={handleSubmit}>
+        <label>Date Range:</label><br/>
         <DatePicker
           selected={startDate}
           onChange={(dates) => {
