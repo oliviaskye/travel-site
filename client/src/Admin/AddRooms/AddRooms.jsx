@@ -1,0 +1,95 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+
+const AddRooms = () => {
+  const { hotelId } = useParams(); 
+  const [title, setTitle] = useState("");
+  const [details, setDetails] = useState("");
+  const [price, setPrice] = useState("");
+  const [roomNumber, setRoomNumber] = useState(""); 
+  const [image, setImage] = useState(null);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("details", details);
+    formData.append("price", price);
+    formData.append("roomNumber", roomNumber); 
+    formData.append("image", image);
+
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/hotels/${hotelId}/rooms`, 
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      setMessage(response.data.message);
+      setError("");
+    } catch (error) {
+      console.error("Error creating room:", error);
+      setError("Failed to add room. Please try again.");
+      setMessage("");
+    }
+  };
+
+  return (
+    <div>
+      <h2>Create New Room for Hotel {hotelId}</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Title:</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Details:</label>
+          <textarea
+            value={details}
+            onChange={(e) => setDetails(e.target.value)}
+            required
+          ></textarea>
+        </div>
+        <div>
+          <label>Price:</label>
+          <input
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Room Number:</label>
+          <input
+            type="text"
+            value={roomNumber}
+            onChange={(e) => setRoomNumber(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Image:</label>
+          <input type="file" onChange={handleImageChange} required />
+        </div>
+        <button type="submit">Add Room</button>
+      </form>
+      {message && <p style={{ color: "green" }}>{message}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+    </div>
+  );
+};
+
+export default AddRooms;
