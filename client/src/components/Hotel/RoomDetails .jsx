@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import ReservationForm from "../4-Reservation/Reservation"; 
+import ReservationForm from "../Reservation/Reservation"; 
 
 const RoomDetails = () => {
   const { hotelId, roomId } = useParams();

@@ -34,9 +34,9 @@ const Login = () => {
 
     
         localStorage.setItem("userId", response.data.result.id);
+        localStorage.setItem("email", response.data.result.email);
 
-
-        navigate("/hotels");
+        navigate("/");
       }
     } catch (error) {
       const errorMessage =

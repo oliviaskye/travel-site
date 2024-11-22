@@ -8,7 +8,7 @@ const HotelRoomsx = () => {
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
   useEffect(() => {
-    const fetchRooms = async () => {
+   const fetchRooms = async () => {
       try {
      
         const response = await axios.get(`http://localhost:5000/api/hotels/${hotelId}/rooms`); 
