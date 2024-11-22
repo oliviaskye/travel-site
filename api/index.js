@@ -8,6 +8,10 @@ import authRoutes from "./routes/Auth.js";
 import hotelRoutes from "./routes/Hotel.js";
 import reservationRoutes from './routes/Reservation.js';
 import GetUsers from './routes/Auth.js'
+
+
+
+
 dotenv.config();
 const app = express();
 
@@ -29,6 +33,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/", GetUsers);
 
 app.use("/api/hotels", hotelRoutes);
+
 app.use("/api/hotels", roomRoutes);
 
 app.use("/api/reservations", reservationRoutes);

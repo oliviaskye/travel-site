@@ -5,6 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@fortawesome/free-solid-svg-icons": "^6.7.1",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",
@@ -22,6 +24,7 @@
     "date-fns": "^4.1.0",
     "firebase": "^11.0.1",
     "mapbox-gl": "^3.7.0",
+    "process": "^0.11.10",
     "react": "^18.3.1",
     "react-calendar": "^5.1.0",
     "react-date-range": "^2.0.1",
@@ -30,12 +33,12 @@
     "react-dropzone": "^14.2.10",
     "react-map-gl": "^7.1.7",
     "react-router-dom": "^6.27.0",
-    "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -58,6 +61,9 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@vitejs/plugin-react": "^4.3.3",
+    "html-webpack-plugin": "^5.6.3",
+    "vite": "^5.4.10"
   }
 }

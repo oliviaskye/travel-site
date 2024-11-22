@@ -1,9 +1,10 @@
 import Hotel from "../models/Hotel.js";
 
 
+
 export const createHotel = async (req, res, next) => {
   try {
-    const { rooms, ...hotelData } = req.body; 
+    const { rooms, ...hotelData } = req.body;
 
     const newHotel = new Hotel({
       ...hotelData,
@@ -33,7 +34,6 @@ export const updateHotel = async (req, res, next) => {
   }
 };
 
-
 export const deleteHotel = async (req, res, next) => {
   try {
     await Hotel.findByIdAndDelete(req.params.id);
@@ -43,7 +43,6 @@ export const deleteHotel = async (req, res, next) => {
   }
 };
 
-
 export const getHotel = async (req, res, next) => {
   try {
     const hotel = await Hotel.findById(req.params.id);
@@ -52,6 +51,37 @@ export const getHotel = async (req, res, next) => {
     next(err);
   }
 };
+
+
+
+
+export const filterHotelsByCityAndPrice = async (req, res, next) => {
+  try {
+    const { city, price } = req.query;
+
+    if (!city || !price) {
+      return res.status(400).json({ message: "City and price parameters are required." });
+    }
+
+    const parsedPrice = Number(price);
+    if (isNaN(parsedPrice)) {
+      return res.status(400).json({ message: "Invalid price value" });
+    }
+
+    const hotels = await Hotel.find({
+      city: city,
+      cheapestPrice: { $lte: parsedPrice },
+      maxPrice: { $gte: parsedPrice },
+    });
+
+    res.status(200).json(hotels);
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+
 
 
 
@@ -67,8 +97,3 @@ export const getHotels = async (req, res, next) => {
     next(err);
   }
 };
-
-
-
-
-

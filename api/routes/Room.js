@@ -20,6 +20,8 @@ import { createRoom, getHotelRooms, getRooms, UpdateRooms, DeleteRoom } from "..
 const router = express.Router();
 
 
+
+
 //GET
 router.get('/:hotelId/rooms', getHotelRooms);
 router.get('/:hotelId/rooms/:roomid', getRooms);
