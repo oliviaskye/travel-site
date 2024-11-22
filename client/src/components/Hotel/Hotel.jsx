@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import ClusterMap from "../2-Map/ClusterMap ";
+import ClusterMap from "../Map/ClusterMap";
 
 const Hotels = () => {
   const [hotels, setHotels] = useState([]);
@@ -12,7 +12,7 @@ const Hotels = () => {
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/hotels"); 
+        const response = await axios.get("http://localhost:5000/api/hotels");
         setHotels(response.data);
         setLoading(false);
       } catch (error) {
@@ -42,24 +42,26 @@ const Hotels = () => {
             <img
               src={`http://localhost:5000/${hotel.img ? hotel.img.replace(/\\/g, "/") : "default-image.jpg"}`}
               alt={hotel.name}
-              style={{ width: "100%", height: "200px", objectFit: "cover" }} 
+              style={{ width: "100%", height: "200px", objectFit: "cover" }}
             />
             <h3>{hotel.name}</h3>
-            <p>{hotel.details}</p>
-            <p><strong>Price:</strong> ${hotel.price}</p>
-            <p><strong>Location:</strong> {hotel.location}</p>
-            <Link to={`/hotels/${hotel._id}/rooms`}>Go to Rooms</Link>
+            <p><strong>Country:</strong> {hotel.country}</p>
+            <p><strong>City:</strong> {hotel.city}</p>
+            <p><strong>Address:</strong> {hotel.address}</p>
+            <p><strong>Price:</strong> ${hotel.cheapestPrice}</p>
+            <p><strong>Price:</strong> ${hotel.maxPrice}</p>
+            <p><strong>Phone Number:</strong> {hotel.phoneNumber}</p> 
             <button onClick={() => handleShowLocation(hotel.latitude, hotel.longitude)}>
               Show on Map
             </button>
+            <Link to={`/hotels/${hotel._id}/rooms`}>Go to Rooms</Link>
           </div>
         ))}
       </div>
-      
-    
+
       {selectedLocation && (
         <div style={{ height: "400px", marginTop: "20px" }}>
-          <ClusterMap onCenter={(centerMap) => centerMap(selectedLocation)} />
+          <ClusterMap selectedLocation={selectedLocation} />
         </div>
       )}
     </div>

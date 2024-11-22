@@ -1,32 +1,5 @@
 import mongoose from 'mongoose';
 
-// const RoomSchema = new mongoose.Schema({
-//   title: {
-//     type: String,
-//     required: true,
-//   },
-//   details: {
-//     type: String,
-//     required: true,
-//   },
-//   img: {
-//     type: String,
-//     required: false,
-//   },
-//   price: {
-//     type: Number,
-//     required: true,
-//   },
- 
-//   roomNumbers:{},
-//   hotel: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'Hotel', 
-//     required: true, 
-//   },
-// });
-
-
 
 const RoomSchema = new mongoose.Schema({
   title: {

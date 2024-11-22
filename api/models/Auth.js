@@ -1,20 +1,21 @@
 import mongoose from 'mongoose';
 
 const userSchema = mongoose.Schema({
+    name: { type: String, min: 2, max: 50, },
 
-    name: { type: String, min: 2, max: 50, required: true },
+    email: { type: String, min: 5, max: 50,  unique: true },
 
-    email: { type: String, min: 5, max: 50, required: true, unique: true },
+    password: { type: String,  },
 
-    password: { type: String, required: true },
+    age: { type: Number,},
 
-    age: { type: Number, required: true },
+    phoneNumber: { type: String,  unique: true }, 
 
-    phoneNumber: { type: String, required: true, unique: true }, 
-
-    country: { type: String, required: true },
+    country: { type: String,  },
     
-    gender: { type: String, required: true }
+    gender: { type: String,  },
+    
+    role: { type: String, enum: ["user", "admin"], default: "user" }
 })
 
  const User = mongoose.model('User', userSchema);
