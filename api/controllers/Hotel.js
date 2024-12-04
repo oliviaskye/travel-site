@@ -20,19 +20,42 @@ export const createHotel = async (req, res, next) => {
 
 
 
+// export const updateHotel = async (req, res, next) => {
+//   try {
+//     const updatedHotel = await Hotel.findByIdAndUpdate(
+//       req.params.id,
+//       { $set: req.body },
+//       { new: true }
+//     );
+
+//     res.status(200).json(updatedHotel);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
 export const updateHotel = async (req, res, next) => {
   try {
+    console.log("Request body:", req.body); // فحص البيانات المرسلة
+    console.log("Hotel ID:", req.params.id); // فحص المعرف المرسل
+
     const updatedHotel = await Hotel.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
       { new: true }
     );
 
+    if (!updatedHotel) {
+      return res.status(404).json({ message: "Hotel not found" }); // التعامل مع حالة عدم وجود الفندق
+    }
+
     res.status(200).json(updatedHotel);
   } catch (err) {
+    console.error("Error updating hotel:", err); // تسجيل الخطأ
     next(err);
   }
 };
+
 
 export const deleteHotel = async (req, res, next) => {
   try {

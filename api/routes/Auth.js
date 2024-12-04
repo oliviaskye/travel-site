@@ -7,18 +7,18 @@ import {
   deleteUser,
   PutUser,
 } from "../controllers/Auth.js";
-import { verifyToken, isAdmin } from "../Middleware/admin.js";
+
 
 const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
 
-router.get("/users", verifyToken, isAdmin, GetUsers);
-router.get("/users/:id", verifyToken, isAdmin, getUser);
+router.get("/users", GetUsers);
+router.get("/users/:id", getUser);
 
-router.delete("/users/:id", verifyToken, isAdmin, deleteUser);
+router.delete("/users/:id",  deleteUser);
 
-router.put("/users/:id", verifyToken, isAdmin, PutUser);
+router.put("/users/:id",PutUser);
 
 export default router;

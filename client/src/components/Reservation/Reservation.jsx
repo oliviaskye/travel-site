@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useValue } from '../../context/ContextProvider';
+import { useNavigate } from 'react-router-dom';
+// import { useValue } from '../../context/ContextProvider';
 
 const ReservationForm = ({ roomId, hotelId }) => { 
-  const { state } = useValue();
+  // const { state } = useValue();
+  const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
     roomId: '',
@@ -18,13 +20,18 @@ const ReservationForm = ({ roomId, hotelId }) => {
 
   
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      roomId: roomId, 
-      userId: state.user ? state.user.id : '',
-      hotelId: hotelId 
-    }));
-  }, [state.user, roomId, hotelId]);
+    const userId = localStorage.getItem('userId'); 
+    if (!userId) {
+      navigate('/login'); 
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        roomId: roomId, 
+        userId: userId,
+        hotelId: hotelId 
+      }));
+    }
+  }, [roomId, hotelId, navigate]); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +47,7 @@ const ReservationForm = ({ roomId, hotelId }) => {
 
     try {
       const response = await axios.post('http://localhost:5000/api/reservations', formData);
+      
       setReservation(response.data);
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred');
@@ -51,7 +59,7 @@ const ReservationForm = ({ roomId, hotelId }) => {
       <h2>Create a Reservation</h2>
       <form onSubmit={handleSubmit}>
       
-        <div>
+        {/* <div>
           <label>User ID:</label>
           <input
             type="text"
@@ -61,7 +69,7 @@ const ReservationForm = ({ roomId, hotelId }) => {
             required
             readOnly
           />
-        </div>
+        </div> */}
         <div>
           <label>Start Date:</label>
           <input
