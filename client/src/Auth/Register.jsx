@@ -50,44 +50,50 @@ const Register = () => {
   return (
     <div className="register">
       <div >
-        <div >
+        <div className="container">
           <h1>Register</h1>
           <form>
+            <label>name</label><br/>
             <input
               type="text"
               placeholder="Name"
               name="name"
               onChange={handleChange}
               required
-            />
+            /><br/>
+            <label>email</label><br/>
             <input
               type="email"
               placeholder="Email"
               name="email"
               onChange={handleChange}
               required
-            />
+            /><br/>
+            <label>password</label><br/>
             <input
               type="password"
               placeholder="Password"
               name="password"
               onChange={handleChange}
               required
-            />
+            /><br/>
+            <label>age</label><br/>
             <input
               type="number"
               placeholder="Age"
               name="age"
               onChange={handleChange}
               required
-            />
+            /><br/>
+            <label>phone number</label><br/>
             <input
               type="text"
               placeholder="Phone Number"
               name="phoneNumber"
               onChange={handleChange}
               required
-            />
+            /><br/>
+            <label>country</label><br/>
             <CountrySelect selectedCountry={inputs.country} onChange={handleChange} />
 
             <div>
