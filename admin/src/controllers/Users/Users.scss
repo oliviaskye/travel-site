@@ -1,0 +1,87 @@
+.home {
+  display: flex;
+  padding: 20px;
+}
+
+.user-list-container {
+  flex: 1;
+  margin-left: 250px; /* Adjust this margin to match the width of the sidebar */
+  padding: 20px;
+  background-color: #f4f4f4; /* Background color for better contrast */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
+}
+
+h1 {
+  font-size: 1.8rem; /* Adjusted size to make it smaller */
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.search-container {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+input {
+  padding: 8px;
+  width: 250px; /* Reduced width for better spacing */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  border-color: #6439ff;
+}
+
+button {
+  padding: 8px 14px; /* Reduced padding for a more compact button */
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 10px;
+}
+
+button:hover {
+  background-color: #e04444;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  table-layout: fixed; /* Ensures columns fit better */
+}
+
+th, td {
+  padding: 8px; /* Reduced padding for compactness */
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px; /* Reduced font size */
+}
+
+th {
+  background-color: #6439ff;
+  color: white;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
