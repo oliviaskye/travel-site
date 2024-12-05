@@ -14,6 +14,7 @@ const PaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) => {
     const cardElement = elements.getElement(CardElement);
 
     try {
+      // Create a PaymentMethod with Stripe
       const { paymentMethod, error } = await stripe.createPaymentMethod({
         type: "card",
         card: cardElement,
@@ -21,6 +22,7 @@ const PaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) => {
 
       if (error) throw new Error(error.message);
 
+      // Send the payment method ID and reservation ID to the backend via HTTPS
       const response = await axios.post("https://localhost:5000/api/payment", {
         paymentMethodId: paymentMethod.id,
         reservationId,
