@@ -36,7 +36,8 @@ const Login = () => {
         localStorage.setItem("userId", response.data.result.id);
         localStorage.setItem("email", response.data.result.email);
 
-        navigate("/");
+        navigate("/UserProfile");
+        //TODO: change back to /
       }
     } catch (error) {
       const errorMessage =

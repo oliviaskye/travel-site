@@ -13,6 +13,8 @@ import Home from "./pages/Home";
 
 import Hotels from "./components/Hotel/Hotel";
 import HotelFltring from "./components/filter/HotelFltring";
+import UserProfile from "./components/pages/UserProfile";
+import UpdateProfile from "./components/pages/UpdateProfile";
 
 function App() {
   return (
@@ -31,6 +33,10 @@ function App() {
         <Route path="/reservation" element={<ReservationForm />} />
 
         <Route path="/HotelFltring" element={<HotelFltring />} />
+
+        <Route path="/UserProfile" element={<UserProfile/>} />
+        <Route path="/UpdateProfile" element={<UpdateProfile/>} />
+
 
         <Route path="/Header" element={<Header />} />
       </Routes>

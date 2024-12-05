@@ -85,7 +85,7 @@ const Header = ({ type }) => {
             <Link to={`/hotels`}><button>HOTELS</button></Link>
           </div>
           <div className="headerListItem">
-            <Link to={`/user/id`}><button>Profile</button></Link>
+            <Link to={`/UserProfile`}><button>Profile</button></Link>
           </div>
         </div>
 

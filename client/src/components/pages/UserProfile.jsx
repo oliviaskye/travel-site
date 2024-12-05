@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import UpdateProfile from './UpdateProfile';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState([]);
   const [error, setError] = useState(null);
+  const [me, deleteMe] = useState([]);
 
   useEffect(() => {
     const fetchUser = async (userId) => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/auth/users/673e22f8dd072f8ecf16044f`);
+        const response = await axios.get(`http://localhost:5000/api/auth/users/674466bb3165367fa268eb8c`);
         setUser(response.data);
       } catch (error) {
         setError('Error fetching user data');
@@ -27,9 +31,42 @@ const UserProfile = () => {
     return <div>Loading...</div>;
   }
 
-  const editProfile = () => {
+  // const editProfile = () => {
+  //   try{
+  //     navigate("/UpdateProfile");
+  //   }
+  //   catch(error){
+  //     console.error;
+  //   }
 
-  }
+  // }
+  const deleteProfile = async (userId) => {
+    if(confirm("Are you sure you want to delete your profile? This action cannot be undone."))
+      try{
+        const response = await axios.delete(`http://localhost:5000/api/auth/users/${userId}`);
+        deleteMe(response.data);
+          // return <div>User Deleted</div>
+        navigate("/");
+      } catch (error) {
+        setError('Error removing user data');
+        console.error(error);
+      }
+    else{
+      console.log("User not deleted");
+    }
+  };
+  const updateProfile = async (userId) => {
+    if(confirm("navigate to update profile?"))
+      try{
+        navigate("/UpdateProfile");
+      } catch (error) {
+        setError('Error opening update data');
+        console.error(error);
+      }
+    else{
+      console.log("User not updated");
+    }
+  };
 
   return (
     <div className="user-profile">
@@ -54,7 +91,10 @@ const UserProfile = () => {
         <strong>Gender:</strong> {user.gender}
       </div>
       <div>
-        <button onClick={editProfile()}>edit profile</button>
+        <button onClick={() => updateProfile()}>edit profile</button> 
+      </div>
+      <div>
+        <button onClick={() => deleteProfile()}>delete profile</button>
       </div>
 
     </div>

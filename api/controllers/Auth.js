@@ -140,7 +140,6 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
-
 export const PutUser = async (req, res) => {
   
   try {
@@ -158,18 +157,62 @@ export const PutUser = async (req, res) => {
   }
 };
 
-
-export  const getUser = async (req, res) => {
-  try {
+export const updateUser = async (req, res) => {
   
-    const user = await User.findById(req.params.id); 
+  try {
+    const { id } = req.params.id;
+    const user = await User.findById(id);
+    const { name, email, password, age, phoneNumber, country, gender } =
+      req.body;
 
-    if (!user) {
-      return res.status(404).json({message: "not found"});
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be 6 characters or more",
+      });
     }
-    res.json(user);
+
+    const emailLowerCase = email.toLowerCase();
+
+    // const existedUser = await User.findOne({ email: emailLowerCase });
+    // if (existedUser) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "User already exists!",
+    //   });
+    // }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const updatedUser = await User.findOneAndUpdate({
+      name,
+      email: emailLowerCase,
+      password: hashedPassword,
+      age,
+      phoneNumber,
+      country,
+      gender,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "User updated successfully!",
+      user: {
+        id: user._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        age: updatedUser.age,
+        phoneNumber: updatedUser.phoneNumber,
+        country: updatedUser.country,
+        gender: updatedUser.gender,
+      },
+    });
   } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error, could not fetch user.' });
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error. Please try again later.",
+    });
   }
-}
+
+};
