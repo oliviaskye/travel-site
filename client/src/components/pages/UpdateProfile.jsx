@@ -2,23 +2,28 @@ import React, { useState } from "react";
 import axios from "axios"; 
 import CountrySelect from "../../Auth/CountrySelect"; 
 import { useValue } from "../../context/ContextProvider";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 
 const UpdateProfile = async () => {
-  const user = await axios.get(`http://localhost:5000/api/auth/users/674466bb3165367fa268eb8c`);
-  const [inputs, setInputs] = useState({
-    name: user.name,
-    email: user.email,
-    password: user.password,
-    age: user.age,
-    phoneNumber: user.phoneNumber,
-    country: user.country,
-    gender: user.gender,
-  });
+  
+  const [inputs, setInputs] = useState(""
+  //   {
+  //   name: user.name,
+  //   email: user.email,
+  //   password: user.password,
+  //   age: user.age,
+  //   phoneNumber: user.phoneNumber,
+  //   country: user.country,
+  //   gender: user.gender,
+  // }
+  );
+
   const [err, setErr] = useState(null);
   const { dispatch } = useValue();
   const navigate = useNavigate();
+
+  // const user = await axios.get(`http://localhost:5000/api/auth/users/674466bb3165367fa268eb8c`);
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -34,11 +39,11 @@ const UpdateProfile = async () => {
     else {
       try {
         const response = await axios.put('http://localhost:5000/api/auth/users/674466bb3165367fa268eb8c', inputs);
-        console.log(response.data);
+        const user = response.data;
         setErr(null);
-        alert("Profile updated successfully!");
         dispatch({ type: "UPDATE_USER", payload: response.data.user });
-        navigate("/UserProfile");
+        alert("Profile updated successfully!");
+        // navigate("/UserProfile");
       } 
       catch (error) {
         console.error('Error updating profile:', error.response.data);
@@ -49,7 +54,7 @@ const UpdateProfile = async () => {
 
   return (
     <div>
-      <div >
+      <div>
         <div className="container">
           <h1>Update Profile</h1>
           <form>
