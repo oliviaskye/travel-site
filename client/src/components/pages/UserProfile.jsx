@@ -2,17 +2,39 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UpdateProfile from './UpdateProfile';
 import { useNavigate } from 'react-router-dom';
+// import { getLocalUser, setLocalUser } from "../../../../api/controllers/Auth";
 
 const UserProfile = () => {
-  const navigate = useNavigate();
+  const [userId, setUserId] = useState("");
   const [user, setUser] = useState([]);
   const [error, setError] = useState(null);
   const [me, deleteMe] = useState([]);
+  const navigate = useNavigate();
+
+  //getLocalUser
+  const getLocalUser = (user) => {
+    console.log("user has been GET out of local storage (just before)");
+    return JSON.parse(window.localStorage.getItem("userId"));
+  };
+
+  //setLocalUser
+  // const setLocalUser = (user) => {
+  //   window.localStorage.setItem("user", JSON.stringify(user))
+  //   console.log("user has been SET out of local storage")
+  // };
+
+  const handleUser = (user) => {
+    const theLoggedUser = getLocalUser(user);
+    window.localStorage.setItem("user", JSON.stringify(theLoggedUser));
+    console.log(user.userId);
+    setUserId(user.userId);
+  };
 
   useEffect(() => {
-    const fetchUser = async (userId) => {
+    const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/auth/users/674466bb3165367fa268eb8c`);
+        handleUser(user);
+        const response = await axios.get(`http://localhost:5000/api/auth/users/${userId}`);
         setUser(response.data);
       } catch (error) {
         setError('Error fetching user data');
@@ -43,7 +65,7 @@ const UserProfile = () => {
   const deleteProfile = async (userId) => {
     if(confirm("Are you sure you want to delete your profile? This action cannot be undone."))
       try{
-        const response = await axios.delete(`http://localhost:5000/api/auth/users/${userId}`);
+        const response = await axios.delete(`http://localhost:5000/api/auth/users/${handleUser()}`);
         deleteMe(response.data);
           // return <div>User Deleted</div>
         navigate("/");
@@ -55,12 +77,13 @@ const UserProfile = () => {
       console.log("User not deleted");
     }
   };
-  const updateProfile = async (userId) => {
+
+  const updateProfile = async () => {
     if(confirm("navigate to update profile?"))
       try{
         navigate("/UpdateProfile");
       } catch (error) {
-        setError('Error opening update data');
+        setError('Error opening update profile page');
         console.error(error);
       }
     else{

@@ -1,29 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios"; 
 import CountrySelect from "../../Auth/CountrySelect"; 
 import { useValue } from "../../context/ContextProvider";
 import { useNavigate } from "react-router-dom";
-
+// import { getLocalUser, setLocalUser } from "../../../../api/controllers/Auth";
 
 const UpdateProfile = async () => {
-  
-  const [inputs, setInputs] = useState(""
-  //   {
-  //   name: user.name,
-  //   email: user.email,
-  //   password: user.password,
-  //   age: user.age,
-  //   phoneNumber: user.phoneNumber,
-  //   country: user.country,
-  //   gender: user.gender,
-  // }
-  );
-
-  const [err, setErr] = useState(null);
+  const [user, setUser] = useState([]); 
+  const [error, setError] = useState(null);
   const { dispatch } = useValue();
   const navigate = useNavigate();
+  const [inputs, setInputs] = useState([]);
 
-  // const user = await axios.get(`http://localhost:5000/api/auth/users/674466bb3165367fa268eb8c`);
+  // const handleUser = (user) => {
+  //   const theLoggedUser = getLocalUser(user);
+  //   const userId = theLoggedUser.userId;
+  //   return userId;
+  // }
+  // //
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/auth/users/674466bb3165367fa268eb8c`);
+        setUser(response.data);
+      } catch (error) {
+        setError('Error fetching user data');
+        console.error(error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  // const obj = {
+  //     name: user.name,
+  //     email: user.email,
+  //     password: user.password,
+  //     age: user.age,
+  //     phoneNumber: user.phoneNumber,
+  //     country: user.country,
+  //     gender: user.gender,
+  //   }
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -34,20 +59,20 @@ const UpdateProfile = async () => {
 
     if (!inputs.name || !inputs.email || !inputs.password || !inputs.age ||  
         !inputs.phoneNumber || !inputs.country || !inputs.gender) {
-      setErr("All fields are required.");
+      setError("All fields are required.");
     } 
     else {
       try {
         const response = await axios.put('http://localhost:5000/api/auth/users/674466bb3165367fa268eb8c', inputs);
         const user = response.data;
-        setErr(null);
+        setError(null);
         dispatch({ type: "UPDATE_USER", payload: response.data.user });
         alert("Profile updated successfully!");
         // navigate("/UserProfile");
       } 
       catch (error) {
         console.error('Error updating profile:', error.response.data);
-        setErr(error.response.data.message || 'Update failed.');
+        setError(error.response.data.message || 'Update failed.');
       }
     }
   };
@@ -134,7 +159,7 @@ const UpdateProfile = async () => {
               </label>
             </div>
             
-            {err && <p className="error">{err}</p>}
+            {error && <p className="error">{error}</p>}
             <button onClick={handleClick}>Update</button>
           </form>
         </div>

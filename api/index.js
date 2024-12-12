@@ -6,11 +6,8 @@ import { startServer } from "./database.js";
 import roomRoutes from "./routes/Room.js";
 import authRoutes from "./routes/Auth.js";
 import hotelRoutes from "./routes/Hotel.js";
-import reservationRoutes from './routes/Reservation.js';
-import GetUsers from './routes/Auth.js'
-
-
-
+import reservationRoutes from "./routes/Reservation.js";
+import getUsers from "./routes/Auth.js"
 
 dotenv.config();
 const app = express();
@@ -35,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 // Router
 app.use("/api/auth", authRoutes);
 
-app.use("/api/", GetUsers);
+app.use("/api/", getUsers);
 
 app.use("/api/hotels", hotelRoutes);
 
