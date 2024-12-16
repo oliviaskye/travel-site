@@ -5,10 +5,15 @@ const UserProfile = () => {
   const [user, setUser] = useState([]);
   const [error, setError] = useState(null);
 
+
+
+
   useEffect(() => {
-    const fetchUser = async (userId) => {
+    const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/auth/users/673e22f8dd072f8ecf16044f`);
+        const userId = localStorage.getItem("userId");
+        const response = await axios.get(`http://localhost:5000/api/auth/users/${userId}`)
+
         setUser(response.data);
       } catch (error) {
         setError('Error fetching user data');

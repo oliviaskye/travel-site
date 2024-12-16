@@ -57,22 +57,34 @@ export const getHotel = async (req, res, next) => {
 
 export const filterHotelsByCityAndPrice = async (req, res, next) => {
   try {
-    const { city, price } = req.query;
 
-    if (!city || !price) {
-      return res.status(400).json({ message: "City and price parameters are required." });
+    const { city, minPrice, maxPrice } = req.query;
+
+
+    if (!city || !minPrice || !maxPrice) {
+      return res.status(400).json({ message: "City, minPrice, and maxPrice parameters are required." });
     }
 
-    const parsedPrice = Number(price);
-    if (isNaN(parsedPrice)) {
-      return res.status(400).json({ message: "Invalid price value" });
+
+    const parsedMinPrice = Number(minPrice);
+    const parsedMaxPrice = Number(maxPrice);
+
+    if (isNaN(parsedMinPrice) || isNaN(parsedMaxPrice)) {
+      return res.status(400).json({ message: "Invalid price values" });
     }
+
 
     const hotels = await Hotel.find({
       city: city,
-      cheapestPrice: { $lte: parsedPrice },
-      maxPrice: { $gte: parsedPrice },
+      cheapestPrice: { $lte: parsedMaxPrice },
+      maxPrice: { $gte: parsedMinPrice },
     });
+
+    
+    if (hotels.length === 0) {
+      return res.status(404).json({ message: "No hotels found for the given filters." });
+    }
+
 
     res.status(200).json(hotels);
   } catch (err) {
