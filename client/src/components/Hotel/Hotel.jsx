@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import ClusterMap from "../../Map/ClusterMap";
+import Map from "../../Map/Map/Map";
 import "./Hotel.css"
 
 
@@ -67,7 +67,7 @@ const Hotels = () => {
 
       {selectedLocation && (
         <div style={{ height: "400px", marginTop: "20px" }}>
-          <ClusterMap selectedLocation={selectedLocation} />
+          <Map selectedLocation={selectedLocation} />
         </div>
       )}
     </div>

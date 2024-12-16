@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Nav from '../Nav/Nav';
 import axios from 'axios';
 
 const UserProfile = () => {
@@ -38,6 +39,7 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile">
+       <Nav />
 
       <h2>User Profile</h2>
       <div>

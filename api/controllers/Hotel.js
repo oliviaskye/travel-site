@@ -54,17 +54,13 @@ export const getHotel = async (req, res, next) => {
 
 
 
-
 export const filterHotelsByCityAndPrice = async (req, res, next) => {
   try {
-
     const { city, minPrice, maxPrice } = req.query;
-
 
     if (!city || !minPrice || !maxPrice) {
       return res.status(400).json({ message: "City, minPrice, and maxPrice parameters are required." });
     }
-
 
     const parsedMinPrice = Number(minPrice);
     const parsedMaxPrice = Number(maxPrice);
@@ -73,24 +69,23 @@ export const filterHotelsByCityAndPrice = async (req, res, next) => {
       return res.status(400).json({ message: "Invalid price values" });
     }
 
-
     const hotels = await Hotel.find({
       city: city,
       cheapestPrice: { $lte: parsedMaxPrice },
       maxPrice: { $gte: parsedMinPrice },
     });
 
-    
     if (hotels.length === 0) {
       return res.status(404).json({ message: "No hotels found for the given filters." });
     }
-
 
     res.status(200).json(hotels);
   } catch (err) {
     next(err);
   }
 };
+
+
 
 
 
@@ -106,6 +101,34 @@ export const getHotels = async (req, res, next) => {
     }).limit(req.query.limit);
     res.status(200).json(hotels);
   } catch (err) {
+    next(err);
+  }
+};
+
+export const Map = async (req, res, next) => {
+  try {
+    const { query } = req.query; 
+
+    if (!query) {
+      return res.status(400).json({ message: "Query parameter is required." });
+    }
+
+    const trimmedQuery = query.trim().toLowerCase(); 
+
+    const hotels = await Hotel.find({
+      $or: [
+        { city: { $regex: new RegExp(trimmedQuery, 'i') } },
+        { country: { $regex: new RegExp(trimmedQuery, 'i') } },
+      ],
+    });
+
+    if (hotels.length === 0) {
+      return res.status(404).json({ message: "No hotels found for the given search criteria." });
+    }
+
+    res.status(200).json(hotels);
+  } catch (err) {
+    console.error('Error fetching hotels:', err);
     next(err);
   }
 };

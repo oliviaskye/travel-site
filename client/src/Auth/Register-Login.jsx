@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Register from "./Register";
 import Login from "./LogIn";
+import Nav from "../components/Nav/Nav";
 import { useLocation } from "react-router-dom";
 
 function RegisterLogin() {
@@ -16,6 +17,7 @@ function RegisterLogin() {
 
   return (
     <div>
+            <Nav />
       <div>
         <button onClick={() => handleOptionClick("login")}>Login</button>
         <button onClick={() => handleOptionClick("register")}>Register</button>

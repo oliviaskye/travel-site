@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
-import ClusterMap from "../../Map/ClusterMap";
+import Map from "../../Map/Map/Map";
+import Nav from "../Nav/Nav";
 
 const HotelFltring = () => {
   const [hotels, setHotels] = useState([]);
@@ -14,19 +15,20 @@ const HotelFltring = () => {
 
   useEffect(() => {
     const fetchHotels = async () => {
-      if (!destination || !priceRange) return;
-
+      if (!destination || !priceRange || priceRange[0] > priceRange[1]) {
+        setError("Invalid parameters. Please check your inputs.");
+        setLoading(false);
+        return;
+      }
+    
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/hotels/filter",
-          {
-            params: {
-              city: destination,
-              minPrice: priceRange[0],
-              maxPrice: priceRange[1],
-            },
-          }
-        );
+        const response = await axios.get("http://localhost:5000/api/hotels/filter", {
+          params: {
+            city: destination,
+            minPrice: priceRange[0], 
+            maxPrice: priceRange[1],
+          },
+        });
         setHotels(response.data);
         setLoading(false);
       } catch (error) {
@@ -35,6 +37,8 @@ const HotelFltring = () => {
         setLoading(false);
       }
     };
+    
+    
 
     fetchHotels();
   }, [destination, priceRange]);
@@ -48,6 +52,7 @@ const HotelFltring = () => {
 
   return (
     <div>
+            <Nav />
       <h2>Available Hotels</h2>
       <div
         style={{
@@ -110,7 +115,7 @@ const HotelFltring = () => {
 
       {selectedLocation && (
         <div style={{ height: "400px", marginTop: "20px" }}>
-          <ClusterMap selectedLocation={selectedLocation} />
+          <Map selectedLocation={selectedLocation} />
         </div>
       )}
     </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
+import Nav  from "../Nav/Nav";
 import "./HotelRoomsx.css"; 
 
 const HotelRoomsx = () => {
@@ -29,7 +30,9 @@ const HotelRoomsx = () => {
   if (error) return <p>{error}</p>; 
 
   return (
+   
     <div className="hotel-rooms-container">
+       <Nav />
       <h2>Available Rooms</h2>
       <div className="room-grid">
         {rooms.map((room) => (

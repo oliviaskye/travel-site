@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import ReservationForm from "../Reservation/Reservation"; 
+import Nav from "../Nav/Nav";
 
 const RoomDetails = () => {
   const { hotelId, roomId } = useParams();
@@ -30,6 +31,7 @@ const RoomDetails = () => {
 
   return (
     <div>
+       <Nav />
       <h2>{room.title}</h2>
       <img
         src={`http://localhost:5000/${room.img ? room.img.replace(/\\/g, "/") : "default-image.jpg"}`}
