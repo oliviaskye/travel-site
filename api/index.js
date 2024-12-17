@@ -21,10 +21,15 @@ if (!fs.existsSync("uploads")) {
 }
 
 // Middleware
-app.use(cors({
-    origin: process.env.CLIENT_URL,
+const corsOptions = {
+    origin: ["http://localhost:3000", "http://localhost:5173"], 
+    methods: "GET, POST, PUT, DELETE",
     credentials: true,
-}));
+  };
+  
+  app.use(cors(corsOptions));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 
