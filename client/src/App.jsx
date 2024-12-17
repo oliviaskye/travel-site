@@ -21,6 +21,7 @@ const stripePromise = loadStripe("pk_test_51QFvkhLAzYW8YRzjlm4VYKp19bMXpFMoHcCsH
 function App() {
   return (
     <div className="container">
+      {/* Wrap Routes in Elements for Stripe context */}
       <Elements stripe={stripePromise}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -30,12 +31,14 @@ function App() {
           <Route path="/hotels/:hotelId/rooms" element={<HotelRoomsx />} />
           <Route path="/hotels/:hotelId/rooms/:roomId" element={<RoomDetails />} />
           
+          {/* Reservation form with dynamic room and hotel IDs */}
           <Route path="/reservation/:roomId/:hotelId" element={<ReservationForm />} />
 
           <Route path="/HotelFltring" element={<HotelFltring />} />
-          <Route path="/Header" element={<Header />} />
+          {/* Include header directly in the layout, not as a route */}
+          <Route path="/" element={<Header />} />
 
-          {/* لف PaymentForm داخل <Elements> */}
+          {/* Payment Form */}
           <Route path="/payment/:reservationId" element={<PaymentForm />} />
         </Routes>
       </Elements>
@@ -44,3 +47,4 @@ function App() {
 }
 
 export default App;
+

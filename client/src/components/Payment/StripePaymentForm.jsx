@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements, CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
-
-// Stripe public key
-const stripePromise = loadStripe("pk_test_51QFvkhLAzYW8YRzjlm4VYKp19bMXpFMoHcCsHM3wda661NR4YOjHO2iyXMrDZmNqKfGUNXD5neKjeUmt1mTClIgc00RBYWEAAX");
 
 const StripePaymentForm = () => {
   const stripe = useStripe();
@@ -27,26 +23,27 @@ const StripePaymentForm = () => {
     }
 
     try {
-      // Request to the server to create the PaymentIntent
-      const { data } = await axios.post("http://localhost:5000/api/payment", {
+      // Create PaymentIntent on the server
+      const { data } = await axios.post("/api/create-payment-intent", {
         amount: parseFloat(amount) * 100, // Convert to cents
         email,
       });
 
-      const clientSecret = data.clientSecret; // Dynamically use the clientSecret returned from the backend
+      const clientSecret = data.clientSecret;
 
-      // Getting the CardElement from elements
+      // Confirm the payment using client_secret
       const cardElement = elements.getElement(CardElement);
-
-      // Confirm the payment
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            email,
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              email,
+            },
           },
-        },
-      });
+        }
+      );
 
       if (error) {
         setMessage(`Payment failed: ${error.message}`);
@@ -62,12 +59,12 @@ const StripePaymentForm = () => {
 
   return (
     <div>
-      <h1>Stripe Payment with React</h1>
+      <h1>Stripe Payment in React</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -94,10 +91,5 @@ const StripePaymentForm = () => {
   );
 };
 
-const App = () => (
-  <Elements stripe={stripePromise}>
-    <StripePaymentForm />
-  </Elements>
-);
+export default StripePaymentForm;
 
-export default App;

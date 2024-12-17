@@ -1,5 +1,3 @@
-// creditCardUtils.js
-
 import Payment from "payment";
 
 function clearNumber(value = "") {

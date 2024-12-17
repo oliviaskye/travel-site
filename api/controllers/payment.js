@@ -1,73 +1,43 @@
 import Stripe from "stripe";
-
-// Initialize Stripe with your secret key
 const stripe = new Stripe("sk_test_51QFvkhLAzYW8YRzj0TEpJ9Y1OOQJCYy7K7JvOaplWmDZpI1UcUX3V5mxA37NOrTpXHk96gT6VkaYR91HHBKfnHYZ002HzPfgrG");
 
-export const handlePayment = async (req, res) => {
+const handlePayment = async (req, res) => {
   try {
-    // Log the incoming request body
-    console.log("Request body:", req.body);
-    
-    const { amount, email, token } = req.body;
+    const { amount, email, paymentMethodId } = req.body;
 
-    // Check if the required fields exist in the request body
-    if (!amount || !email || !token) {
-      console.log("Missing required parameters: amount, email, or token.");
+    // Validate required parameters
+    if (!amount || !email || !paymentMethodId) {
       return res.status(400).send({
         success: false,
-        message: "Missing required parameters: amount, email, or token.",
+        message: "Missing required parameters: amount, email, and paymentMethodId.",
       });
     }
 
-    // Log the amount, email, and token to verify they are received correctly
-    console.log("Amount:", amount);
-    console.log("Email:", email);
-    console.log("Token:", token);
-
-    // Create a new customer
-    console.log("Creating customer...");
-    const customer = await stripe.customers.create({
-      email: email,
-      source: token.id,
-      name: token.card.name,
+    // Create a PaymentIntent
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(parseFloat(amount) * 100), // Convert dollars to cents
+      currency: "usd",
+      payment_method: paymentMethodId,
+      receipt_email: email,
+      confirm: true, // Automatically confirm the payment
     });
-    console.log("Customer created:", customer);
 
-    // Check if customer creation was successful
-    if (!customer || !customer.id) {
-      console.log("Failed to create customer.");
-      return res.status(500).send({
-        success: false,
-        message: "Failed to create customer.",
-      });
-    }
-
-    // Charge the customer
-    console.log("Charging customer...");
-    const charge = await stripe.charges.create({
-      amount: Math.round(parseFloat(amount) * 100), // Convert to cents
-      description: `Payment for USD ${amount}`,
-      currency: "USD",
-      customer: customer.id,
-    });
-    console.log("Charge created:", charge);
-
-    // Send success response
+    // Respond with success
     res.status(200).send({
       success: true,
-      message: "Payment successful",
-      charge,
+      message: "Payment successful.",
+      paymentIntent,
     });
   } catch (error) {
-    // Log the error message and the full error object
-    console.error("Error during payment:", error.message);
-    console.error("Full error details:", error);
+    console.error("Error during payment process:", error.message);
 
-    // Send failure response
+    // Handle Stripe errors specifically
     res.status(500).send({
       success: false,
-      message: "Payment failed",
-      error: error.message,
+      message: error.message,
+      error,
     });
   }
 };
+
+export default handlePayment;

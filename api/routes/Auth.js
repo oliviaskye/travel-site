@@ -21,4 +21,6 @@ router.delete("/users/:id", verifyToken, isAdmin, deleteUser);
 
 router.put("/users/:id", verifyToken, isAdmin, PutUser);
 
+
+
 export default router;
