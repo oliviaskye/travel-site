@@ -1,4 +1,3 @@
-// App.js
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
@@ -20,34 +19,23 @@ import UserProfile from "./components/pages/UserProfile";
 
 import Map from "./Map/Map/Map";
 
+
 const stripePromise = loadStripe("pk_test_51QFvkhLAzYW8YRzjlm4VYKp19bMXpFMoHcCsHM3wda661NR4YOjHO2iyXMrDZmNqKfGUNXD5neKjeUmt1mTClIgc00RBYWEAAX");
 
 function App() {
   return (
     <div className="container">
-  
       <Elements stripe={stripePromise}>
         <Routes>
-          
-
           <Route path="/" element={<Home />} />
-
           <Route path="/RegisterLogin" element={<RegisterLogin />} />
-
           <Route path="/map" element={<Map />} />
-
           <Route path="/hotels" element={<Hotels />} />
-          
           <Route path="/hotels/:hotelId/rooms" element={<HotelRoomsx />} />
-
           <Route path="/hotels/:hotelId/rooms/:roomId" element={<RoomDetails />} />
-
           <Route path="/reservation/:roomId/:hotelId" element={<ReservationForm />} />
-
           <Route path="/HotelFltring" element={<HotelFltring />} />
-
-          <Route path="/UserProfile"  element={<UserProfile />} />
-
+          <Route path="/UserProfile" element={<UserProfile />} />
           <Route path="/payment/:reservationId" element={<PaymentForm />} />
         </Routes>
       </Elements>

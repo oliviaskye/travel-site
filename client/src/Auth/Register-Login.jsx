@@ -18,6 +18,11 @@ function RegisterLogin() {
   return (
     <div>
             <Nav />
+            <br/>
+            <br/>
+            <br/>
+            <br/> <br/>
+            <br/>
       <div>
         <button onClick={() => handleOptionClick("login")}>Login</button>
         <button onClick={() => handleOptionClick("register")}>Register</button>

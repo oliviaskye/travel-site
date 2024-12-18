@@ -8,7 +8,7 @@ import authRoutes from "./routes/Auth.js";
 import hotelRoutes from "./routes/Hotel.js";
 import reservationRoutes from './routes/Reservation.js';
 import GetUsers from './routes/Auth.js'
-import handlePayment from "./routes/payment.js";
+import processPayment from "./routes/payment.js";
 
 
 
@@ -44,7 +44,7 @@ app.use("/api/hotels", roomRoutes);
 
 app.use("/api/reservations", reservationRoutes);
 
-app.use("/api/payment", handlePayment);
+app.use("/api/payment", processPayment);
 
 
 app.use('/uploads', express.static('uploads'));

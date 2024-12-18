@@ -29,6 +29,10 @@ const ReservationSchema = new mongoose.Schema({
     enum: ['pending', 'confirmed', 'canceled'],
     default: 'pending',
   },
+  isPaid: { 
+    type: Boolean,
+    default: false,
+  },
 }, { timestamps: true });
 
 export default mongoose.model('Reservation', ReservationSchema);

@@ -1,9 +1,9 @@
 import express from "express";
-import { handlePayment } from "../controllers/payment.js";
+import { processPayment } from '../controllers/PaymentIntent.js';
+
 
 const router = express.Router();
 
-// Route for handling payment
-router.post("/", handlePayment);
+router.post("/",processPayment );
 
-export default router;  // Use 'export default' instead of 'module.exports' since we're using ES modules.
+export default router;
