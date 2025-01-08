@@ -16,6 +16,7 @@ import ReservationForm from "./components/Reservation/Reservation";
 import PaymentForm from "./components/Payment/Payment";
 
 import UserProfile from "./components/pages/UserProfile";
+import UserReservation from "./components/pages/UserReservation";
 
 import Map from "./Map/Map/Map";
 
@@ -36,6 +37,9 @@ function App() {
           <Route path="/reservation/:roomId/:hotelId" element={<ReservationForm />} />
           <Route path="/HotelFltring" element={<HotelFltring />} />
           <Route path="/UserProfile" element={<UserProfile />} />
+
+          <Route path="/UserReservation" element={<UserReservation />} />
+
           <Route path="/payment/:reservationId" element={<PaymentForm />} />
         </Routes>
       </Elements>
