@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import "./Rooms.scss"
+import "./Rooms.scss";
 
 const Rooms = () => {
   const { hotelId } = useParams();
 
   const [rooms, setRooms] = useState([]);
-  const [filteredRooms, setFilteredRooms] = useState([]); 
+  const [filteredRooms, setFilteredRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [search, setSearch] = useState(""); 
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -36,22 +36,22 @@ const Rooms = () => {
         `http://localhost:5000/api/hotels/${hotelId}/rooms/${roomId}`
       );
       setRooms((prevRooms) => prevRooms.filter((room) => room._id !== roomId));
-      setFilteredRooms((prevRooms) => prevRooms.filter((room) => room._id !== roomId)); 
+      setFilteredRooms((prevRooms) =>
+        prevRooms.filter((room) => room._id !== roomId)
+      );
     } catch (error) {
       console.error("Error deleting room:", error);
       setError("Failed to delete room. Please try again.");
     }
   };
 
-
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearch(query);
 
     if (query === "") {
-      setFilteredRooms(rooms); 
+      setFilteredRooms(rooms);
     } else {
- 
       const filtered = rooms.filter((room) =>
         room.roomNumber.toString().includes(query)
       );
@@ -94,16 +94,25 @@ const Rooms = () => {
           {filteredRooms.map((room) => (
             <tr key={room._id}>
               <td>
-                <img
-                  src={`http://localhost:5000/${
-                    room.img
-                      ? room.img.replace(/\\/g, "/")
-                      : "default-image.jpg"
-                  }`}
-                  alt={room.title}
-                  style={{ width: "100px", height: "80px", objectFit: "cover" }}
-                />
-              </td>
+  {room.img && Array.isArray(room.img) ? (
+    room.img.map((imagePath, index) => (
+      <img
+        key={index}
+        src={`http://localhost:5000/${imagePath}`}
+        alt={`Room Image ${index + 1}`}
+        style={{ width: "100px", height: "80px", objectFit: "cover", marginRight: "5px" }}
+      />
+    ))
+  ) : (
+    <img
+      src={`http://localhost:5000/${room.img}`}
+      alt={room.title}
+      style={{ width: "100px", height: "80px", objectFit: "cover" }}
+    />
+  )}
+</td>
+
+
               <td>{room.title}</td>
               <td>{room.details}</td>
               <td>${room.price}</td>

@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Map from "../../Map/Map/Map";
-import "./Hotel.css"
-
-
+import "./Hotel.css";
 
 const Hotels = () => {
   const [hotels, setHotels] = useState([]);
@@ -38,15 +36,27 @@ const Hotels = () => {
   return (
     <div>
       <h2>Available Hotels</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+      <div className="hotel-grid">
         {hotels.map((hotel) => (
           <div key={hotel._id} className="hotel-card">
-            <div className="hotel-image">
-              <img
-                src={`http://localhost:5000/${hotel.img ? hotel.img.replace(/\\/g, "/") : "default-image.jpg"}`}
-                alt={hotel.name}
-                className="hotel-img"
-              />
+            <div className="hotel-images">
+            
+              {hotel.photos?.length > 0 ? (
+                hotel.photos.map((photo, index) => (
+                  <img
+                    key={index}
+                    src={`http://localhost:5000/${photo.replace(/\\/g, "/")}`}
+                    alt={`${hotel.name} ${index + 1}`}
+                    className="hotel-img"
+                  />
+                ))
+              ) : (
+                <img
+                  src="http://localhost:5000/default-image.jpg"
+                  alt="Default Hotel"
+                  className="hotel-img"
+                />
+              )}
             </div>
             <div className="hotel-info">
               <h3>{hotel.name}</h3>
@@ -56,6 +66,7 @@ const Hotels = () => {
               <p><strong>Price:</strong> ${hotel.cheapestPrice}</p>
               <p><strong>Max Price:</strong> ${hotel.maxPrice}</p>
               <p><strong>Phone Number:</strong> {hotel.phoneNumber}</p>
+
               <button onClick={() => handleShowLocation(hotel.latitude, hotel.longitude)}>
                 Show on Map
               </button>

@@ -10,12 +10,12 @@ const AddRooms = () => {
   const [details, setDetails] = useState("");
   const [price, setPrice] = useState("");
   const [roomNumber, setRoomNumber] = useState("");
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+    setImages(Array.from(e.target.files));
   };
 
   const handleSubmit = async (e) => {
@@ -26,7 +26,11 @@ const AddRooms = () => {
     formData.append("details", details);
     formData.append("price", price);
     formData.append("roomNumber", roomNumber);
-    formData.append("image", image);
+
+    // إضافة الصور إلى FormData
+    images.forEach((image) => {
+      formData.append("images", image);
+    });
 
     try {
       const response = await axios.post(
@@ -87,8 +91,8 @@ const AddRooms = () => {
             />
           </div>
           <div>
-            <label>Image:</label>
-            <input type="file" onChange={handleImageChange} required />
+            <label>Images:</label>
+            <input type="file" onChange={handleImageChange} multiple required />
           </div>
           <button type="submit">Add Room</button>
         </form>

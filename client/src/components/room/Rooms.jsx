@@ -14,7 +14,7 @@ const Rooms = () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/hotels/rooms/filter`, {
           params: {
-            city: destination, 
+            city: destination,
             minPrice: price?.min || 0,
             maxPrice: price?.max || 10000,
             startDate: date?.startDate,
@@ -45,11 +45,24 @@ const Rooms = () => {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
         {rooms.map((room) => (
           <div key={room._id} style={{ border: "1px solid #ccc", padding: "10px", borderRadius: "8px" }}>
-            <img
-              src={`http://localhost:5000/${room.img ? room.img.replace(/\\/g, "/") : "default-image.jpg"}`}
-              alt={room.title}
-              style={{ width: "100%", height: "200px", objectFit: "cover" }}
-            />
+            <div style={{ display: "flex", overflowX: "auto", gap: "10px" }}>
+              {room.img && Array.isArray(room.img) ? (
+                room.img.map((image, index) => (
+                  <img
+                    key={index}
+                    src={`http://localhost:5000/${image.replace(/\\/g, "/")}`}
+                    alt={`${room.title} ${index + 1}`}
+                    style={{ width: "150px", height: "150px", objectFit: "cover", borderRadius: "4px" }}
+                  />
+                ))
+              ) : (
+                <img
+                  src={`http://localhost:5000/${room.img ? room.img.replace(/\\/g, "/") : "default-image.jpg"}`}
+                  alt={room.title}
+                  style={{ width: "100%", height: "200px", objectFit: "cover" }}
+                />
+              )}
+            </div>
             <h3>{room.title}</h3>
             <p>{room.details}</p>
             <p><strong>Price:</strong> ${room.price}</p>

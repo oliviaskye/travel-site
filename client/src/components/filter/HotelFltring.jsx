@@ -67,15 +67,25 @@ const HotelFltring = () => {
             className="container"
             style={{ border: "1px solid #ccc", padding: "15px" }}
           >
-            <img
-              src={`http://localhost:5000/${
-                hotel.photos && hotel.photos.length > 0
-                  ? hotel.photos[0].replace(/\\/g, "/")
-                  : "default-image.jpg"
-              }`}
-              alt={hotel.name}
-              style={{ width: "100%", height: "200px", objectFit: "cover" }}
-            />
+            <div className="hotel-images">
+            
+            {hotel.photos?.length > 0 ? (
+              hotel.photos.map((photo, index) => (
+                <img
+                  key={index}
+                  src={`http://localhost:5000/${photo.replace(/\\/g, "/")}`}
+                  alt={`${hotel.name} ${index + 1}`}
+                  className="hotel-img"
+                />
+              ))
+            ) : (
+              <img
+                src="http://localhost:5000/default-image.jpg"
+                alt="Default Hotel"
+                className="hotel-img"
+              />
+            )}
+          </div>
 
             <h3>{hotel.name}</h3>
             <p>
