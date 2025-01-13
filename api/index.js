@@ -7,17 +7,11 @@ import { startServer } from "./database.js";
 import roomRoutes from "./routes/Room.js";
 import authRoutes from "./routes/Auth.js";
 import hotelRoutes from "./routes/Hotel.js";
-<<<<<<< HEAD
-import reservationRoutes from "./routes/Reservation.js";
-import getUsers from "./routes/Auth.js"
-
-=======
 import reservationRoutes from './routes/Reservation.js';
-import GetUsers from './routes/Auth.js'
+import getUsers from './routes/Auth.js'
 import processPayment from "./routes/payment.js";
 
 // Load environment variables from .env file
->>>>>>> d886e9784aa58884cc73b1e0d5afbaf0b93370bf
 dotenv.config();
 const app = express();
 
@@ -41,13 +35,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/auth", authRoutes);
-<<<<<<< HEAD
 
 app.use("/api/", getUsers);
 
-=======
-app.use("/api/", GetUsers);
->>>>>>> d886e9784aa58884cc73b1e0d5afbaf0b93370bf
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/hotels", roomRoutes);
 app.use("/api/reservations", reservationRoutes);
