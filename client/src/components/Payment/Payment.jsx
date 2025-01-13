@@ -35,7 +35,6 @@ const PaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) => {
       }
     } catch (err) {
       onPaymentError(err.message);
-=======
 
     }
   };
@@ -67,5 +66,4 @@ const PaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) => {
 };
 
 export default PaymentForm;
-=======
 

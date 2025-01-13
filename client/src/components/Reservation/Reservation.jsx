@@ -22,7 +22,7 @@ const ReservationForm = ({ roomId, hotelId }) => {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const [payNow, setPayNow] = useState(false);
-=======
+
 
 
   useEffect(() => {

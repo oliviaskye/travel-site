@@ -72,7 +72,6 @@ export const handlePayment = async (req, res) => {
     });
   }
 };
-=======
 
 export default handlePayment;
 
