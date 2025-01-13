@@ -1,29 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation for current path
 import { useValue } from '../../context/ContextProvider';
 import PaymentForm from '../Payment/Payment';
 
 const ReservationForm = ({ roomId, hotelId }) => {
   const { state } = useValue();
-  
+  const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
+
   const [formData, setFormData] = useState({
     roomId: '',
     userId: '',
     startDate: '',
     endDate: '',
-    hotelId: ''
+    hotelId: '',
   });
 
   const [reservation, setReservation] = useState(null);
   const [error, setError] = useState(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
+  const [payNow, setPayNow] = useState(false);
+=======
+
+
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
-      roomId: roomId, 
+      roomId,
       userId: state.user ? state.user.id : '',
-      hotelId: hotelId 
+      hotelId,
     }));
   }, [state.user, roomId, hotelId]);
 
@@ -31,13 +38,19 @@ const ReservationForm = ({ roomId, hotelId }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+
+    if (!state.user) {
+      alert('You must be logged in to make a reservation.');
+      navigate('/RegisterLogin', { state: { from: location } });
+      return;
+    }
 
     try {
       const response = await axios.post('http://localhost:5000/api/reservations', formData);
@@ -61,7 +74,10 @@ const ReservationForm = ({ roomId, hotelId }) => {
       <h2>Create a Reservation</h2>
       {!reservation ? (
         <form onSubmit={handleSubmit}>
-          <div>
+
+          {/* <div>
+=======
+
             <label>User ID:</label>
             <input
               type="text"
@@ -71,7 +87,10 @@ const ReservationForm = ({ roomId, hotelId }) => {
               required
               readOnly
             />
-          </div>
+
+          </div> */}
+=======
+
           <div>
             <label>Start Date:</label>
             <input
@@ -92,6 +111,22 @@ const ReservationForm = ({ roomId, hotelId }) => {
               required
             />
           </div>
+
+          <div>
+
+
+           <br />
+         
+
+            <label>
+              <input
+                type="checkbox"
+                checked={payNow}
+                onChange={(e) => setPayNow(e.target.checked)}
+              />
+              Pay Now
+            </label>
+          </div>
           <button type="submit">Create Reservation</button>
         </form>
       ) : (
@@ -105,12 +140,20 @@ const ReservationForm = ({ roomId, hotelId }) => {
               <p>Start Date: {new Date(reservation.startDate).toLocaleDateString()}</p>
               <p>End Date: {new Date(reservation.endDate).toLocaleDateString()}</p>
 
-              <h3>Payment</h3>
-              <PaymentForm
-                reservationId={reservation._id}
-                onPaymentSuccess={handlePaymentSuccess}
-                onPaymentError={handlePaymentError}
-              />
+              {payNow ? (
+                <>
+                  <h3>Payment</h3>
+                  <PaymentForm
+                    reservationId={reservation._id}
+                    onPaymentSuccess={handlePaymentSuccess}
+                    onPaymentError={handlePaymentError}
+                  />
+                </>
+              ) : (
+                <p>You have chosen to pay later. Please ensure payment is completed before your stay.</p>
+              )}
+=======
+
             </div>
           ) : (
             <div>
