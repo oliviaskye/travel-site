@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Sidebar from "../../../components/sidebar/Sidebar";
-import "./AddHotel.scss";
+import "./AddHotel.scss"
 
 const AddHotels = () => {
   const [formData, setFormData] = useState({
@@ -22,9 +22,6 @@ const AddHotels = () => {
     featured: false,
   });
 
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
@@ -43,179 +40,202 @@ const AddHotels = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setMessage("");
-
     const data = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      if (key === "photos") {
-        Array.from(value).forEach((file) => data.append("photos", file));
-      } else {
-        data.append(key, value);
-      }
-    });
+
+    data.append("name", formData.name);
+    data.append("type", formData.type);
+    data.append("city", formData.city);
+    data.append("country", formData.country);
+    data.append("address", formData.address);
+    data.append("latitude", parseFloat(formData.latitude));
+    data.append("longitude", parseFloat(formData.longitude));
+    data.append("title", formData.title);
+    data.append("desc", formData.desc);
+    data.append("rating", parseFloat(formData.rating));
+    data.append("phoneNumber", formData.phoneNumber);
+    data.append("cheapestPrice", formData.cheapestPrice);
+    data.append("maxPrice", formData.maxPrice);
+    data.append("featured", formData.featured);
+
+    Array.from(formData.photos).forEach((file) => data.append("photos", file));
 
     try {
       const response = await axios.post(
         "http://localhost:5000/api/hotels",
         data
       );
-      setMessage(response.data.message || "Hotel added successfully!");
+      alert(response.data.message);
     } catch (error) {
       console.error("Error adding hotel:", error);
-      setMessage("Failed to add hotel. Please try again.");
-    } finally {
-      setLoading(false);
+      alert("Failed to add hotel. Please try again.");
     }
   };
 
   return (
     <div className="home">
-      <Sidebar />
-      <div className="add-hotel-container">
-        <form onSubmit={handleSubmit} className="add-hotel-form">
-          <h2>Add Hotel</h2>
-
-          <label>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Type:</label>
-          <input
-            type="text"
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Country:</label>
-          <input
-            type="text"
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            required
-          />
-
-          <label>City:</label>
-          <input
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Address:</label>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Latitude:</label>
-          <input
-            type="number"
-            name="latitude"
-            value={formData.latitude}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Longitude:</label>
-          <input
-            type="number"
-            name="longitude"
-            value={formData.longitude}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Title:</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Description:</label>
-          <textarea
-            name="desc"
-            value={formData.desc}
-            onChange={handleChange}
-            required
-          ></textarea>
-
-          <label>Images:</label>
-          <input type="file" name="photos" onChange={handleChange} multiple />
-
-          <label>Rating:</label>
-          <input
-            type="number"
-            name="rating"
-            value={formData.rating}
-            onChange={handleChange}
-            min="0"
-            max="5"
-            step="0.1"
-          />
-
-          <label>Phone Number:</label>
-          <input
-            type="text"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Cheapest Price:</label>
-          <input
-            type="number"
-            name="cheapestPrice"
-            value={formData.cheapestPrice}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Max Price:</label>
-          <input
-            type="number"
-            name="maxPrice"
-            value={formData.maxPrice}
-            onChange={handleChange}
-            required
-          />
-
-          <label>
-            <input
-              type="checkbox"
-              name="featured"
-              checked={formData.featured}
-              onChange={(e) =>
-                setFormData({ ...formData, featured: e.target.checked })
-              }
-            />
-            Featured
-          </label>
-
-          <button type="submit" disabled={loading}>
-            {loading ? "Adding Hotel..." : "Add Hotel"}
-          </button>
-
-          {message && <p className="message">{message}</p>}
-        </form>
+     <div className="Sidebar"> <Sidebar /></div>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        maxWidth: "400px",
+        margin: "20px auto",
+        padding: "20px",
+        border: "1px solid #ddd",
+        borderRadius: "8px",
+        backgroundColor: "#f9f9f9",
+      }}
+    >
+      <div style={{ marginBottom: "15px" }}>
+        <label>Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
       </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>Type:</label>
+        <input
+          type="text"
+          name="type"
+          value={formData.type}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>country:</label>
+        <input
+          type="text"
+          name="country"
+          value={formData.country}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>City:</label>
+        <input
+          type="text"
+          name="city"
+          value={formData.city}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div style={{ marginBottom: "15px" }}>
+        <label>Address:</label>
+        <input
+          type="text"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>Latitude:</label>
+        <input
+          type="number"
+          name="latitude"
+          value={formData.latitude}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>Longitude:</label>
+        <input
+          type="number"
+          name="longitude"
+          value={formData.longitude}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>Title:</label>
+        <input
+          type="text"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>Description:</label>
+        <textarea
+          name="desc"
+          value={formData.desc}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>Images:</label>
+        <input type="file" name="photos" onChange={handleChange} multiple />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>Rating:</label>
+        <input
+          type="number"
+          name="rating"
+          value={formData.rating}
+          onChange={handleChange}
+          min="0"
+          max="5"
+          step="0.1"
+        />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>phoneNumber:</label>
+        <input
+          type="number"
+          name="phoneNumber"
+          value={formData.phoneNumber}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>Cheapest Price:</label>
+        <input
+          type="number"
+          name="cheapestPrice"
+          value={formData.cheapestPrice}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div style={{ marginBottom: "15px" }}>
+        <label>maxPrice Price:</label>
+        <input
+          type="number"
+          name="maxPrice"
+          value={formData.maxPrice}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label>Featured:</label>
+        <input
+          type="checkbox"
+          name="featured"
+          checked={formData.featured}
+          onChange={(e) =>
+            setFormData({ ...formData, featured: e.target.checked })
+          }
+        />
+      </div>
+
+      <button type="submit">Add Hotel</button>
+    </form>
     </div>
   );
 };

@@ -10,24 +10,22 @@ const AddRooms = () => {
   const [details, setDetails] = useState("");
   const [price, setPrice] = useState("");
   const [roomNumber, setRoomNumber] = useState("");
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]);  
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
   const handleImageChange = (e) => {
-    setImages(Array.from(e.target.files));
+    setImages([...e.target.files]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append("title", title);
     formData.append("details", details);
     formData.append("price", price);
     formData.append("roomNumber", roomNumber);
 
-    // إضافة الصور إلى FormData
     images.forEach((image) => {
       formData.append("images", image);
     });
@@ -36,7 +34,9 @@ const AddRooms = () => {
       const response = await axios.post(
         `http://localhost:5000/api/hotels/${hotelId}/rooms`,
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
       setMessage(response.data.message);
       setError("");
@@ -92,7 +92,12 @@ const AddRooms = () => {
           </div>
           <div>
             <label>Images:</label>
-            <input type="file" onChange={handleImageChange} multiple required />
+            <input
+              type="file"
+              onChange={handleImageChange}
+              multiple
+              required
+            />
           </div>
           <button type="submit">Add Room</button>
         </form>

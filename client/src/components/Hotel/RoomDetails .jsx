@@ -9,7 +9,7 @@ const RoomDetails = () => {
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showBookingForm, setShowBookingForm] = useState(false);
+  const [showBookingForm, setShowBookingForm] = useState(false); 
 
   useEffect(() => {
     const fetchRoomDetails = async () => {
@@ -35,22 +35,22 @@ const RoomDetails = () => {
       <Nav />
       <h2>{room.title}</h2>
 
-    
-      <div style={{ display: "flex", gap: "10px", overflowX: "auto" }}>
+      {/* عرض جميع الصور إذا كانت موجودة */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
         {room.img && Array.isArray(room.img) ? (
           room.img.map((image, index) => (
             <img
               key={index}
-              src={`http://localhost:5000/${image.replace(/\\/g, "/")}`}
-              alt={`${room.title} ${index + 1}`}
-              style={{ width: "300px", height: "200px", objectFit: "cover", borderRadius: "8px" }}
+              src={`http://localhost:5000/uploads/${image.replace(/\\/g, "/")}`}
+              alt={room.title}
+              style={{ width: "100%", height: "300px", objectFit: "cover" }}
             />
           ))
         ) : (
           <img
-            src={`http://localhost:5000/${room.img ? room.img.replace(/\\/g, "/") : "default-image.jpg"}`}
+            src="default-image.jpg"
             alt={room.title}
-            style={{ width: "100%", height: "300px", objectFit: "cover", borderRadius: "8px" }}
+            style={{ width: "100%", height: "300px", objectFit: "cover" }}
           />
         )}
       </div>
@@ -58,12 +58,11 @@ const RoomDetails = () => {
       <p>{room.details}</p>
       <p><strong>Price:</strong> ${room.price}</p>
       <p><strong>Location:</strong> {room.location}</p>
-      <p><strong>roomNumber:</strong> {room.roomNumber}</p>
 
       <button onClick={() => setShowBookingForm(true)}>Book Now</button>
 
       {showBookingForm && (
-        <ReservationForm roomId={roomId} hotelId={hotelId} />
+        <ReservationForm roomId={roomId} hotelId={hotelId} /> 
       )}
     </div>
   );

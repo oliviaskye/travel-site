@@ -5,7 +5,6 @@ import "./Rooms.scss";
 
 const Rooms = () => {
   const { hotelId } = useParams();
-
   const [rooms, setRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -94,25 +93,35 @@ const Rooms = () => {
           {filteredRooms.map((room) => (
             <tr key={room._id}>
               <td>
-  {room.img && Array.isArray(room.img) ? (
-    room.img.map((imagePath, index) => (
-      <img
-        key={index}
-        src={`http://localhost:5000/${imagePath}`}
-        alt={`Room Image ${index + 1}`}
-        style={{ width: "100px", height: "80px", objectFit: "cover", marginRight: "5px" }}
-      />
-    ))
-  ) : (
-    <img
-      src={`http://localhost:5000/${room.img}`}
-      alt={room.title}
-      style={{ width: "100px", height: "80px", objectFit: "cover" }}
-    />
-  )}
-</td>
-
-
+                {room.img && room.img.length > 0 ? (
+                  room.img.map((image, index) => {
+                    console.log(image); // Check the value of `image` here
+                    return (
+                      <img
+                        key={index}
+                        src={`http://localhost:5000/uploads/${image}`}
+                        alt={room.title}
+                        style={{
+                          width: "100px",
+                          height: "80px",
+                          objectFit: "cover",
+                          marginRight: "10px",
+                        }}
+                      />
+                    );
+                  })
+                ) : (
+                  <img
+                    src="/default-image.jpg"
+                    alt="Default"
+                    style={{
+                      width: "100px",
+                      height: "80px",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
+              </td>
               <td>{room.title}</td>
               <td>{room.details}</td>
               <td>${room.price}</td>
