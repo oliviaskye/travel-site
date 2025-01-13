@@ -47,7 +47,7 @@ const UserProfile = () => {
       try{
         const response = await axios.delete(`http://localhost:5000/api/auth/users/${userId}`);
         deleteMe(response.data);
-          // return <div>User Deleted</div>
+        alert("User deleted");
         navigate("/");
       } catch (error) {
         setError('Error removing user data');
@@ -58,7 +58,7 @@ const UserProfile = () => {
     }
   };
 
-  const updateProfile = async () => {
+  const updateProfile = () => {
     if(confirm("navigate to update profile?"))
       try{
         navigate("/UpdateProfile");

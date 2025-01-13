@@ -60,6 +60,10 @@ const UpdateProfile = (userId) => {
     }
   };
 
+  const cancelUpdate = () => {
+    navigate("/UserProfile");
+  };
+  
   return (
     <div>
       <div>
@@ -144,7 +148,7 @@ const UpdateProfile = (userId) => {
             
             {error && <p className="error">{error}</p>}
             <button onClick={handleClick}>Update</button>
-            <button>Cancel</button>
+            <button onClick={cancelUpdate}>Cancel</button>
           </form>
         </div>
       </div>
