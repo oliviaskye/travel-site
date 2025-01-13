@@ -6,7 +6,6 @@ import {
   getUser,
   deleteUser,
   updateUser,
-  PutUser,
 } from "../controllers/Auth.js";
 
 
@@ -20,7 +19,6 @@ router.get("/users/:id", getUser);
 
 router.delete("/users/:id",  deleteUser);
 
-//router.put("/users/:id", PutUser);
 router.put("/users/:id", updateUser);
 
 export default router;

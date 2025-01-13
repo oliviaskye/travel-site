@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 const UserProfile = () => {
   // const [userId, setUserId] = useState([]);
   const [user, setUser] = useState([]);
-  const [error, setError] = useState(null);
-  const [me, deleteMe] = useState([]);
+  const [error, setError] = useState();
+  const [me, deleteMe] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {

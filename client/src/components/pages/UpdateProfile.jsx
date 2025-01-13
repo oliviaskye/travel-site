@@ -1,24 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; 
 import CountrySelect from "../../Auth/CountrySelect"; 
-import { useValue } from "../../context/ContextProvider";
 import { useNavigate } from "react-router-dom";
 
-const UpdateProfile = async () => {
-  // const [user, setUser] = useState([]);
-  const [inputs, setInputs] = useState([]
-    // {
-    //   name: user.name,
-    //   email: user.email,
-    //   password: user.password,
-    //   age: user.age,
-    //   phoneNumber: user.phoneNumber,
-    //   country: user.country,
-    //   gender: user.gender,
-    // }
-    ); 
+const UpdateProfile = (userId) => {
+  const [user, setUser] = useState([]);
+  const [inputs, setInputs] = useState([]); 
   const [error, setError] = useState(null);
-  // const { dispatch } = useValue();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,11 +48,10 @@ const UpdateProfile = async () => {
       try {
         const userId = localStorage.getItem("userId");
         const response = await axios.put(`http://localhost:5000/api/auth/users/${userId}`, inputs);
-        // const user = response.data;
+        const user = response.data;
         setError(null);
-        // dispatch({ type: "UPDATE_USER", payload: response.data.user });
         alert("Profile updated successfully!");
-        // navigate("/UserProfile");
+        navigate("/UserProfile");
       } 
       catch (error) {
         console.error('Error updating profile:', error.response.data);
@@ -157,6 +144,7 @@ const UpdateProfile = async () => {
             
             {error && <p className="error">{error}</p>}
             <button onClick={handleClick}>Update</button>
+            <button>Cancel</button>
           </form>
         </div>
       </div>
