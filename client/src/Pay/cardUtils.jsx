@@ -1,7 +1,6 @@
 
 // creditCardUtils.js
 
-=======
 
 import Payment from "payment";
 
@@ -55,5 +54,4 @@ export function formatExpirationDate(value) {
   return clearValue;
 
 }
-=======
 
