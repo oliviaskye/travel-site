@@ -22,3 +22,4 @@ router.delete("/users/:id",  deleteUser);
 router.put("/users/:id",PutUser);
 
 export default router;
+

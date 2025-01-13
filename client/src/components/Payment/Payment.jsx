@@ -1,3 +1,4 @@
+
 import React from "react";
 import axios from "axios";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -34,10 +35,13 @@ const PaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) => {
       }
     } catch (err) {
       onPaymentError(err.message);
+=======
+
     }
   };
 
   return (
+
     <form onSubmit={handleSubmit}>
       <CardElement
         options={{
@@ -63,3 +67,5 @@ const PaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) => {
 };
 
 export default PaymentForm;
+=======
+

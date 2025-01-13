@@ -20,7 +20,10 @@ const ReservationForm = ({ roomId, hotelId }) => {
   const [reservation, setReservation] = useState(null);
   const [error, setError] = useState(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+
   const [payNow, setPayNow] = useState(false);
+=======
+
 
   useEffect(() => {
     setFormData((prev) => ({
@@ -71,7 +74,10 @@ const ReservationForm = ({ roomId, hotelId }) => {
       <h2>Create a Reservation</h2>
       {!reservation ? (
         <form onSubmit={handleSubmit}>
+
           {/* <div>
+=======
+
             <label>User ID:</label>
             <input
               type="text"
@@ -81,7 +87,10 @@ const ReservationForm = ({ roomId, hotelId }) => {
               required
               readOnly
             />
+
           </div> */}
+=======
+
           <div>
             <label>Start Date:</label>
             <input
@@ -102,6 +111,7 @@ const ReservationForm = ({ roomId, hotelId }) => {
               required
             />
           </div>
+
           <div>
 
 
@@ -142,6 +152,8 @@ const ReservationForm = ({ roomId, hotelId }) => {
               ) : (
                 <p>You have chosen to pay later. Please ensure payment is completed before your stay.</p>
               )}
+=======
+
             </div>
           ) : (
             <div>
