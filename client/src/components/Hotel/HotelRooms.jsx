@@ -15,7 +15,7 @@ const HotelRoomsx = () => {
         setRooms(response.data); 
         setLoading(false); 
       } catch (error) {
-        console.error("Error fetching rooms:", error);
+        console.error("Error fetching rooms:", error.response ? error.response.data : error.message);
         setError("Failed to fetch rooms. Please try again."); 
         setLoading(false); 
         console.log(setRooms)

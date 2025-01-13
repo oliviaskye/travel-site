@@ -4,9 +4,9 @@ import UpdateProfile from './UpdateProfile';
 import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
+
   const [user, setUser] = useState([]);
   const [error, setError] = useState();
-  const [me, deleteMe] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
