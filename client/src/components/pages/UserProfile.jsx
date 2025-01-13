@@ -4,7 +4,6 @@ import UpdateProfile from './UpdateProfile';
 import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
-  // const [userId, setUserId] = useState([]);
   const [user, setUser] = useState([]);
   const [error, setError] = useState();
   const [me, deleteMe] = useState();
@@ -33,15 +32,6 @@ const UserProfile = () => {
     return <div>Loading...</div>;
   }
 
-  // const editProfile = () => {
-  //   try{
-  //     navigate("/UpdateProfile");
-  //   }
-  //   catch(error){
-  //     console.error;
-  //   }
-
-  // }
   const deleteProfile = async (userId) => {
     if(confirm("Are you sure you want to delete your account? This action cannot be undone."))
       try{
