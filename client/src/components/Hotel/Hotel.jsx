@@ -1,8 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Map from "../../Map/Map/Map";
+import Modal from "react-modal";
 import "./Hotel.css";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    width: "400px",
+    padding: "20px",
+  },
+};
+
+Modal.setAppElement("#root");
 
 const Hotels = () => {
   const [hotels, setHotels] = useState([]);
@@ -10,9 +25,8 @@ const Hotels = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-  const [currentHotelImages, setCurrentHotelImages] = useState([]); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentHotelImages, setCurrentHotelImages] = useState([]);
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -45,17 +59,13 @@ const Hotels = () => {
     }
   };
 
-  const handleShowLocation = (latitude, longitude) => {
-    setSelectedLocation([longitude, latitude]);
-  };
-
   const handleViewImages = (hotel) => {
-    setCurrentHotelImages(hotel.photos || []); 
-    setIsModalOpen(true); 
+    setCurrentHotelImages(hotel.photos || []);
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
   };
 
   if (loading) return <p>Loading hotels...</p>;
@@ -86,7 +96,6 @@ const Hotels = () => {
                 }`}
                 alt={hotel.name}
                 className="hotel-img"
-                onClick={() => handleViewImages(hotel)} 
               />
             </div>
             <div className="hotel-info">
@@ -97,43 +106,45 @@ const Hotels = () => {
               <p><strong>Price:</strong> ${hotel.cheapestPrice}</p>
               <p><strong>Max Price:</strong> ${hotel.maxPrice}</p>
               <p><strong>Phone Number:</strong> {hotel.phoneNumber}</p>
-              <button onClick={() => handleShowLocation(hotel.latitude, hotel.longitude)}>
-                Show on Map
-              </button>
               <Link to={`/hotels/${hotel._id}/rooms`}>Go to Rooms</Link>
+
+            
+              {hotel.photos && hotel.photos.length > 0 && (
+                <button onClick={() => handleViewImages(hotel)}>
+                  See Pics
+                </button>
+              )}
             </div>
           </div>
         ))}
       </div>
 
-      {selectedLocation && (
-        <div style={{ height: "400px", marginTop: "20px" }}>
-          <Map selectedLocation={selectedLocation} />
+   
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Hotel Images Modal"
+      >
+        <h2>Hotel Images</h2>
+        <div className="image-gallery">
+          {currentHotelImages.length > 0 ? (
+            currentHotelImages.map((img, index) => (
+              <img
+                key={index}
+                src={`http://localhost:5000/${img.replace(/\\/g, "/")}`}
+                alt={`Hotel Image ${index + 1}`}
+                className="gallery-image"
+              />
+            ))
+          ) : (
+            <p>No images available for this hotel.</p>
+          )}
         </div>
-      )}
-
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <button className="close-button" onClick={closeModal}>X</button>
-            <h3>Hotel Images</h3>
-            <div className="image-gallery">
-              {currentHotelImages.length > 0 ? (
-                currentHotelImages.map((img, index) => (
-                  <img
-                    key={index}
-                    src={`http://localhost:5000/${img.replace(/\\/g, "/")}`}
-                    alt={`Hotel Image ${index + 1}`}
-                    className="gallery-image"
-                  />
-                ))
-              ) : (
-                <p>No images available for this hotel.</p>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+        <button onClick={closeModal} style={{ marginTop: "10px" }}>
+          Close
+        </button>
+      </Modal>
     </div>
   );
 };

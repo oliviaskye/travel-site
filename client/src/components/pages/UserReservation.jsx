@@ -61,10 +61,18 @@ const UserReservation = () => {
 
   const deleteReservation = async (reservationId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/reservations/${reservationId}`);
+      await axios.delete(
+        `http://localhost:5000/api/reservations/${reservationId}`
+      );
 
-      setReservations(reservations.filter((reservation) => reservation._id !== reservationId));
-      setFilteredReservations(filteredReservations.filter((reservation) => reservation._id !== reservationId));
+      setReservations(
+        reservations.filter((reservation) => reservation._id !== reservationId)
+      );
+      setFilteredReservations(
+        filteredReservations.filter(
+          (reservation) => reservation._id !== reservationId
+        )
+      );
     } catch (error) {
       console.error("Error deleting reservation:", error);
     }
@@ -72,7 +80,12 @@ const UserReservation = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
         <CircularProgress />
       </Box>
     );
@@ -80,7 +93,12 @@ const UserReservation = () => {
 
   if (error) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
         <Typography variant="h6" color="error">
           {error}
         </Typography>
@@ -108,13 +126,27 @@ const UserReservation = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell><strong>User ID</strong></TableCell>
-              <TableCell><strong>Hotel Name</strong></TableCell>
-              <TableCell><strong>Room Number</strong></TableCell>
-              <TableCell><strong>Start Date</strong></TableCell>
-              <TableCell><strong>End Date</strong></TableCell>
-              <TableCell><strong>Paid</strong></TableCell>
-              <TableCell><strong>Actions</strong></TableCell>
+              <TableCell>
+                <strong>User ID</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Hotel Name</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Room Number</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Start Date</strong>
+              </TableCell>
+              <TableCell>
+                <strong>End Date</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Paid</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Actions</strong>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -122,9 +154,17 @@ const UserReservation = () => {
               <TableRow key={reservation._id}>
                 <TableCell>{reservation.userId}</TableCell>
                 <TableCell>{reservation.HotelId.name}</TableCell>
-                <TableCell>{reservation.roomId.roomNumber.join(", ")}</TableCell>
-                <TableCell>{new Date(reservation.startDate).toLocaleDateString()}</TableCell>
-                <TableCell>{new Date(reservation.endDate).toLocaleDateString()}</TableCell>
+                <TableCell>
+                  {reservation.roomId
+                    ? reservation.roomId.roomNumber.join(", ")
+                    : "N/A"}
+                </TableCell>
+                <TableCell>
+                  {new Date(reservation.startDate).toLocaleDateString()}
+                </TableCell>
+                <TableCell>
+                  {new Date(reservation.endDate).toLocaleDateString()}
+                </TableCell>
                 <TableCell>{reservation.isPaid ? "Yes" : "No"}</TableCell>
                 <TableCell>
                   <Button
@@ -146,5 +186,3 @@ const UserReservation = () => {
 };
 
 export default UserReservation;
-
-

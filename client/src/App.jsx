@@ -11,7 +11,7 @@ import Home from "./pages/Home";
 import HotelFltring from "./components/filter/HotelFltring";
 import Hotels from "./components/Hotel/Hotel";
 import HotelRoomsx from "./components/Hotel/HotelRooms";
-import RoomDetails from "./components/Hotel/RoomDetails ";
+
 import ReservationForm from "./components/Reservation/Reservation";
 import PaymentForm from "./components/Payment/Payment";
 
@@ -33,8 +33,9 @@ function App() {
           <Route path="/map" element={<Map />} />
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/hotels/:hotelId/rooms" element={<HotelRoomsx />} />
-          <Route path="/hotels/:hotelId/rooms/:roomId" element={<RoomDetails />} />
+   
           <Route path="/reservation/:roomId/:hotelId" element={<ReservationForm />} />
+
           <Route path="/HotelFltring" element={<HotelFltring />} />
           <Route path="/UserProfile" element={<UserProfile />} />
 
@@ -48,3 +49,6 @@ function App() {
 }
 
 export default App;
+
+
+

@@ -1,6 +1,5 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import navCSS from "./Nav.module.css";
-
 import WebsiteLogo from "../../assets/WebsiteLogo.png";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -11,16 +10,30 @@ function Nav() {
   const navigate = useNavigate();
 
   const NavHandler = () => {
-    Menu.current.classList.toggle(navCSS.activeNav);
+    if (Menu.current) {
+      Menu.current.classList.toggle(navCSS.activeNav);
+    }
   };
 
-  window.addEventListener("scroll", function () {
-    if (window.scrollY > 100) {
-      Navbar.current.classList.add(navCSS.navbarActive);
-    } else {
-      Navbar.current.classList.remove(navCSS.navbarActive);
-    }
-  });
+  useEffect(() => {
+    const handleScroll = () => {
+      if (Navbar.current) {
+        if (window.scrollY > 100) {
+          Navbar.current.classList.add(navCSS.navbarActive);
+        } else {
+          Navbar.current.classList.remove(navCSS.navbarActive);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const handleNavigateToRegister = () => {
     navigate("/RegisterLogin");
   };
@@ -56,13 +69,11 @@ function Nav() {
           </Link>
 
           <Link to={`/UserProfile`}>
-            <li>Profil</li>
+            <li>Profile</li>
           </Link>
-
         </ul>
       </div>
 
-      
       <div className={navCSS.NavButtons}>
         <button className={navCSS.button} onClick={handleNavigateToRegister}>
           Signin

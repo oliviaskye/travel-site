@@ -45,13 +45,14 @@ const Hotel = () => {
       try {
         await axios.delete(`http://localhost:5000/api/hotels/${hotelId}`);
         setHotels(hotels.filter((hotel) => hotel._id !== hotelId));
+        alert("Hotel deleted successfully.");
       } catch (error) {
         console.error("Error deleting hotel:", error);
         alert("Failed to delete hotel. Please try again.");
       }
     }
   };
-
+  
   const filteredHotels = hotels.filter((hotel) =>
     hotel.name.toLowerCase().includes(searchTerm.toLowerCase())
   );

@@ -20,17 +20,17 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const ReservationForm = ({ roomId, hotelId }) => {
+const ReservationForm = () => {
   const { state } = useValue();
   const navigate = useNavigate();
   const location = useLocation();
 
   const [formData, setFormData] = useState({
-    roomId: roomId || "",
+    roomId: "",
     userId: "",
     startDate: "",
     endDate: "",
-    hotelId: hotelId || "",
+    hotelId: "", // تأكد من أن الحقل هذا يبدأ فارغًا
   });
 
   const [reservation, setReservation] = useState(null);
@@ -40,13 +40,20 @@ const ReservationForm = ({ roomId, hotelId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      roomId,
-      userId: state.user ? state.user.id : "",
-      hotelId,
-    }));
-  }, [state.user, roomId, hotelId]);
+    // جلب hotelId و roomId من localStorage
+    const storedHotelId = localStorage.getItem("hotelId");
+    const storedRoomId = localStorage.getItem("roomId");
+
+    // تحديث formData بالقيم المسترجعة
+    if (storedHotelId && storedRoomId) {
+      setFormData((prev) => ({
+        ...prev,
+        hotelId: storedHotelId, // تعيين hotelId من localStorage
+        roomId: storedRoomId,   // تعيين roomId من localStorage
+        userId: state.user ? state.user.id : "",
+      }));
+    }
+  }, [state.user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,9 +78,8 @@ const ReservationForm = ({ roomId, hotelId }) => {
     try {
       const response = await axios.post("http://localhost:5000/api/reservations", formData);
       setReservation(response.data);
-
       if (payNow) {
-        setIsModalOpen(true); 
+        setIsModalOpen(true);
       }
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred while creating the reservation.");
@@ -87,9 +93,9 @@ const ReservationForm = ({ roomId, hotelId }) => {
     console.log("Payment Data:", paymentData);
     setReservation((prev) => ({
       ...prev,
-      isPaid: true, // تحديث حالة الدفع إلى مدفوع
+      isPaid: true,
     }));
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
   };
 
   const handlePaymentError = (message) => {
@@ -146,7 +152,7 @@ const ReservationForm = ({ roomId, hotelId }) => {
           <p>Start Date: {new Date(reservation.startDate).toLocaleDateString()}</p>
           <p>End Date: {new Date(reservation.endDate).toLocaleDateString()}</p>
           <p>Status: {reservation.status}</p>
-          <p>Payment Status: {reservation.isPaid ? "Paid" : "Not Paid"}</p> {/* عرض حالة الدفع */}
+          <p>Payment Status: {reservation.isPaid ? "Paid" : "Not Paid"}</p>
         </div>
       )}
 
@@ -167,7 +173,7 @@ const ReservationForm = ({ roomId, hotelId }) => {
         </button>
       </Modal>
 
-      {error && <p style={{ color: "red" }}>Error: {error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };

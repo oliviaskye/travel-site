@@ -16,29 +16,27 @@ const HotelFltring = () => {
   useEffect(() => {
     const fetchHotels = async () => {
       if (!destination || !priceRange || priceRange[0] > priceRange[1]) {
-        setError("Invalid parameters. Please check your inputs.");
+        setError("Invalid parameters. Please ensure you selected a valid destination and price range.");
         setLoading(false);
         return;
       }
-    
+
       try {
         const response = await axios.get("http://localhost:5000/api/hotels/filter", {
           params: {
             city: destination,
-            minPrice: priceRange[0], 
+            minPrice: priceRange[0],
             maxPrice: priceRange[1],
           },
         });
         setHotels(response.data);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching hotels:", error);
-        setError("Failed to attract hotels. Please try again.");
+        setError(error.response?.data?.message || "Failed to fetch hotels. Please try again later.");
+      } finally {
         setLoading(false);
       }
     };
-    
-    
 
     fetchHotels();
   }, [destination, priceRange]);
@@ -48,11 +46,11 @@ const HotelFltring = () => {
   };
 
   if (loading) return <p>Loading hotels...</p>;
-  if (error) return <p>{error}</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <div>
-            <Nav />
+      <Nav />
       <h2>Available Hotels</h2>
       <div
         style={{
@@ -65,27 +63,28 @@ const HotelFltring = () => {
           <div
             key={hotel._id}
             className="container"
-            style={{ border: "1px solid #ccc", padding: "15px" }}
+            style={{ border: "1px solid #ccc", padding: "15px", borderRadius: "8px" }}
           >
             <div className="hotel-images">
-            
-            {hotel.photos?.length > 0 ? (
-              hotel.photos.map((photo, index) => (
+              {hotel.photos?.length > 0 ? (
+                hotel.photos.map((photo, index) => (
+                  <img
+                    key={index}
+                    src={`http://localhost:5000/${photo.replace(/\\/g, "/")}`}
+                    alt={`${hotel.name} ${index + 1}`}
+                    className="hotel-img"
+                    style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
+                  />
+                ))
+              ) : (
                 <img
-                  key={index}
-                  src={`http://localhost:5000/${photo.replace(/\\/g, "/")}`}
-                  alt={`${hotel.name} ${index + 1}`}
+                  src="http://localhost:5000/uploads/default-image.jpg"
+                  alt="Default Hotel"
                   className="hotel-img"
+                  style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
                 />
-              ))
-            ) : (
-              <img
-                src="http://localhost:5000/default-image.jpg"
-                alt="Default Hotel"
-                className="hotel-img"
-              />
-            )}
-          </div>
+              )}
+            </div>
 
             <h3>{hotel.name}</h3>
             <p>
@@ -106,16 +105,15 @@ const HotelFltring = () => {
             <p>
               <strong>Phone Number:</strong> {hotel.phoneNumber}
             </p>
-            <button
-              onClick={() =>
-                handleShowLocation(hotel.latitude, hotel.longitude)
-              }
-            >
-              Show on Map
-            </button>
+
             <Link
               to={`/hotels/${hotel._id}/rooms`}
-              style={{ display: "block", marginTop: "10px" }}
+              style={{
+                display: "block",
+                marginTop: "10px",
+                color: "#007BFF",
+                textDecoration: "underline",
+              }}
             >
               Go to Rooms
             </Link>

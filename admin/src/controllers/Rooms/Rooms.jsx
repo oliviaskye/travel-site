@@ -30,19 +30,23 @@ const Rooms = () => {
   }, [hotelId]);
 
   const handleDelete = async (roomId) => {
-    try {
-      await axios.delete(
-        `http://localhost:5000/api/hotels/${hotelId}/rooms/${roomId}`
-      );
-      setRooms((prevRooms) => prevRooms.filter((room) => room._id !== roomId));
-      setFilteredRooms((prevRooms) =>
-        prevRooms.filter((room) => room._id !== roomId)
-      );
-    } catch (error) {
-      console.error("Error deleting room:", error);
-      setError("Failed to delete room. Please try again.");
+    if (window.confirm("Are you sure you want to delete this room?")) {
+      try {
+        await axios.delete(
+          `http://localhost:5000/api/hotels/${hotelId}/rooms/${roomId}`
+        );
+        setRooms((prevRooms) => prevRooms.filter((room) => room._id !== roomId));
+        setFilteredRooms((prevRooms) =>
+          prevRooms.filter((room) => room._id !== roomId)
+        );
+        alert("Room deleted successfully.");
+      } catch (error) {
+        console.error("Error deleting room:", error);
+        alert("Failed to delete room. Please try again.");
+      }
     }
   };
+  
 
   const handleSearchChange = (e) => {
     const query = e.target.value;
@@ -92,36 +96,45 @@ const Rooms = () => {
         <tbody>
           {filteredRooms.map((room) => (
             <tr key={room._id}>
-              <td>
-                {room.img && room.img.length > 0 ? (
-                  room.img.map((image, index) => {
-                    console.log(image); // Check the value of `image` here
-                    return (
-                      <img
-                        key={index}
-                        src={`http://localhost:5000/uploads/${image}`}
-                        alt={room.title}
-                        style={{
-                          width: "100px",
-                          height: "80px",
-                          objectFit: "cover",
-                          marginRight: "10px",
-                        }}
-                      />
-                    );
-                  })
-                ) : (
-                  <img
-                    src="/default-image.jpg"
-                    alt="Default"
-                    style={{
-                      width: "100px",
-                      height: "80px",
-                      objectFit: "cover",
-                    }}
-                  />
-                )}
-              </td>
+          <td>
+  {room.img && room.img.length > 0 ? (
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap", 
+        gap: "10px", 
+        alignItems: "center", 
+      }}
+    >
+      {room.img.map((image, index) => (
+        <img
+          key={index}
+          src={`http://localhost:5000/uploads/${image}`}
+          alt={`Room Image ${index + 1}`}
+          style={{
+            width: "100px",
+            height: "80px",
+            objectFit: "cover", 
+            borderRadius: "5px", 
+          }}
+        />
+      ))}
+    </div>
+  ) : (
+    <img
+      src="/default-image.jpg"
+      alt="Default"
+      style={{
+        width: "100px",
+        height: "80px",
+        objectFit: "cover", 
+        borderRadius: "5px",
+      }}
+    />
+  )}
+</td>
+
+              
               <td>{room.title}</td>
               <td>{room.details}</td>
               <td>${room.price}</td>
