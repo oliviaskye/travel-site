@@ -35,16 +35,9 @@ const ReservationForm = () => {
 
   const [reservation, setReservation] = useState(null);
   const [error, setError] = useState(null);
-<<<<<<< HEAD
-=======
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
-
->>>>>>> 01f5fb9425a6a48dce9d152382c3169c5238801a
   const [payNow, setPayNow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-
 
   useEffect(() => {
     // جلب hotelId و roomId من localStorage
@@ -116,26 +109,6 @@ const ReservationForm = () => {
       <h2>Create a Reservation</h2>
       {!reservation ? (
         <form onSubmit={handleSubmit}>
-<<<<<<< HEAD
-=======
-
-          {/* <div>
-=======
-
-            <label>User ID:</label>
-            <input
-              type="text"
-              name="userId"
-              value={formData.userId}
-              onChange={handleChange}
-              required
-              readOnly
-            />
-
-          </div> */}
-=======
-
->>>>>>> 01f5fb9425a6a48dce9d152382c3169c5238801a
           <div>
             <label>Start Date:</label>
             <input
@@ -172,7 +145,6 @@ const ReservationForm = () => {
           </button>
         </form>
       ) : (
-<<<<<<< HEAD
         <div>
           <h3>Reservation Details</h3>
           <p>Reservation ID: {reservation._id}</p>
@@ -183,40 +155,6 @@ const ReservationForm = () => {
           <p>Status: {reservation.status}</p>
           <p>Payment Status: {reservation.isPaid ? "Paid" : "Not Paid"}</p>
         </div>
-=======
-        <>
-          {!paymentSuccess ? (
-            <div>
-              <h3>Reservation Details</h3>
-              <p>Reservation ID: {reservation._id}</p>
-              <p>Room Number: {reservation.roomnumber}</p>
-              <p>User ID: {reservation.userId}</p>
-              <p>Start Date: {new Date(reservation.startDate).toLocaleDateString()}</p>
-              <p>End Date: {new Date(reservation.endDate).toLocaleDateString()}</p>
-
-              {payNow ? (
-                <>
-                  <h3>Payment</h3>
-                  <PaymentForm
-                    reservationId={reservation._id}
-                    onPaymentSuccess={handlePaymentSuccess}
-                    onPaymentError={handlePaymentError}
-                  />
-                </>
-              ) : (
-                <p>You have chosen to pay later. Please ensure payment is completed before your stay.</p>
-              )}
-=======
-
-            </div>
-          ) : (
-            <div>
-              <h3>Payment Successful</h3>
-              <p>Your reservation and payment were completed successfully.</p>
-            </div>
-          )}
-        </>
->>>>>>> 01f5fb9425a6a48dce9d152382c3169c5238801a
       )}
 
       <Modal
