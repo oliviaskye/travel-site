@@ -49,7 +49,6 @@ const AddHotels = () => {
     data.append("address", formData.address);
     data.append("latitude", parseFloat(formData.latitude));
     data.append("longitude", parseFloat(formData.longitude));
-    Array.from(formData.photos).forEach((file) => data.append("photos", file));
     data.append("title", formData.title);
     data.append("desc", formData.desc);
     data.append("rating", parseFloat(formData.rating));
@@ -57,6 +56,8 @@ const AddHotels = () => {
     data.append("cheapestPrice", formData.cheapestPrice);
     data.append("maxPrice", formData.maxPrice);
     data.append("featured", formData.featured);
+
+    Array.from(formData.photos).forEach((file) => data.append("photos", file));
 
     try {
       const response = await axios.post(

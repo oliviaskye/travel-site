@@ -16,7 +16,8 @@ router.get('/:hotelId/rooms/:roomid', getRooms);
 router.put('/:hotelId/rooms/:roomid', UpdateRooms);
 
 //POST
-router.post('/:hotelId/rooms', upload.single('image'), createRoom);
+router.post('/:hotelId/rooms', upload.array('images', 10), createRoom);
+
 
 //DELETE
 router.delete('/:hotelId/rooms/:roomid', DeleteRoom);

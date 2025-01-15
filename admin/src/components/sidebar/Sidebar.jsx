@@ -3,6 +3,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import HotelIcon from '@mui/icons-material/Hotel';
 import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
+import BookOnlineIcon from '@mui/icons-material/BookOnline';
 
 import { Link } from "react-router-dom";
 
@@ -40,6 +41,12 @@ const Sidebar = () => {
             <li>
               <AddHomeWorkIcon className="icon" />
               <span>Add_Hotel</span>
+            </li>
+          </Link>
+          <Link to="/Reservation" style={{ textDecoration: "none" }}>
+            <li>
+              <BookOnlineIcon className="icon" />
+              <span>Reservation</span>
             </li>
           </Link>
         </ul>

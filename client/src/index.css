@@ -105,6 +105,9 @@ button:hover{
   color: #eefeff;
 }
 
+
+
+
 @media screen and (max-width:500px) {
   .Section_heading{
     flex-direction: column;

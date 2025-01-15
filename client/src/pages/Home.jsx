@@ -16,25 +16,24 @@ const Home = () => {
 
       <div>
 
-        <br />
-        <br />
+        
         <div>
           <FutureTrip />
         <Hotels />
        
         </div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       </div>
       <div className="footer">
         <Footer />

@@ -7,7 +7,7 @@ import AddHotels from "./controllers/Add/AddHotel/AddHotel";
 import AddRooms from "./controllers/Add/AddRoom/AddRooms";
 import EditRoom from "./controllers/Edit/EditRoom/EditRoom";
 import EditHotel from "./controllers/Edit/EditHotel/EditHotel";
-
+import Reservation from "./controllers/Reservation/Reservation";
 
 
 const App = () => {
@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/hotels/:hotelId/add-room" element={<AddRooms />} />
         <Route path="/hotels/:hotelId/rooms/:roomId/edit" element={<EditRoom />} />
         <Route path="/hotels/edit/:hotelId" element={<EditHotel />} />
-
+        <Route path="/Reservation" element={<Reservation />} />
       </Routes>
     </div>
   );
