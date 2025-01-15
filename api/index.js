@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import fs from "fs";
 import cors from "cors";
+
 import { startServer } from "./database.js";
 import roomRoutes from "./routes/Room.js";
 import authRoutes from "./routes/Auth.js";
@@ -15,6 +16,7 @@ import { fileURLToPath } from 'url';
 dotenv.config();
 const app = express();
 
+// Check if 'uploads' directory exists, if not, create it
 if (!fs.existsSync("uploads")) {
     fs.mkdirSync("uploads");
 }
@@ -46,3 +48,4 @@ app.use("/api/payment", processPayment);
 
 // Start Server
 startServer(app);
+

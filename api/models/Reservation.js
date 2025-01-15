@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const ReservationSchema = new mongoose.Schema({
   HotelId: {
@@ -35,4 +35,6 @@ const ReservationSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-export default mongoose.model('Reservation', ReservationSchema);
+export default mongoose.model("Reservation", ReservationSchema);
+
+

@@ -23,6 +23,10 @@ import Map from "./Map/Map/Map";
 
 const stripePromise = loadStripe("pk_test_51QFvkhLAzYW8YRzjlm4VYKp19bMXpFMoHcCsHM3wda661NR4YOjHO2iyXMrDZmNqKfGUNXD5neKjeUmt1mTClIgc00RBYWEAAX");
 
+
+// Stripe public key
+
+
 function App() {
   return (
     <div className="container">
