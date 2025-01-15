@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import navCSS from "./Nav.module.css";
+import "../../index.css"
 import WebsiteLogo from "../../assets/WebsiteLogo.png";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -11,7 +11,7 @@ function Nav() {
 
   const NavHandler = () => {
     if (Menu.current) {
-      Menu.current.classList.toggle(navCSS.activeNav);
+      Menu.current.classList.toggle("active-nav"); // Adjusted for global styles
     }
   };
 
@@ -19,16 +19,15 @@ function Nav() {
     const handleScroll = () => {
       if (Navbar.current) {
         if (window.scrollY > 100) {
-          Navbar.current.classList.add(navCSS.navbarActive);
+          Navbar.current.classList.add("navbar-active"); // Adjusted for global styles
         } else {
-          Navbar.current.classList.remove(navCSS.navbarActive);
+          Navbar.current.classList.remove("navbar-active");
         }
       }
     };
 
     window.addEventListener("scroll", handleScroll);
 
-    // Cleanup event listener on component unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -39,15 +38,11 @@ function Nav() {
   };
 
   return (
-    <div className={navCSS.NavWrapper} ref={Navbar}>
-      <div className={navCSS.ContainerNav}>
-        <div className={navCSS.logo}>
+    <div className="nav-wrapper" ref={Navbar}>
+      <div className="container-nav">
+        <div className="logo">
           <a href="#">
-            <img
-              src={WebsiteLogo}
-              alt="Traveler Logo"
-              className={navCSS.logoImage}
-            />
+            <img src={WebsiteLogo} alt="Traveler Logo" className="logo-image" />
             Traveler
           </a>
         </div>
@@ -55,27 +50,21 @@ function Nav() {
           <Link to={`/`}>
             <li>Home</li>
           </Link>
-
           <li>Destination</li>
-
           <li>Recommended</li>
-
           <li>Testimonials</li>
-
           <li>Inspiration</li>
-
           <Link to={`/map`}>
             <li>Map</li>
           </Link>
-
           <Link to={`/UserProfile`}>
             <li>Profile</li>
           </Link>
         </ul>
       </div>
 
-      <div className={navCSS.NavButtons}>
-        <button className={navCSS.button} onClick={handleNavigateToRegister}>
+      <div className="nav-buttons">
+        <button className="button" onClick={handleNavigateToRegister}>
           Signin
         </button>
         <i className="ri-menu-3-line" onClick={NavHandler}></i>
