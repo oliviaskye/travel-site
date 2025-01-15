@@ -1,58 +1,106 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useValue } from '../../context/ContextProvider';
-import PaymentForm from '../Payment/Payment';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
+import Modal from "react-modal";
+import { useValue } from "../../context/ContextProvider";
+import StripePaymentForm from "../Payment/StripePaymentForm";
 
-const ReservationForm = ({ roomId, hotelId }) => {
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    width: "400px",
+    padding: "20px",
+  },
+};
+
+Modal.setAppElement("#root");
+
+const ReservationForm = () => {
   const { state } = useValue();
-  
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [formData, setFormData] = useState({
-    roomId: '',
-    userId: '',
-    startDate: '',
-    endDate: '',
-    hotelId: ''
+    roomId: "",
+    userId: "",
+    startDate: "",
+    endDate: "",
+    hotelId: "", // تأكد من أن الحقل هذا يبدأ فارغًا
   });
 
   const [reservation, setReservation] = useState(null);
   const [error, setError] = useState(null);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [payNow, setPayNow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      roomId: roomId, 
-      userId: state.user ? state.user.id : '',
-      hotelId: hotelId 
-    }));
-  }, [state.user, roomId, hotelId]);
+    // جلب hotelId و roomId من localStorage
+    const storedHotelId = localStorage.getItem("hotelId");
+    const storedRoomId = localStorage.getItem("roomId");
+
+    // تحديث formData بالقيم المسترجعة
+    if (storedHotelId && storedRoomId) {
+      setFormData((prev) => ({
+        ...prev,
+        hotelId: storedHotelId, // تعيين hotelId من localStorage
+        roomId: storedRoomId,   // تعيين roomId من localStorage
+        userId: state.user ? state.user.id : "",
+      }));
+    }
+  }, [state.user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
+
+    if (!state.user) {
+      alert("You must be logged in to make a reservation.");
+      navigate("/RegisterLogin", { state: { from: location } });
+      setLoading(false);
+      return;
+    }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/reservations', formData);
+      const response = await axios.post("http://localhost:5000/api/reservations", formData);
       setReservation(response.data);
+      if (payNow) {
+        setIsModalOpen(true);
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'An error occurred');
+      setError(err.response?.data?.message || "An error occurred while creating the reservation.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handlePaymentSuccess = (paymentData) => {
-    setPaymentSuccess(true);
-    console.log('Payment successful:', paymentData);
+    alert("Payment Successful");
+    console.log("Payment Data:", paymentData);
+    setReservation((prev) => ({
+      ...prev,
+      isPaid: true,
+    }));
+    setIsModalOpen(false);
   };
 
   const handlePaymentError = (message) => {
+    alert("Payment Failed");
+    console.log("Payment Error:", message);
     setError(`Payment error: ${message}`);
   };
 
@@ -61,17 +109,6 @@ const ReservationForm = ({ roomId, hotelId }) => {
       <h2>Create a Reservation</h2>
       {!reservation ? (
         <form onSubmit={handleSubmit}>
-          <div>
-            <label>User ID:</label>
-            <input
-              type="text"
-              name="userId"
-              value={formData.userId}
-              onChange={handleChange}
-              required
-              readOnly
-            />
-          </div>
           <div>
             <label>Start Date:</label>
             <input
@@ -92,36 +129,52 @@ const ReservationForm = ({ roomId, hotelId }) => {
               required
             />
           </div>
-          <button type="submit">Create Reservation</button>
+
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={payNow}
+                onChange={(e) => setPayNow(e.target.checked)}
+              />
+              Pay Now
+            </label>
+          </div>
+          <button type="submit" disabled={loading}>
+            {loading ? "Creating..." : "Create Reservation"}
+          </button>
         </form>
       ) : (
-        <>
-          {!paymentSuccess ? (
-            <div>
-              <h3>Reservation Details</h3>
-              <p>Reservation ID: {reservation._id}</p>
-              <p>Room Number: {reservation.roomnumber}</p>
-              <p>User ID: {reservation.userId}</p>
-              <p>Start Date: {new Date(reservation.startDate).toLocaleDateString()}</p>
-              <p>End Date: {new Date(reservation.endDate).toLocaleDateString()}</p>
-
-              <h3>Payment</h3>
-              <PaymentForm
-                reservationId={reservation._id}
-                onPaymentSuccess={handlePaymentSuccess}
-                onPaymentError={handlePaymentError}
-              />
-            </div>
-          ) : (
-            <div>
-              <h3>Payment Successful</h3>
-              <p>Your reservation and payment were completed successfully.</p>
-            </div>
-          )}
-        </>
+        <div>
+          <h3>Reservation Details</h3>
+          <p>Reservation ID: {reservation._id}</p>
+          <p>Room Number: {reservation.roomnumber}</p>
+          <p>User ID: {reservation.userId}</p>
+          <p>Start Date: {new Date(reservation.startDate).toLocaleDateString()}</p>
+          <p>End Date: {new Date(reservation.endDate).toLocaleDateString()}</p>
+          <p>Status: {reservation.status}</p>
+          <p>Payment Status: {reservation.isPaid ? "Paid" : "Not Paid"}</p>
+        </div>
       )}
 
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        style={customStyles}
+        contentLabel="Payment Modal"
+      >
+        <h2>Payment</h2>
+        <StripePaymentForm
+          reservationId={reservation?._id}
+          onPaymentSuccess={handlePaymentSuccess}
+          onPaymentError={handlePaymentError}
+        />
+        <button onClick={() => setIsModalOpen(false)} style={{ marginTop: "10px" }}>
+          Close
+        </button>
+      </Modal>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };

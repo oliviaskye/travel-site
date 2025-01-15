@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; 
 import { useValue } from "../context/ContextProvider";
 
 const Login = () => {
@@ -12,7 +12,11 @@ const Login = () => {
   const [err, setErr] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation(); 
   const { dispatch } = useValue();
+
+
+  const redirectPath = location.state?.from?.pathname || "/";
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -32,12 +36,12 @@ const Login = () => {
       if (response.data.success) {
         dispatch({ type: "UPDATE_USER", payload: response.data.result });
 
-    
+   
         localStorage.setItem("userId", response.data.result.id);
         localStorage.setItem("email", response.data.result.email);
 
-        navigate("/UserProfile");
-        //TODO: change back to /
+ 
+        navigate(redirectPath);
       }
     } catch (error) {
       const errorMessage =
@@ -55,22 +59,26 @@ const Login = () => {
         <div className="input">
           <h2 className="title">Login</h2>
           <form onSubmit={handleLogin}>
-            <label htmlFor='input'>email/phone number</label><br/>
+            <label htmlFor="input">Email/Phone Number</label>
+            <br />
             <input
               type="text"
               placeholder="Email or Phone Number"
               name="emailOrPhone"
               onChange={handleChange}
               required
-            /><br/>
-            <label htmlFor='input'>password</label><br/>
+            />
+            <br />
+            <label htmlFor="input">Password</label>
+            <br />
             <input
               type="password"
               placeholder="Password"
               name="password"
               onChange={handleChange}
               required
-            /><br/>
+            />
+            <br />
             {err && <p className="error">{err}</p>}
             <button type="submit" disabled={isLoading}>
               {isLoading ? "Logging in..." : "Login"}

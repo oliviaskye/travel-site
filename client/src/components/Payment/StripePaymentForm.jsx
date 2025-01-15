@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 
-const StripePaymentForm = () => {
+const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) => {
   const stripe = useStripe();
   const elements = useElements();
 
   const [email, setEmail] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(""); 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -23,35 +23,35 @@ const StripePaymentForm = () => {
     }
 
     try {
-      // Create PaymentIntent on the server
-      const { data } = await axios.post("/api/create-payment-intent", {
-        amount: parseFloat(amount) * 100, // Convert to cents
+      const { data } = await axios.post("http://localhost:5000/api/payment", {
+        amount: parseFloat(amount) * 100,
         email,
+        reservationId,
       });
 
       const clientSecret = data.clientSecret;
 
-      // Confirm the payment using client_secret
+      // Getting the CardElement from elements
       const cardElement = elements.getElement(CardElement);
-      const { error, paymentIntent } = await stripe.confirmCardPayment(
-        clientSecret,
-        {
-          payment_method: {
-            card: cardElement,
-            billing_details: {
-              email,
-            },
+
+      // Confirm the payment
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            email,
           },
-        }
-      );
+        },
+      });
 
       if (error) {
-        setMessage(`Payment failed: ${error.message}`);
+        onPaymentError(error.message);
       } else if (paymentIntent.status === "succeeded") {
-        setMessage("Payment succeeded!");
+        onPaymentSuccess(paymentIntent);
       }
     } catch (error) {
       setMessage(`An unexpected error occurred: ${error.message}`);
+      onPaymentError(error.message);
     } finally {
       setLoading(false);
     }
@@ -59,12 +59,12 @@ const StripePaymentForm = () => {
 
   return (
     <div>
-      <h1>Stripe Payment in React</h1>
+      <h2>Stripe Payment Form</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <input
             type="email"
-            placeholder="Your email"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -92,4 +92,3 @@ const StripePaymentForm = () => {
 };
 
 export default StripePaymentForm;
-

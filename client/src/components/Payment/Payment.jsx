@@ -6,12 +6,12 @@ import axios from "axios";
 // Stripe public key
 const stripePromise = loadStripe("pk_test_51QFvkhLAzYW8YRzjlm4VYKp19bMXpFMoHcCsHM3wda661NR4YOjHO2iyXMrDZmNqKfGUNXD5neKjeUmt1mTClIgc00RBYWEAAX");
 
-const StripePaymentForm = () => {
+const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) => {
   const stripe = useStripe();
   const elements = useElements();
 
   const [email, setEmail] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(""); // Amount should be passed dynamically from Reservation data
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -31,9 +31,10 @@ const StripePaymentForm = () => {
       const { data } = await axios.post("http://localhost:5000/api/payment", {
         amount: parseFloat(amount) * 100, // Convert to cents
         email,
+        reservationId,
       });
 
-      const clientSecret = data.clientSecret; // Dynamically use the clientSecret returned from the backend
+      const clientSecret = data.clientSecret;
 
       // Getting the CardElement from elements
       const cardElement = elements.getElement(CardElement);
@@ -49,12 +50,13 @@ const StripePaymentForm = () => {
       });
 
       if (error) {
-        setMessage(`Payment failed: ${error.message}`);
+        onPaymentError(error.message);
       } else if (paymentIntent.status === "succeeded") {
-        setMessage("Payment succeeded!");
+        onPaymentSuccess(paymentIntent);
       }
     } catch (error) {
       setMessage(`An unexpected error occurred: ${error.message}`);
+      onPaymentError(error.message);
     } finally {
       setLoading(false);
     }
@@ -62,7 +64,6 @@ const StripePaymentForm = () => {
 
   return (
     <div>
-      <h1>Stripe Payment with React</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <input

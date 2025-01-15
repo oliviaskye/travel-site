@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Nav from '../Nav/Nav';
 import axios from 'axios';
 import UpdateProfile from './UpdateProfile';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +11,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchUser = async () => {
     const fetchUser = async () => {
       try {
         const userId = localStorage.getItem("userId");
@@ -63,6 +65,11 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile">
+      <Nav />
+      
+      <Link to={`/UserReservation`}>
+       UserReservation
+       </Link>
 
       <h2>User Profile</h2>
       <div>
