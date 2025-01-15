@@ -68,6 +68,13 @@ const ReservationForm = () => {
     setError(null);
     setLoading(true);
 
+    // تحقق من وجود جميع الحقول المطلوبة
+    if (!formData.hotelId || !formData.roomId || !formData.userId || !formData.startDate || !formData.endDate) {
+      setError("All fields are required.");
+      setLoading(false);
+      return;
+    }
+
     if (!state.user) {
       alert("You must be logged in to make a reservation.");
       navigate("/RegisterLogin", { state: { from: location } });

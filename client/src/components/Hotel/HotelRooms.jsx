@@ -37,13 +37,22 @@ const HotelRoomsx = () => {
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false); 
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [currentRoomImages, setCurrentRoomImages] = useState([]);
-  const [isReservationModalOpen, setIsReservationModalOpen] = useState(false); 
-  const [selectedRoom, setSelectedRoom] = useState(null); 
+  const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState(null);
   const navigate = useNavigate();
 
-  
+  // Save hotelId and roomId in localStorage
+  useEffect(() => {
+    if (hotelId) {
+      localStorage.setItem('hotelId', hotelId);
+    }
+    if (roomId) {
+      localStorage.setItem('roomId', roomId);
+    }
+  }, [hotelId, roomId]);
+
   useEffect(() => {
     const fetchRooms = async () => {
       try {
@@ -88,8 +97,12 @@ const HotelRoomsx = () => {
   };
 
   const openReservationModal = (room) => {
-    setSelectedRoom(room);
-    setIsReservationModalOpen(true);
+    // Save hotelId and roomId in localStorage when "Book Now" is clicked
+    localStorage.setItem('hotelId', hotelId);  // Save hotelId
+    localStorage.setItem('roomId', room._id);  // Save roomId
+    
+    setSelectedRoom(room);  // Set the selected room
+    setIsReservationModalOpen(true);  // Open the reservation modal
   };
 
   const closeReservationModal = () => {
@@ -133,14 +146,12 @@ const HotelRoomsx = () => {
               <p>{room.details}</p>
               <p><strong>Price:</strong> ${room.price}</p>
               <p><strong>Room Number:</strong> {room.roomNumber}</p>
-      
               <button onClick={() => openReservationModal(room)}>Book Now</button>
             </div>
           </div>
         ))}
       </div>
 
-     
       <Modal
         isOpen={isImageModalOpen}
         onRequestClose={closeImageModal}
@@ -166,7 +177,6 @@ const HotelRoomsx = () => {
         <button onClick={closeImageModal} style={{ marginTop: "10px" }}>Close</button>
       </Modal>
 
-   
       <Modal
         isOpen={isReservationModalOpen}
         onRequestClose={closeReservationModal}
