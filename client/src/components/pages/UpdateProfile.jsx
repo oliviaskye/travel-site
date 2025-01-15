@@ -42,7 +42,7 @@ const UpdateProfile = (userId) => {
 
     if (!inputs.name || !inputs.email || !inputs.password || !inputs.age ||  
         !inputs.phoneNumber || !inputs.country || !inputs.gender) {
-      setError("All fields are required.");
+      alert("All fields are required.");
     } 
     else {
       try {
