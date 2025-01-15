@@ -90,13 +90,13 @@ const Hotels = () => {
         {filteredHotels.map((hotel) => (
           <div key={hotel._id} className="hotel-card">
             <div className="hotel-image">
-              <img
+              {/* <img
                 src={`http://localhost:5000/${
                   hotel.img ? hotel.img.replace(/\\/g, "/") : "default-image.jpg"
                 }`}
                 alt={hotel.name}
                 className="hotel-img"
-              />
+              /> */}
             </div>
             <div className="hotel-info">
               <h3>{hotel.name}</h3>

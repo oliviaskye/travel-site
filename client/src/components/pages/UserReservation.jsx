@@ -15,6 +15,8 @@ import {
   Box,
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import "../Nav/Nav"
+import Nav from "../Nav/Nav";
 
 const UserReservation = () => {
   const [reservations, setReservations] = useState([]);
@@ -80,12 +82,14 @@ const UserReservation = () => {
 
   if (loading) {
     return (
+     
       <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
         minHeight="100vh"
       >
+       
         <CircularProgress />
       </Box>
     );
@@ -93,6 +97,7 @@ const UserReservation = () => {
 
   if (error) {
     return (
+      
       <Box
         display="flex"
         justifyContent="center"
@@ -107,6 +112,8 @@ const UserReservation = () => {
   }
 
   return (
+    <div>
+        <Nav />
     <Box p={3}>
       <Typography variant="h4" gutterBottom>
         Reservation History
@@ -182,6 +189,8 @@ const UserReservation = () => {
         </Table>
       </TableContainer>
     </Box>
+
+    </div>
   );
 };
 
