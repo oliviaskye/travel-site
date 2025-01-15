@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+=======
+
+import React from "react";
+>>>>>>> 01f5fb9425a6a48dce9d152382c3169c5238801a
 import axios from "axios";
 
 // Stripe public key
@@ -54,15 +59,22 @@ const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) 
       } else if (paymentIntent.status === "succeeded") {
         onPaymentSuccess(paymentIntent);
       }
+<<<<<<< HEAD
     } catch (error) {
       setMessage(`An unexpected error occurred: ${error.message}`);
       onPaymentError(error.message);
     } finally {
       setLoading(false);
+=======
+    } catch (err) {
+      onPaymentError(err.message);
+
+>>>>>>> 01f5fb9425a6a48dce9d152382c3169c5238801a
     }
   };
 
   return (
+<<<<<<< HEAD
     <div>
       <form onSubmit={handleSubmit}>
         <div>
@@ -102,3 +114,32 @@ const App = () => (
 );
 
 export default App;
+=======
+
+    <form onSubmit={handleSubmit}>
+      <CardElement
+        options={{
+          style: {
+            base: {
+              fontSize: "16px",
+              color: "#424770",
+              "::placeholder": {
+                color: "#aab7c4",
+              },
+            },
+            invalid: {
+              color: "#9e2146",
+            },
+          },
+        }}
+      />
+      <button type="submit" disabled={!stripe}>
+        Submit Payment
+      </button>
+    </form>
+  );
+};
+
+export default PaymentForm;
+
+>>>>>>> 01f5fb9425a6a48dce9d152382c3169c5238801a
