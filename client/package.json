@@ -41,6 +41,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "start": "vite start",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",

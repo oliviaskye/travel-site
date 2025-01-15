@@ -17,14 +17,14 @@ import PaymentForm from "./components/Payment/Payment";
 
 import UserProfile from "./components/pages/UserProfile";
 import UserReservation from "./components/pages/UserReservation";
+import UpdateProfile from "./components/pages/UpdateProfile";
 
 import Map from "./Map/Map/Map";
 
 
 const stripePromise = loadStripe("pk_test_51QFvkhLAzYW8YRzjlm4VYKp19bMXpFMoHcCsHM3wda661NR4YOjHO2iyXMrDZmNqKfGUNXD5neKjeUmt1mTClIgc00RBYWEAAX");
-
-
 // Stripe public key
+
 
 
 function App() {
@@ -41,9 +41,10 @@ function App() {
           <Route path="/reservation/:roomId/:hotelId" element={<ReservationForm />} />
 
           <Route path="/HotelFltring" element={<HotelFltring />} />
-          <Route path="/UserProfile" element={<UserProfile />} />
-
           <Route path="/UserReservation" element={<UserReservation />} />
+
+          <Route path="/UserProfile" element={<UserProfile/>} />
+          <Route path="/UpdateProfile" element={<UpdateProfile/>} />
 
           <Route path="/payment/:reservationId" element={<PaymentForm />} />
         </Routes>

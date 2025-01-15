@@ -108,13 +108,28 @@ export const login = async (req, res) => {
 };
 
 
-export  const GetUsers= async (req, res) => {
+export  const getUsers= async (req, res) => {
   try {
       const users = await User.find(); 
       res.json(users);
   } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server error, could not fetch users.' });
+  }
+}
+
+export  const getUser = async (req, res) => {
+  try {
+  
+    const user = await User.findById(req.params.id); 
+
+    if (!user) {
+      return res.status(404).json({message: "not found"});
+    }
+    res.json(user);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error, could not fetch user.' });
   }
 }
 
@@ -135,35 +150,53 @@ export const deleteUser = async (req, res) => {
 };
 
 
-export const PutUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   
   try {
-    const { id } = req.params;
-    const user = await User.findByIdAndDelete(id);
+    const user = await User.findById(req.params.id);
+    const { name, email, password, age, phoneNumber, country, gender } =
+      req.body;
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be 6 characters or more",
+      });
     }
 
-    res.status(200).json({ message: "User deleted successfully." }); 
+    const emailLowerCase = email.toLowerCase();
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, {
+      name,
+      email: emailLowerCase,
+      password: hashedPassword,
+      age,
+      phoneNumber,
+      country,
+      gender,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "User updated successfully!",
+      user: {
+        id: user._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        age: updatedUser.age,
+        phoneNumber: updatedUser.phoneNumber,
+        country: updatedUser.country,
+        gender: updatedUser.gender,
+      },
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error deleting user." }); 
+    return res.status(500).json({
+      success: false,
+      message: "Server error. Please try again later.",
+    });
   }
+
 };
-
-
-export  const getUser = async (req, res) => {
-  try {
-  
-    const user = await User.findById(req.params.id); 
-
-    if (!user) {
-      return res.status(404).json({message: "not found"});
-    }
-    res.json(user);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error, could not fetch user.' });
-  }
-}

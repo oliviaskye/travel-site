@@ -40,7 +40,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
 app.use("/api/auth", authRoutes);
+
 app.use("/api/", GetUsers);
+
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/hotels", roomRoutes);
 app.use("/api/reservations", reservationRoutes);
