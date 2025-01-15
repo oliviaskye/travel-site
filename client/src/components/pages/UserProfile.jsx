@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Nav from '../Nav/Nav';
 import axios from 'axios';
-import UpdateProfile from './UpdateProfile';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
 
@@ -11,7 +11,6 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUser = async () => {
     const fetchUser = async () => {
       try {
         const userId = localStorage.getItem("userId");
@@ -51,16 +50,7 @@ const UserProfile = () => {
   };
 
   const updateProfile = () => {
-    if(confirm("navigate to update profile?"))
-      try{
         navigate("/UpdateProfile");
-      } catch (error) {
-        setError('Error opening update profile page');
-        console.error(error);
-      }
-    else{
-      console.log("User not updated");
-    }
   };
 
   return (
