@@ -32,20 +32,32 @@ const Register = () => {
         !inputs.phoneNumber || !inputs.country || !inputs.gender) {
       setErr("All fields are required.");
     } else {
-      try {
-        const response = await axios.post('http://localhost:5000/api/auth/register', inputs);
-        console.log(response.data); 
-        setErr(null);
-        alert("Registration successful!"); 
-        dispatch({ type: "UPDATE_USER", payload: response.data.user });
-        navigate("/"); 
-        
-      } catch (error) {
-        console.error('Error during registration:', error.response.data);
-        setErr(error.response.data.message || 'Registration failed.'); 
-      }
+        if (inputs.password !== inputs.confirmPassword) {
+          alert("Passwords don't match");
+        } else {
+            try {
+              const response = await axios.post('http://localhost:5000/api/auth/register', inputs);
+              console.log(response.data); 
+              setErr(null);
+              alert("Registration successful!"); 
+              dispatch({ type: "UPDATE_USER", payload: response.data.user });
+              navigate("/"); 
+            
+            } catch (error) {
+              console.error('Error during registration:', error.response.data);
+              setErr(error.response.data.message || 'Registration failed.'); 
+            }
+        }
     }
   };
+
+  // const confirmPassword = () => {
+  //   if (typeof inputs.password !== "undefined" && typeof inputs.confirmPassword !== "undefined") {
+  //     if (inputs.password !== inputs.confirmPassword) {
+  //       alert("Passwords do not match.");
+  //     }
+  //   }  
+  // }
 
   return (
     <div className="register">
@@ -75,6 +87,12 @@ const Register = () => {
               placeholder="Password"
               name="password"
               onChange={handleChange}
+              required
+            /><br/>
+            <input
+              type="password"
+              placeholder="Confirm password"
+              name="confirmPassword"
               required
             /><br/>
             <label>age</label><br/>
