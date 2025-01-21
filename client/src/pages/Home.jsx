@@ -4,7 +4,7 @@ import Footer from "../components/footer/Footer";
 import Nav from "../components/Nav/Nav";
 import Hotels from "../components/Hotel/Hotel";
 import FutureTrip from "../components/Future/FutureTrip";
-import "./Home.css";
+import "../index.css";
 
 const Home = () => {
   return (

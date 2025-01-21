@@ -1,17 +1,43 @@
-import React, { useRef, useEffect } from "react";
-import "../../index.css"
+import React, { useRef, useEffect, useState } from "react";
+import "../../index.css";
 import WebsiteLogo from "../../assets/WebsiteLogo.png";
 import { Link, useNavigate } from "react-router-dom";
+import XSound from "../../assets/XSound.wav";
+import LightDark from "../../Light-Dark";
 
 function Nav() {
   const Menu = useRef();
   const Navbar = useRef();
-
   const navigate = useNavigate();
+
+  const [isPlaying, setIsPlaying] = useState(false); 
+  const audioRef = useRef(null); 
+
+  useEffect(() => {
+    audioRef.current = new Audio(XSound);
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const toggleSound = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause(); 
+      } else {
+        audioRef.current.play(); 
+      }
+      setIsPlaying(!isPlaying); 
+    }
+  };
 
   const NavHandler = () => {
     if (Menu.current) {
-      Menu.current.classList.toggle("active-nav"); // Adjusted for global styles
+      Menu.current.classList.toggle("active-nav");
     }
   };
 
@@ -19,7 +45,7 @@ function Nav() {
     const handleScroll = () => {
       if (Navbar.current) {
         if (window.scrollY > 100) {
-          Navbar.current.classList.add("navbar-active"); // Adjusted for global styles
+          Navbar.current.classList.add("navbar-active");
         } else {
           Navbar.current.classList.remove("navbar-active");
         }
@@ -50,10 +76,6 @@ function Nav() {
           <Link to={`/`}>
             <li>Home</li>
           </Link>
-          <li>Destination</li>
-          <li>Recommended</li>
-          <li>Testimonials</li>
-          <li>Inspiration</li>
           <Link to={`/map`}>
             <li>Map</li>
           </Link>
@@ -64,6 +86,10 @@ function Nav() {
       </div>
 
       <div className="nav-buttons">
+        <button className="button" onClick={toggleSound}>
+          {isPlaying ? "Sound Off" : "Sound On"}
+        </button>
+        <LightDark /> 
         <button className="button" onClick={handleNavigateToRegister}>
           Signin
         </button>
