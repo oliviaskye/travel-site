@@ -59,16 +59,19 @@ function Nav() {
           </Link>
           <Link to={`/UserProfile`}>
             <li>Profile</li>
-          </Link>
-        </ul>
-      </div>
 
-      <div className="nav-buttons">
+          </Link>
+
+          <div className="nav-buttons">
         <button className="button" onClick={handleNavigateToRegister}>
           Signin
         </button>
         <i className="ri-menu-3-line" onClick={NavHandler}></i>
       </div>
+        </ul>
+      </div>
+
+      
     </div>
   );
 }
