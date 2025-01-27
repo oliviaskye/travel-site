@@ -10,10 +10,8 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
-    age: "",
     phoneNumber: "",
     country: "",
-    gender: "",
   });
   const [confirmation, setConfirmation] = useState({
     confirmPassword: "",
@@ -34,8 +32,8 @@ const Register = () => {
   const handleClick = async (e) => {
     e.preventDefault();
 
-    if (!inputs.name || !inputs.email || !inputs.password || !inputs.age ||
-        !inputs.phoneNumber || !inputs.country || !inputs.gender) {
+    if (!inputs.name || !inputs.email || !inputs.password ||
+        !inputs.phoneNumber || !inputs.country) {
       setErr("All fields are required.");
     } else {
         if (inputs.password !== confirmation.confirmPassword) {
@@ -93,14 +91,6 @@ const Register = () => {
               onChange={handleConfirm}
               required
             /><br/>
-          <label>Age</label>
-          <input
-            type="number"
-            placeholder="Age"
-            name="age"
-            onChange={handleChange}
-            required
-          />
           <label>Phone Number</label>
           <input
             type="text"
@@ -111,33 +101,6 @@ const Register = () => {
           />
           <label>Country</label>
           <CountrySelect selectedCountry={inputs.country} onChange={handleChange} />
-          <label>Gender</label>
-          <div>
-            <input
-              type="radio"
-              name="gender"
-              value="Male"
-              onChange={handleChange}
-              required
-            />
-            Male
-            <input
-              type="radio"
-              name="gender"
-              value="Female"
-              onChange={handleChange}
-              required
-            />
-            Female
-            <input
-              type="radio"
-              name="gender"
-              value="Other"
-              onChange={handleChange}
-              required
-            />
-            Other
-          </div>
           {err && <p className="auth-error">{err}</p>}
           <button onClick={handleClick}>Register</button>
         </form>

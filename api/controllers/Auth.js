@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password, age, phoneNumber, country, gender } =
+    const { name, email, password, phoneNumber, country } =
       req.body;
 
     if (password.length < 6) {
@@ -30,10 +30,8 @@ export const register = async (req, res) => {
       name,
       email: emailLowerCase,
       password: hashedPassword,
-      age,
       phoneNumber,
       country,
-      gender,
     });
 
     return res.status(201).json({
@@ -43,10 +41,8 @@ export const register = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        age: user.age,
         phoneNumber: user.phoneNumber,
-        country: user.country,
-        gender: user.gender,
+        country: user.country
       },
     });
   } catch (error) {
@@ -154,7 +150,7 @@ export const deleteUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const { name, email, password, age, phoneNumber, country, gender } = req.body;
+    const { name, email, password, phoneNumber, country } = req.body;
 
    
 
@@ -173,10 +169,8 @@ export const updateUser = async (req, res) => {
         name,
         email: emailLowerCase,
         password: hashedPassword || undefined, 
-        age,
         phoneNumber,
         country,
-        gender,
       }, 
       { new: true }
     );
@@ -194,10 +188,8 @@ export const updateUser = async (req, res) => {
 
         name: updatedUser.name,
         email: updatedUser.email,
-        age: updatedUser.age,
         phoneNumber: updatedUser.phoneNumber,
         country: updatedUser.country,
-        gender: updatedUser.gender,
       },
     });
   } catch (error) {

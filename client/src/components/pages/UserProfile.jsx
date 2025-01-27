@@ -70,16 +70,10 @@ const UserProfile = () => {
         <strong>Email:</strong> {user.email}
       </div>
       <div>
-        <strong>Age:</strong> {user.age}
-      </div>
-      <div>
         <strong>Phone:</strong> {user.phoneNumber}
       </div>
       <div>
         <strong>Country:</strong> {user.country}
-      </div>
-      <div>
-        <strong>Gender:</strong> {user.gender}
       </div>
       <div>
         <button onClick={() => updateProfile()}>edit profile</button> 
