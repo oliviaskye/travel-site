@@ -46,7 +46,7 @@ const Register = () => {
               setErr(null);
               alert("Registration successful!"); 
               dispatch({ type: "UPDATE_USER", payload: response.data.user });
-              navigate("/"); 
+              navigate("/");
             
             } catch (error) {
               console.error('Error during registration:', error.response.data);
