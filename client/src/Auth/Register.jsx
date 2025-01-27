@@ -14,8 +14,9 @@ const Register = () => {
     country: "",
     gender: "",
   });
-
-
+  const [confirmation, setConfirmation] = useState({
+    confirmPassword: "",
+  })
   
   const [err, setErr] = useState(null);
   const { dispatch } = useValue();
@@ -25,6 +26,10 @@ const Register = () => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleConfirm = (e) => {
+    setConfirmation((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -32,12 +37,12 @@ const Register = () => {
         !inputs.phoneNumber || !inputs.country || !inputs.gender) {
       setErr("All fields are required.");
     } else {
-        if (inputs.password !== inputs.confirmPassword) {
-          alert("Passwords don't match");
+        if (inputs.password !== confirmation.confirmPassword) {
+          setErr("Passwords don't match.");
         } else {
             try {
               const response = await axios.post('http://localhost:5000/api/auth/register', inputs);
-              console.log(response.data); 
+              console.log(response.data);
               setErr(null);
               alert("Registration successful!"); 
               dispatch({ type: "UPDATE_USER", payload: response.data.user });
@@ -50,14 +55,6 @@ const Register = () => {
         }
     }
   };
-
-  // const confirmPassword = () => {
-  //   if (typeof inputs.password !== "undefined" && typeof inputs.confirmPassword !== "undefined") {
-  //     if (inputs.password !== inputs.confirmPassword) {
-  //       alert("Passwords do not match.");
-  //     }
-  //   }  
-  // }
 
   return (
     <div className="register">
@@ -93,6 +90,7 @@ const Register = () => {
               type="password"
               placeholder="Confirm password"
               name="confirmPassword"
+              onChange={handleConfirm}
               required
             /><br/>
             <label>age</label><br/>
