@@ -48,8 +48,8 @@ const UpdateProfile = () => {
   const handleClick = async (e) => {
     e.preventDefault();
 
-    if (!inputs.name || !inputs.email || !inputs.password || !inputs.age ||  
-        !inputs.phoneNumber || !inputs.country || !inputs.gender) {
+    if (!inputs.name || !inputs.email || !inputs.password ||  
+        !inputs.phoneNumber || !inputs.country ) {
       alert("All fields are required.");
     } 
     else {
@@ -113,14 +113,6 @@ const UpdateProfile = () => {
               onChange={handleConfirm}
               required
             /><br/>
-            <label>age</label><br/>
-            <input
-              type="number"
-              placeholder="Age"
-              name="age"
-              onChange={handleChange}
-              required
-            /><br/>
             <label>phone number</label><br/>
             <input
               type="text"
@@ -131,39 +123,6 @@ const UpdateProfile = () => {
             /><br/>
             <label>country</label><br/>
             <CountrySelect selectedCountry={inputs.country} onChange={handleChange} />
-
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Male"
-                  onChange={handleChange}
-                  required
-                />
-                Male
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Female"
-                  onChange={handleChange}
-                  required
-                />
-                Female
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Other"
-                  onChange={handleChange}
-                  required
-                />
-                Other
-              </label>
-            </div>
             
             {error && <p className="error">{error}</p>}
             <button onClick={handleClick}>Update</button>
