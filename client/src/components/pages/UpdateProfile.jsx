@@ -3,6 +3,7 @@ import axios from "axios";
 import CountrySelect from "../../Auth/CountrySelect"; 
 import { useNavigate } from "react-router-dom";
 
+
 const UpdateProfile = () => {
   const [user, setUser] = useState([]);
   const [inputs, setInputs] = useState([]); 
@@ -39,7 +40,7 @@ const UpdateProfile = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-  
+
     if (!inputs.name || !inputs.email || !inputs.password || !inputs.age ||  
         !inputs.phoneNumber || !inputs.country || !inputs.gender) {
       setError("All fields are required.");
@@ -60,7 +61,6 @@ const UpdateProfile = () => {
       }
     }
   };
-  
 
   const cancelUpdate = () => {
     navigate("/UserProfile");
