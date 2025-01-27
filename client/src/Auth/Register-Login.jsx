@@ -7,8 +7,6 @@ import { useLocation } from "react-router-dom";
 function RegisterLogin() {
   const [isLogin, setIsLogin] = useState(true);
   const location = useLocation();
-
-
   const redirectPath = location.state?.from?.pathname || "/";
 
   const handleOptionClick = (option) => {
@@ -17,17 +15,28 @@ function RegisterLogin() {
 
   return (
     <div>
-            <Nav />
-            <br/>
-            <br/>
-            <br/>
-            <br/> <br/>
-            <br/>
-      <div>
-        <button onClick={() => handleOptionClick("login")}>Login</button>
-        <button onClick={() => handleOptionClick("register")}>Register</button>
+      <Nav />
+      <div className="auth-container">
+        <div className="option-buttons">
+          <button
+            className={`button ${isLogin ? "active" : ""}`}
+            onClick={() => handleOptionClick("login")}
+          >
+            Login
+          </button>
+          <button
+            className={`button ${!isLogin ? "active" : ""}`}
+            onClick={() => handleOptionClick("register")}
+          >
+            Register
+          </button>
+        </div>
+        <div className="divider"></div>
+
+        <div className="auth-forms">
+          {isLogin ? <Login redirectPath={redirectPath} /> : <Register />}
+        </div>
       </div>
-      {isLogin ? <Login redirectPath={redirectPath} /> : <Register />}
     </div>
   );
 }

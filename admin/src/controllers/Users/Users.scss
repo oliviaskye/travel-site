@@ -5,15 +5,15 @@
 
 .user-list-container {
   flex: 1;
-  margin-left: 250px; /* Adjust this margin to match the width of the sidebar */
+  margin-left: 250px;
   padding: 20px;
-  background-color: #f4f4f4; /* Background color for better contrast */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
+  background-color: #f4f4f4; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 h1 {
-  font-size: 1.8rem; /* Adjusted size to make it smaller */
+  font-size: 1.8rem; 
   margin-bottom: 20px;
   color: #333;
 }
@@ -28,7 +28,7 @@ h1 {
 
 input {
   padding: 8px;
-  width: 250px; /* Reduced width for better spacing */
+  width: 250px; 
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
@@ -41,7 +41,7 @@ input:focus {
 }
 
 button {
-  padding: 8px 14px; /* Reduced padding for a more compact button */
+  padding: 8px 14px; 
   background-color: #ff4d4d;
   color: white;
   border: none;
@@ -63,14 +63,14 @@ table {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  table-layout: fixed; /* Ensures columns fit better */
+  table-layout: fixed; 
 }
 
 th, td {
-  padding: 8px; /* Reduced padding for compactness */
+  padding: 8px; 
   text-align: left;
   border-bottom: 1px solid #ddd;
-  font-size: 14px; /* Reduced font size */
+  font-size: 14px;
 }
 
 th {

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Box, TextField, Button, Typography } from '@mui/material';
 import { fetchCityCoordinates, fetchHotelsByCity } from '../Search/Search';
 import { initializeMap, flyToLocation } from '../mapUtils/mapUtils';
+import Nav from "../../components/Nav/Nav";
 import { Link } from "react-router-dom";
 import mapboxgl from 'mapbox-gl';
 
@@ -72,7 +73,10 @@ const Map = () => {
     }
   };
   return (
+    <div>
+      <Nav/>
     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+
 
       <Box sx={{ width: '300px', padding: '20px', overflowY: 'auto' }}>
         <TextField
@@ -129,6 +133,7 @@ const Map = () => {
         <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
       </Box>
     </Box>
+    </div>
   );
 };
 

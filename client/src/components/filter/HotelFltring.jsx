@@ -15,28 +15,28 @@ const HotelFltring = () => {
 
   useEffect(() => {
     const fetchHotels = async () => {
-      if (!destination || !priceRange || priceRange[0] > priceRange[1]) {
+      if (!destination || !priceRange || priceRange[1] <= 0) {
         setError("Invalid parameters. Please ensure you selected a valid destination and price range.");
         setLoading(false);
         return;
       }
-
+    
       try {
         const response = await axios.get("http://localhost:5000/api/hotels/filter", {
           params: {
             city: destination,
-            minPrice: priceRange[0],
             maxPrice: priceRange[1],
           },
         });
         setHotels(response.data);
       } catch (error) {
-        console.error("Error fetching hotels:", error);
         setError(error.response?.data?.message || "Failed to fetch hotels. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
+    
+    
 
     fetchHotels();
   }, [destination, priceRange]);

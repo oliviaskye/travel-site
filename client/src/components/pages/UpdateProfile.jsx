@@ -3,7 +3,8 @@ import axios from "axios";
 import CountrySelect from "../../Auth/CountrySelect"; 
 import { useNavigate } from "react-router-dom";
 
-const UpdateProfile = (userId) => {
+
+const UpdateProfile = () => {
   const [user, setUser] = useState([]);
   const [inputs, setInputs] = useState([]); 
   const [error, setError] = useState(null);
@@ -47,6 +48,7 @@ const UpdateProfile = (userId) => {
     else {
       try {
         const userId = localStorage.getItem("userId");
+        console.log("Inputs being sent:", inputs); 
         const response = await axios.put(`http://localhost:5000/api/auth/users/${userId}`, inputs);
         const user = response.data;
         setError(null);

@@ -16,7 +16,7 @@ import { fileURLToPath } from 'url';
 dotenv.config();
 const app = express();
 
-// Check if 'uploads' directory exists, if not, create it
+
 if (!fs.existsSync("uploads")) {
     fs.mkdirSync("uploads");
 }
