@@ -1,4 +1,3 @@
-/* Container for the page */
 .home {
     display: flex;
     justify-content: flex-start;
@@ -8,7 +7,6 @@
     background-color: #f4f4f4;
   }
   
-  /* Sidebar Styling */
   .Sidebar {
     width: 250px;
     height: 100%;
@@ -45,7 +43,7 @@
     color: #007bff;
   }
   
-  /* AddHotel Form Styling */
+  
   form {
     max-width: 800px;
     width: 100%;
@@ -53,8 +51,8 @@
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-left: 280px; /* To avoid overlap with the sidebar */
-    margin-top: 50px; /* To avoid overlap with the header */
+    margin-left: 280px; 
+    margin-top: 50px;
   }
   
   form h2 {

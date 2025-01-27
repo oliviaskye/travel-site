@@ -27,6 +27,7 @@ const Hotels = () => {
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentHotelImages, setCurrentHotelImages] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // To track the current image index
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -61,7 +62,20 @@ const Hotels = () => {
 
   const handleViewImages = (hotel) => {
     setCurrentHotelImages(hotel.photos || []);
+    setCurrentImageIndex(0); // Reset to first image
     setIsModalOpen(true);
+  };
+
+  const handleNextImage = () => {
+    if (currentImageIndex < currentHotelImages.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
+    }
+  };
+
+  const handlePrevImage = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
   };
 
   const closeModal = () => {
@@ -108,7 +122,6 @@ const Hotels = () => {
               <p><strong>Phone Number:</strong> {hotel.phoneNumber}</p>
               <Link to={`/hotels/${hotel._id}/rooms`}>Go to Rooms</Link>
 
-            
               {hotel.photos && hotel.photos.length > 0 && (
                 <button onClick={() => handleViewImages(hotel)}>
                   See Pics
@@ -119,7 +132,6 @@ const Hotels = () => {
         ))}
       </div>
 
-   
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
@@ -129,18 +141,31 @@ const Hotels = () => {
         <h2>Hotel Images</h2>
         <div className="image-gallery">
           {currentHotelImages.length > 0 ? (
-            currentHotelImages.map((img, index) => (
-              <img
-                key={index}
-                src={`http://localhost:5000/${img.replace(/\\/g, "/")}`}
-                alt={`Hotel Image ${index + 1}`}
-                className="gallery-image"
-              />
-            ))
+            <img
+              src={`http://localhost:5000/${currentHotelImages[currentImageIndex].replace(
+                /\\/g,
+                "/"
+              )}`}
+              alt={`Hotel Image ${currentImageIndex + 1}`}
+              className="gallery-image"
+            />
           ) : (
             <p>No images available for this hotel.</p>
           )}
         </div>
+
+        <div className="image-gallery-buttons">
+          <button onClick={handlePrevImage} disabled={currentImageIndex === 0}>
+            Previous
+          </button>
+          <button
+            onClick={handleNextImage}
+            disabled={currentImageIndex === currentHotelImages.length - 1}
+          >
+            Next
+          </button>
+        </div>
+
         <button onClick={closeModal} style={{ marginTop: "10px" }}>
           Close
         </button>

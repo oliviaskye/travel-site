@@ -31,8 +31,8 @@ const ReservationForm = () => {
     startDate: "",
     endDate: "",
     hotelId: "",
-    email: "", // For email
-    price: "", // For price
+    email: "", 
+    price: "", 
   });
 
   const [reservation, setReservation] = useState(null);
@@ -42,7 +42,7 @@ const ReservationForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    // Fetch hotelId, roomId, email, and price from localStorage
+   
     const storedHotelId = localStorage.getItem("hotelId");
     const storedRoomId = localStorage.getItem("roomId");
     const storedEmail = localStorage.getItem("email");
@@ -114,7 +114,8 @@ const ReservationForm = () => {
   };
 
   return (
-    <div>
+    <div>¨
+
       <h2>Create a Reservation</h2>
       {!reservation ? (
         <form onSubmit={handleSubmit}>
@@ -141,26 +142,8 @@ const ReservationForm = () => {
 
           {payNow && (
             <>
-              <div>
-                <label>Email:</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label>Price:</label>
-                <input
-                  type="text"
-                  name="price"
-                  value={formData.price}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+             
+             
             </>
           )}
 

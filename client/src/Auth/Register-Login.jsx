@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Register from "./Register";
 import Login from "./LogIn";
 import Nav from "../components/Nav/Nav";
@@ -9,16 +9,6 @@ function RegisterLogin() {
   const location = useLocation();
   const redirectPath = location.state?.from?.pathname || "/";
 
-  const [userId, setUserId] = useState(null);
-
-  useEffect(() => {
-    // Get the user ID from localStorage
-    const storedUserId = localStorage.getItem("userId");
-    if (storedUserId) {
-      setUserId(storedUserId); // Set the user ID in state
-    }
-  }, []);
-
   const handleOptionClick = (option) => {
     setIsLogin(option === "login");
   };
@@ -26,16 +16,27 @@ function RegisterLogin() {
   return (
     <div>
       <Nav />
-      <div>
-        <button onClick={() => handleOptionClick("login")}>Login</button>
-        <button onClick={() => handleOptionClick("register")}>Register</button>
+      <div className="auth-container">
+        <div className="option-buttons">
+          <button
+            className={`button ${isLogin ? "active" : ""}`}
+            onClick={() => handleOptionClick("login")}
+          >
+            Login
+          </button>
+          <button
+            className={`button ${!isLogin ? "active" : ""}`}
+            onClick={() => handleOptionClick("register")}
+          >
+            Register
+          </button>
+        </div>
+        <div className="divider"></div>
+
+        <div className="auth-forms">
+          {isLogin ? <Login redirectPath={redirectPath} /> : <Register />}
+        </div>
       </div>
-      {userId ? (
-        <div>User ID from localStorage: {userId}</div>
-      ) : (
-        <div>No user ID found in localStorage</div>
-      )}
-      {isLogin ? <Login redirectPath={redirectPath} /> : <Register />}
     </div>
   );
 }

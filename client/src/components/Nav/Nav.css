@@ -1,0 +1,93 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .navbar.dark {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .navbar.light {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    font-size: 1rem;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar.dark a {
+    color: #fff;
+  }
+  
+  .navbar.light a {
+    color: #000;
+  }
+  
+  .navbar a:hover {
+    color: #007BFF;
+  }
+  
+
+  .navbar ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar ul li {
+    margin: 0 10px;
+  }
+  
+  .navbar .menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: inherit;
+  }
+  
+ 
+@media (max-width: 768px) {
+    .navbar ul {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      left: 0;
+      background-color: inherit;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  
+    .navbar ul.active {
+      display: flex;
+    }
+  
+    .navbar ul li {
+      margin: 10px 0;
+      text-align: center;
+    }
+  
+    .navbar .menu-toggle {
+      display: block;
+    }
+  
+    .navbar ul li button {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      color: inherit;
+      cursor: pointer;
+      margin: 5px 0;
+      padding: 10px;
+    }
+  }
+  

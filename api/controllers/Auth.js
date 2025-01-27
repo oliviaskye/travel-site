@@ -155,22 +155,23 @@ export const updateUser = async (req, res) => {
   try {
     const { name, email, password, age, phoneNumber, country, gender } = req.body;
 
-    // تحويل البريد الإلكتروني إلى حروف صغيرة
+   
+
     const emailLowerCase = email.toLowerCase();
 
-    // التحقق من وجود كلمة مرور جديدة
+  
     let hashedPassword = undefined;
     if (password) {
-      hashedPassword = await bcrypt.hash(password, 12); // إذا كانت كلمة المرور جديدة، نقوم بتشفيرها
+      hashedPassword = await bcrypt.hash(password, 12); 
     }
 
-    // تحديث المستخدم
+ 
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id, 
       {
         name,
         email: emailLowerCase,
-        password: hashedPassword || undefined, // إذا كانت كلمة المرور موجودة، نستخدمها
+        password: hashedPassword || undefined, 
         age,
         phoneNumber,
         country,

@@ -1,101 +1,87 @@
-import React, { useRef, useEffect, useState } from "react";
-import "../../index.css";
-import WebsiteLogo from "../../assets/WebsiteLogo.png";
+import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import XSound from "../../assets/XSound.wav";
-import LightDark from "../../Light-Dark";
+import "./Nav.css";
 
 function Nav() {
-  const Menu = useRef();
-  const Navbar = useRef();
-  const navigate = useNavigate();
+  const menuRef = useRef();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isSoundOn, setIsSoundOn] = useState(true);
+  const navigate = useNavigate(); // Hook to programmatically navigate
 
-  const [isPlaying, setIsPlaying] = useState(false); 
-  const audioRef = useRef(null); 
-
+  // Apply dark mode globally
   useEffect(() => {
-    audioRef.current = new Audio(XSound);
+    const root = document.documentElement;
+    if (isDarkMode) {
+      root.classList.add("dark");
+      root.classList.remove("light");
+    } else {
+      root.classList.add("light");
+      root.classList.remove("dark");
+    }
+  }, [isDarkMode]);
 
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, []);
+  const toggleMenu = () => {
+    if (menuRef.current) {
+      menuRef.current.classList.toggle("active");
+    }
+  };
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   const toggleSound = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause(); 
-      } else {
-        audioRef.current.play(); 
-      }
-      setIsPlaying(!isPlaying); 
+    if (isSoundOn) {
+      const sound = new Audio(XSound);
+      sound.play();
     }
+    setIsSoundOn(!isSoundOn);
   };
-
-  const NavHandler = () => {
-    if (Menu.current) {
-      Menu.current.classList.toggle("active-nav");
-    }
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (Navbar.current) {
-        if (window.scrollY > 100) {
-          Navbar.current.classList.add("navbar-active");
-        } else {
-          Navbar.current.classList.remove("navbar-active");
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   const handleNavigateToRegister = () => {
     navigate("/RegisterLogin");
   };
 
   return (
-    <div className="nav-wrapper" ref={Navbar}>
-      <div className="container-nav">
-        <div className="logo">
-          <a href="#">
-            <img src={WebsiteLogo} alt="Traveler Logo" className="logo-image" />
-            Traveler
-          </a>
-        </div>
-        <ul ref={Menu}>
-          <Link to={`/`}>
-            <li>Home</li>
-          </Link>
-          <Link to={`/map`}>
-            <li>Map</li>
-          </Link>
-          <Link to={`/UserProfile`}>
-            <li>Profile</li>
-          </Link>
-        </ul>
+    <nav className={`navbar ${isDarkMode ? "dark" : "light"}`}>
+      <div className="logo">
+        <Link to="/">Traveler</Link>
       </div>
-
-      <div className="nav-buttons">
-        <button className="button" onClick={toggleSound}>
-          {isPlaying ? "Sound Off" : "Sound On"}
+      <ul ref={menuRef}>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/map">Map</Link>
+        </li>
+        <li>
+          <Link to="/UserProfile">Profile</Link>
+        </li>
+        {/* إضافة الأزرار مع روابط */}
+        <li>
+          <button onClick={toggleDarkMode}>
+            {isDarkMode ? "Light Mode" : "Dark Mode"}
+          </button>
+        </li>
+        <li>
+          <button onClick={toggleSound}>
+            {isSoundOn ? "🔊 Sound On" : "🔇 Sound Off"}
+          </button>
+        </li>
+        <li>
+          <button className="button" onClick={handleNavigateToRegister}>
+            Signin
+          </button>
+        </li>
+      </ul>
+      <div className="navbar-actions">
+        {/* Menu Toggle */}
+        <button className="menu-toggle" onClick={toggleMenu}>
+          ☰
         </button>
-        <LightDark /> 
-        <button className="button" onClick={handleNavigateToRegister}>
-          Signin
-        </button>
-        <i className="ri-menu-3-line" onClick={NavHandler}></i>
       </div>
-    </div>
+    </nav>
   );
 }
 

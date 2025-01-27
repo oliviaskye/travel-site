@@ -43,7 +43,7 @@ const HotelRoomsx = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const navigate = useNavigate();
 
-  // Save hotelId and roomId in localStorage
+
   useEffect(() => {
     if (hotelId) {
       localStorage.setItem('hotelId', hotelId);
@@ -97,14 +97,14 @@ const HotelRoomsx = () => {
   };
 
   const openReservationModal = (room) => {
-    // Save hotelId, roomId, email, and price in localStorage when "Book Now" is clicked
-    localStorage.setItem('hotelId', hotelId);      // Save hotelId
-    localStorage.setItem('roomId', room._id);      // Save roomId
-    localStorage.setItem('email', room.email || ''); // Save email (if available)
-    localStorage.setItem('price', room.price);     // Save price
+   
+    localStorage.setItem('hotelId', hotelId);      
+    localStorage.setItem('roomId', room._id);      
+    localStorage.setItem('email', room.email || ''); 
+    localStorage.setItem('price', room.price);     
   
-    setSelectedRoom(room);  // Set the selected room
-    setIsReservationModalOpen(true);  // Open the reservation modal
+    setSelectedRoom(room);  
+    setIsReservationModalOpen(true);  
   };
   
 

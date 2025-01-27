@@ -5,6 +5,8 @@ import Sidebar from "../../../components/sidebar/Sidebar";
 import "./EditHotel.scss";
 
 
+// dose not work *************************
+
 const EditHotel = () => {
   const { hotelId } = useParams();
   const navigate = useNavigate();
@@ -26,7 +28,7 @@ const EditHotel = () => {
     const fetchHotel = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/hotels/${hotelId}`);
-        setHotel(response.data);  // تأكد من تعيين البيانات بشكل صحيح
+        setHotel(response.data);  
       } catch (error) {
         console.error("Error fetching hotel data:", error);
       }
@@ -43,7 +45,7 @@ const EditHotel = () => {
   };
 
   const handleFileChange = (e) => {
-    setSelectedFiles(e.target.files);  // تحديث الصور في حالة التغيير
+    setSelectedFiles(e.target.files);  
   };
 
   const handleSubmit = async (e) => {
@@ -60,7 +62,7 @@ const EditHotel = () => {
     formData.append("featured", hotel.featured);
 
     if (selectedFiles) {
-      Array.from(selectedFiles).forEach((file) => formData.append("photos", file));  // التأكد من إضافة الصور في الفورم
+      Array.from(selectedFiles).forEach((file) => formData.append("photos", file));  
     }
 
     try {

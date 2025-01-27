@@ -7,25 +7,25 @@ export const createReservation = async (req, res) => {
   const { roomId, userId, startDate, endDate, hotelId } = req.body;
 
   try {
-    // تحقق من وجود الحقول الأساسية
+ 
     if (!hotelId || !roomId || !userId || !startDate || !endDate) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    // تحقق من تواريخ الحجز
+ 
     const startDateObj = new Date(startDate);
     const endDateObj = new Date(endDate);
     if (startDateObj >= endDateObj) {
       return res.status(400).json({ message: "End date must be after start date." });
     }
 
-    // تحقق من وجود الغرفة
+    
     const room = await Room.findById(roomId);
     if (!room) {
       return res.status(404).json({ message: "Room not found" });
     }
 
-    // تحقق من وجود حجز آخر في نفس التاريخ
+   
     const existingReservations = await Reservation.find({
       roomId,
       $or: [
@@ -38,7 +38,7 @@ export const createReservation = async (req, res) => {
       return res.status(400).json({ message: "Room is already booked for the selected dates." });
     }
 
-    // إنشاء الحجز الجديد
+
     const newReservation = new Reservation({
       HotelId: hotelId,
       roomId,

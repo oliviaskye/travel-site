@@ -1,13 +1,17 @@
 .HeaderWrapper {
-    height: 80vh !important;
-    align-items: center;
-    justify-content: center !important;
+    height: 80vh;
+    background-image: url("../../assets/header.jpg"); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
     gap: 20px;
-}
-
-.Container {
+  }
+  
+  .Container {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -15,99 +19,73 @@
     justify-content: center;
     padding: 30px;
     width: 800px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7); 
     border-radius: 20px;
-}
-
-.Container form {
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 20px;
-    width: 100%;
+  }
+  
+  .Container h1 {
+    font-size: 58px;
+    line-height: 65px;
+    font-family: 'Roboto', sans-serif;
+    color: #ffd700;
+    text-align: center;
+  }
+  
+  .Container small {
+    color: #f0f0f0;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .inputContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 30px;
-    flex-wrap: wrap;
-}
-
-.Container h1 {
-    font-size: 58px;
-    line-height: 65px;
-    font-family: 'jost';
-    color: #fff;
-    text-align: center;
-    margin: 0;
-}
-
-.Container small {
-    color: #fff;
-    font-family: 'jost';
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.Container form .inputWrapper:nth-child(2) {
-    border-right: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-}
-
-.Container form .inputWrapper label {
-    font-size: 13px;
-    color: #666;
-}
-
-.Container form .inputWrapper input {
-    height: 35px;
+    gap: 10px;
+    background-color: #333;
+    padding: 15px;
+    border-radius: 10px;
+    flex-wrap: nowrap;
+  }
+  
+  .inputContainer input,
+  .inputContainer .date-picker,
+  .inputContainer .price-range-input {
+    padding: 10px;
     border: 1px solid #ccc;
-    outline: none;
-    border-radius: 8px;
-    padding: 0 10px;
-    color: #333;
-}
-
-.Container button {
-    background-color: rgb(53, 84, 209);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 10px 25px;
-    border-radius: 30px;
-    color: #fff;
-    cursor: pointer;
-    transition: 0.3s;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .inputContainer button {
+    padding: 10px 20px;
     border: none;
-    font-size: 16px;
-}
-
-.Container button:hover {
-    background-color: #1e1e1e;
-}
-
-@media screen and (max-width: 900px) {
-    .Container {
-        width: 100%;
+    background-color: #ff4500;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .inputContainer button:hover {
+    background-color: #d43f00;
+  }
+  
+  @media screen and (max-width: 900px) {
+    .inputContainer {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
     }
-
-    .Container h1 {
-        font-size: 38px;
-        line-height: 45px;
+  
+    .inputContainer input,
+    .inputContainer .date-picker,
+    .inputContainer .price-range-input,
+    .inputContainer button {
+      width: 100%;
+      max-width: none;
     }
-
-    .Container form {
-        flex-direction: column;
-        gap: 15px;
-        border-radius: 12px;
-    }
-
-    .Container form .inputWrapper {
-        width: 100%;
-        border: none !important;
-        padding: 0;
-    }
-
-    .Container button {
-        width: 100%;
-        justify-content: center;
-    }
-}
+  }
+  
