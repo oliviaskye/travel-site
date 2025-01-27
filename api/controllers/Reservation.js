@@ -1,25 +1,36 @@
 import Room from "../models/Room.js";
 import Reservation from "../models/Reservation.js";
 
+
+
 export const createReservation = async (req, res) => {
   const { roomId, userId, startDate, endDate, hotelId } = req.body;
 
-
   try {
-    if (new Date(startDate) >= new Date(endDate)) {
+ 
+    if (!hotelId || !roomId || !userId || !startDate || !endDate) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+
+ 
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+    if (startDateObj >= endDateObj) {
       return res.status(400).json({ message: "End date must be after start date." });
     }
 
+    
     const room = await Room.findById(roomId);
     if (!room) {
       return res.status(404).json({ message: "Room not found" });
     }
 
+   
     const existingReservations = await Reservation.find({
       roomId,
       $or: [
-        { startDate: { $lte: endDate, $gte: startDate } },
-        { endDate: { $gte: startDate, $lte: endDate } }
+        { startDate: { $lte: endDateObj, $gte: startDateObj } },
+        { endDate: { $gte: startDateObj, $lte: endDateObj } }
       ]
     });
 
@@ -27,12 +38,13 @@ export const createReservation = async (req, res) => {
       return res.status(400).json({ message: "Room is already booked for the selected dates." });
     }
 
+
     const newReservation = new Reservation({
       HotelId: hotelId,
       roomId,
       userId,
-      startDate,
-      endDate,
+      startDate: startDateObj,
+      endDate: endDateObj,
       isPaid: false
     });
 
@@ -91,7 +103,7 @@ export const deleteReservation = async (req, res) => {
 
 export const GetReservationForUser = async (req, res, next) => {
   try {
-    const { userId } = req.params;  
+    const { userId } = req.params;
 
     const reservations = await Reservation.find({ userId })
       .populate('HotelId', 'name address')  

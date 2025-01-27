@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom"; 
+import { useNavigate, useLocation } from "react-router-dom";
 import { useValue } from "../context/ContextProvider";
+
 
 const Login = () => {
   const [inputs, setInputs] = useState({
@@ -12,9 +13,8 @@ const Login = () => {
   const [err, setErr] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
   const { dispatch } = useValue();
-
 
   const redirectPath = location.state?.from?.pathname || "/";
 
@@ -36,11 +36,9 @@ const Login = () => {
       if (response.data.success) {
         dispatch({ type: "UPDATE_USER", payload: response.data.result });
 
-   
         localStorage.setItem("userId", response.data.result.id);
         localStorage.setItem("email", response.data.result.email);
 
- 
         navigate(redirectPath);
       }
     } catch (error) {
@@ -54,37 +52,31 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
-      <div>
-        <div className="input">
-          <h2 className="title">Login</h2>
-          <form onSubmit={handleLogin}>
-            <label htmlFor="input">Email/Phone Number</label>
-            <br />
-            <input
-              type="text"
-              placeholder="Email or Phone Number"
-              name="emailOrPhone"
-              onChange={handleChange}
-              required
-            />
-            <br />
-            <label htmlFor="input">Password</label>
-            <br />
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              onChange={handleChange}
-              required
-            />
-            <br />
-            {err && <p className="error">{err}</p>}
-            <button type="submit" disabled={isLoading}>
-              {isLoading ? "Logging in..." : "Login"}
-            </button>
-          </form>
-        </div>
+    <div className="auth-container">
+      <div className="auth-form-container">
+        <h2 className="auth-title">Login</h2>
+        <form onSubmit={handleLogin}>
+          <label htmlFor="input">Email/Phone Number</label>
+          <input
+            type="text"
+            placeholder="Email or Phone Number"
+            name="emailOrPhone"
+            onChange={handleChange}
+            required
+          />
+          <label htmlFor="input">Password</label>
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            onChange={handleChange}
+            required
+          />
+          {err && <p className="auth-error">{err}</p>}
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
+          </button>
+        </form>
       </div>
     </div>
   );

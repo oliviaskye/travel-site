@@ -1,4 +1,4 @@
-/* Container for the page */
+
 .add-rooms-container {
     display: flex;
     justify-content: flex-start;
@@ -8,7 +8,7 @@
     background-color: #f4f4f4;
   }
   
-  /* Sidebar Styling */
+
   .sidebar-container {
     width: 250px;
     height: 100%;
@@ -44,8 +44,7 @@
   .sidebar-container li a:hover {
     color: #007bff;
   }
-  
-  /* Form Styling */
+
   .form-container {
     max-width: 800px;
     width: 100%;
@@ -124,7 +123,7 @@
     color: red;
   }
   
-  /* Responsive Design */
+
   @media (max-width: 768px) {
     .add-rooms-container {
       flex-direction: column;

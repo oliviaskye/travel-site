@@ -30,7 +30,9 @@ const ReservationForm = () => {
     userId: "",
     startDate: "",
     endDate: "",
-    hotelId: "", // تأكد من أن الحقل هذا يبدأ فارغًا
+    hotelId: "",
+    email: "", 
+    price: "", 
   });
 
   const [reservation, setReservation] = useState(null);
@@ -40,17 +42,20 @@ const ReservationForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    // جلب hotelId و roomId من localStorage
+   
     const storedHotelId = localStorage.getItem("hotelId");
     const storedRoomId = localStorage.getItem("roomId");
+    const storedEmail = localStorage.getItem("email");
+    const storedPrice = localStorage.getItem("price");
 
-    // تحديث formData بالقيم المسترجعة
     if (storedHotelId && storedRoomId) {
-      setFormData((prev) => ({
+      setFormData((prev) => ({  
         ...prev,
-        hotelId: storedHotelId, // تعيين hotelId من localStorage
-        roomId: storedRoomId,   // تعيين roomId من localStorage
+        hotelId: storedHotelId,
+        roomId: storedRoomId,
         userId: state.user ? state.user.id : "",
+        email: storedEmail || "",
+        price: storedPrice || "",
       }));
     }
   }, [state.user]);
@@ -67,6 +72,12 @@ const ReservationForm = () => {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
+    if (!formData.hotelId || !formData.roomId || !formData.userId || !formData.startDate || !formData.endDate) {
+      setError("All fields are required.");
+      setLoading(false);
+      return;
+    }
 
     if (!state.user) {
       alert("You must be logged in to make a reservation.");
@@ -90,7 +101,6 @@ const ReservationForm = () => {
 
   const handlePaymentSuccess = (paymentData) => {
     alert("Payment Successful");
-    console.log("Payment Data:", paymentData);
     setReservation((prev) => ({
       ...prev,
       isPaid: true,
@@ -100,12 +110,12 @@ const ReservationForm = () => {
 
   const handlePaymentError = (message) => {
     alert("Payment Failed");
-    console.log("Payment Error:", message);
     setError(`Payment error: ${message}`);
   };
 
   return (
-    <div>
+    <div>¨
+
       <h2>Create a Reservation</h2>
       {!reservation ? (
         <form onSubmit={handleSubmit}>
@@ -130,6 +140,13 @@ const ReservationForm = () => {
             />
           </div>
 
+          {payNow && (
+            <>
+             
+             
+            </>
+          )}
+
           <div>
             <label>
               <input
@@ -140,6 +157,7 @@ const ReservationForm = () => {
               Pay Now
             </label>
           </div>
+
           <button type="submit" disabled={loading}>
             {loading ? "Creating..." : "Create Reservation"}
           </button>
