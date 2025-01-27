@@ -8,6 +8,9 @@ const UpdateProfile = () => {
   const [user, setUser] = useState([]);
   const [inputs, setInputs] = useState([]); 
   const [error, setError] = useState(null);
+  const [confirmation, setConfirmation] = useState({
+      confirmPassword: "",
+    })
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,26 +41,33 @@ const UpdateProfile = () => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleConfirm = (e) => {
+    setConfirmation((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
 
     if (!inputs.name || !inputs.email || !inputs.password || !inputs.age ||  
         !inputs.phoneNumber || !inputs.country || !inputs.gender) {
-      setError("All fields are required.");
+      alert("All fields are required.");
     } 
     else {
-      try {
-        const userId = localStorage.getItem("userId");
-        console.log("Inputs being sent:", inputs); 
-        const response = await axios.put(`http://localhost:5000/api/auth/users/${userId}`, inputs);
-        const user = response.data;
-        setError(null);
-        alert("Profile updated successfully!");
-        navigate("/UserProfile");
-      } 
-      catch (error) {
-        console.error('Error updating profile:', error.response.data);
-        setError(error.response.data.message || 'Update failed.');
+      if (inputs.password !== confirmation.confirmPassword) {
+        alert("Passwords don't match.");
+      } else {
+        try {
+          const userId = localStorage.getItem("userId");
+          const response = await axios.put(`http://localhost:5000/api/auth/users/${userId}`, inputs);
+          const user = response.data;
+          setError(null);
+          alert("Profile updated successfully!");
+          navigate("/UserProfile");
+        }
+        catch (error) {
+          console.error('Error updating profile:', error.response.data);
+          setError(error.response.data.message || 'Update failed.');
+        }
       }
     }
   };
@@ -94,6 +104,13 @@ const UpdateProfile = () => {
               placeholder="Password"
               name="password"
               onChange={handleChange}
+              required
+            /><br/>
+            <input
+              type="password"
+              placeholder="Confirm password"
+              name="confirmPassword"
+              onChange={handleConfirm}
               required
             /><br/>
             <label>age</label><br/>

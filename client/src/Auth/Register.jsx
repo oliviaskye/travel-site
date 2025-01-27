@@ -15,13 +15,20 @@ const Register = () => {
     country: "",
     gender: "",
   });
-
+  const [confirmation, setConfirmation] = useState({
+    confirmPassword: "",
+  })
+  
   const [err, setErr] = useState(null);
   const { dispatch } = useValue();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleConfirm = (e) => {
+    setConfirmation((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleClick = async (e) => {
@@ -31,17 +38,22 @@ const Register = () => {
         !inputs.phoneNumber || !inputs.country || !inputs.gender) {
       setErr("All fields are required.");
     } else {
-      try {
-        const response = await axios.post('http://localhost:5000/api/auth/register', inputs);
-        console.log(response.data);
-        setErr(null);
-        alert("Registration successful!");
-        dispatch({ type: "UPDATE_USER", payload: response.data.user });
-        navigate("/");
-      } catch (error) {
-        console.error('Error during registration:', error.response.data);
-        setErr(error.response.data.message || 'Registration failed.');
-      }
+        if (inputs.password !== confirmation.confirmPassword) {
+          setErr("Passwords don't match.");
+        } else {
+            try {
+              const response = await axios.post('http://localhost:5000/api/auth/register', inputs);
+              console.log(response.data);
+              setErr(null);
+              alert("Registration successful!"); 
+              dispatch({ type: "UPDATE_USER", payload: response.data.user });
+              navigate("/");
+            
+            } catch (error) {
+              console.error('Error during registration:', error.response.data);
+              setErr(error.response.data.message || 'Registration failed.'); 
+            }
+        }
     }
   };
 
@@ -74,6 +86,13 @@ const Register = () => {
             onChange={handleChange}
             required
           />
+            <input
+              type="password"
+              placeholder="Confirm password"
+              name="confirmPassword"
+              onChange={handleConfirm}
+              required
+            /><br/>
           <label>Age</label>
           <input
             type="number"
