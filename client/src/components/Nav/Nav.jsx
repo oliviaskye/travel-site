@@ -43,6 +43,10 @@ function Nav() {
     navigate("/RegisterLogin");
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+  }
+
   return (
     <nav className={`navbar ${isDarkMode ? "dark" : "light"}`}>
       <div className="logo">
@@ -69,11 +73,19 @@ function Nav() {
             {isSoundOn ? "🔊 Sound On" : "🔇 Sound Off"}
           </button>
         </li>
+
         <li>
           <button className="button" onClick={handleNavigateToRegister}>
-            Signin
+            Login
           </button>
         </li>
+
+        <li>
+          <button className="button" onClick={handleLogout}>
+            Logout
+          </button>
+        </li>
+
       </ul>
       <div className="navbar-actions">
         {/* Menu Toggle */}
