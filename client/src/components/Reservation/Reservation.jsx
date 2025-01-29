@@ -41,6 +41,9 @@ const ReservationForm = () => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const date = new Date();
+  const todayDate = date.toISOString().substring(0, 10);
+
   useEffect(() => {
    
     const storedHotelId = localStorage.getItem("hotelId");
@@ -114,7 +117,7 @@ const ReservationForm = () => {
   };
 
   return (
-    <div>¨
+    <div>
 
       <h2>Create a Reservation</h2>
       {!reservation ? (
@@ -124,6 +127,7 @@ const ReservationForm = () => {
             <input
               type="date"
               name="startDate"
+              min={todayDate}
               value={formData.startDate}
               onChange={handleChange}
               required
@@ -134,6 +138,7 @@ const ReservationForm = () => {
             <input
               type="date"
               name="endDate"
+              min={todayDate}
               value={formData.endDate}
               onChange={handleChange}
               required
