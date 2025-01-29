@@ -1,3 +1,8 @@
+:root {
+  --title-color-light: #343a40; /* Темный цвет текста для светлой темы */
+  --title-color-dark: #ffffff; /* Белый цвет текста для темной темы */
+}
+
 /* General Styling for Hotel Grid */
 .hotel-grid {
   display: grid;
@@ -38,6 +43,11 @@
 .hotel-info h3 {
   font-size: 1.4rem;
   margin-bottom: 15px;
+  color: var(--title-color-light); /* Для светлой темы */
+}
+
+.dark-theme .hotel-info h3 {
+  color: var(--title-color-dark); /* Для темной темы */
 }
 
 .hotel-info p {

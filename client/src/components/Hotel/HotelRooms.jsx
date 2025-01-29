@@ -41,22 +41,38 @@ const HotelRoomsx = () => {
   const [currentRoomImages, setCurrentRoomImages] = useState([]);
   const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
 
+  // Handle theme toggle
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDarkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prevMode) => !prevMode);
+  };
 
   useEffect(() => {
     if (hotelId) {
-      localStorage.setItem('hotelId', hotelId);
+      localStorage.setItem("hotelId", hotelId);
     }
     if (roomId) {
-      localStorage.setItem('roomId', roomId);
+      localStorage.setItem("roomId", roomId);
     }
   }, [hotelId, roomId]);
 
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/hotels/${hotelId}/rooms`);
+        const response = await axios.get(
+          `http://localhost:5000/api/hotels/${hotelId}/rooms`
+        );
         setRooms(response.data);
         setLoading(false);
       } catch (error) {
@@ -73,7 +89,9 @@ const HotelRoomsx = () => {
     const fetchRoomDetails = async () => {
       if (roomId) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/hotels/${hotelId}/rooms/${roomId}`);
+          const response = await axios.get(
+            `http://localhost:5000/api/hotels/${hotelId}/rooms/${roomId}`
+          );
           setRoom(response.data);
           setLoading(false);
         } catch (error) {
@@ -97,16 +115,14 @@ const HotelRoomsx = () => {
   };
 
   const openReservationModal = (room) => {
-   
-    localStorage.setItem('hotelId', hotelId);      
-    localStorage.setItem('roomId', room._id);      
-    localStorage.setItem('email', room.email || ''); 
-    localStorage.setItem('price', room.price);     
-  
-    setSelectedRoom(room);  
-    setIsReservationModalOpen(true);  
+    localStorage.setItem("hotelId", hotelId);
+    localStorage.setItem("roomId", room._id);
+    localStorage.setItem("email", room.email || "");
+    localStorage.setItem("price", room.price);
+
+    setSelectedRoom(room);
+    setIsReservationModalOpen(true);
   };
-  
 
   const closeReservationModal = () => {
     setIsReservationModalOpen(false);
@@ -132,7 +148,7 @@ const HotelRoomsx = () => {
                     src={`http://localhost:5000/uploads/${image.replace(/\\/g, "/")}`}
                     alt={room.title}
                     style={{ width: "100%", height: "300px", objectFit: "cover" }}
-                    onClick={() => openImageModal(room.img)} 
+                    onClick={() => openImageModal(room.img)}
                   />
                 ))
               ) : (
@@ -147,8 +163,12 @@ const HotelRoomsx = () => {
             <div className="room-info">
               <h3>{room.title}</h3>
               <p>{room.details}</p>
-              <p><strong>Price:</strong> ${room.price}</p>
-              <p><strong>Room Number:</strong> {room.roomNumber}</p>
+              <p>
+                <strong>Price:</strong> ${room.price}
+              </p>
+              <p>
+                <strong>Room Number:</strong> {room.roomNumber}
+              </p>
               <button onClick={() => openReservationModal(room)}>Book Now</button>
             </div>
           </div>
@@ -177,7 +197,9 @@ const HotelRoomsx = () => {
             <p>No images available for this room.</p>
           )}
         </div>
-        <button onClick={closeImageModal} style={{ marginTop: "10px" }}>Close</button>
+        <button onClick={closeImageModal} style={{ marginTop: "10px" }}>
+          Close
+        </button>
       </Modal>
 
       <Modal
@@ -192,33 +214,6 @@ const HotelRoomsx = () => {
           Close
         </button>
       </Modal>
-
-      {room && (
-        <div>
-          <h2>{room.title}</h2>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-            {room.img && Array.isArray(room.img) ? (
-              room.img.map((image, index) => (
-                <img
-                  key={index}
-                  src={`http://localhost:5000/uploads/${image.replace(/\\/g, "/")}`}
-                  alt={room.title}
-                  style={{ width: "100%", height: "300px", objectFit: "cover" }}
-                />
-              ))
-            ) : (
-              <img
-                src="default-image.jpg"
-                alt={room.title}
-                style={{ width: "100%", height: "300px", objectFit: "cover" }}
-              />
-            )}
-          </div>
-          <p>{room.details}</p>
-          <p><strong>Price:</strong> ${room.price}</p>
-          <p><strong>Location:</strong> {room.location}</p>
-        </div>
-      )}
     </div>
   );
 };

@@ -28,6 +28,7 @@ const Hotels = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentHotelImages, setCurrentHotelImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // To track the current image index
+  const [isDarkTheme, setIsDarkTheme] = useState(false); // Add state for dark theme
 
   useEffect(() => {
     const fetchHotels = async () => {
