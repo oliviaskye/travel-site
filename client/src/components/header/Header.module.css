@@ -1,3 +1,18 @@
+:root {
+  --input-bg: #333; /* Базовый фон для темной темы */
+  --input-text: #fff; /* Цвет текста */
+}
+
+.dark {
+  --input-bg: #333; /* Темный фон */
+  --input-text: #fff;
+}
+
+.light {
+  --input-bg: #f9f9f9; /* Светлый фон */
+  --input-text: #000;
+}
+
 .HeaderWrapper {
     height: 80vh;
     background-image: url("../../assets/header.jpg"); 
@@ -43,11 +58,13 @@
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    background-color: #333;
+    background-color: var(--input-bg); /* Используем переменную для фона */
+    color: var(--input-text); /* Цвет текста */
     padding: 15px;
     border-radius: 10px;
     flex-wrap: nowrap;
   }
+  
   
   .inputContainer input,
   .inputContainer .date-picker,
