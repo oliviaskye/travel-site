@@ -5,11 +5,11 @@ import "./Nav.css";
 
 function Nav() {
   const menuRef = useRef();
+  const audioRef = useRef(new Audio(XSound));
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isSoundOn, setIsSoundOn] = useState(true);
-  const navigate = useNavigate(); // Hook to programmatically navigate
+  const [isSoundOn, setIsSoundOn] = useState(false);
+  const navigate = useNavigate();
 
-  // Apply dark mode globally
   useEffect(() => {
     const root = document.documentElement;
     if (isDarkMode) {
@@ -19,7 +19,12 @@ function Nav() {
       root.classList.add("light");
       root.classList.remove("dark");
     }
-  }, [isDarkMode]);
+
+    if (!isSoundOn) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  }, [isDarkMode, isSoundOn]);
 
   const toggleMenu = () => {
     if (menuRef.current) {
@@ -33,8 +38,12 @@ function Nav() {
 
   const toggleSound = () => {
     if (isSoundOn) {
-      const sound = new Audio(XSound);
-      sound.play();
+      // sound off
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    } else {
+      // sound on
+      audioRef.current.play();
     }
     setIsSoundOn(!isSoundOn);
   };
@@ -62,7 +71,7 @@ function Nav() {
         <li>
           <Link to="/UserProfile">Profile</Link>
         </li>
-        {/* إضافة الأزرار مع روابط */}
+
         <li>
           <button onClick={toggleDarkMode}>
             {isDarkMode ? "Light Mode" : "Dark Mode"}
@@ -88,7 +97,6 @@ function Nav() {
 
       </ul>
       <div className="navbar-actions">
-        {/* Menu Toggle */}
         <button className="menu-toggle" onClick={toggleMenu}>
           ☰
         </button>
