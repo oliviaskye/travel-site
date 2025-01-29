@@ -63,6 +63,10 @@ const ReservationForm = () => {
     }
   }, [state.user]);
 
+  const checkReservationDate = async () => {
+    
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
