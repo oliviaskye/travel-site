@@ -85,12 +85,12 @@ export const checkReservations = async (req, res) => {
     });
   
     if (existingReservations.length > 0) {
-      return res.status(400).json({ message: "Room is already booked for the selected dates." });
+      return res.json({ booked : true });
     }
 
   }
-  catch(error){
-    console.error("", error);
+  catch(error) {
+    console.error("Error creating reservation:", error);
     res.status(500).json({ message: "Error creating reservation", error: error.message });
   }
 }

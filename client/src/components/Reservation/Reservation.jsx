@@ -36,6 +36,7 @@ const ReservationForm = () => {
   });
 
   const [reservation, setReservation] = useState(null);
+  const [reservationState, setReservationState] = useState(false);
   const [error, setError] = useState(null);
   const [payNow, setPayNow] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -64,7 +65,13 @@ const ReservationForm = () => {
   }, [state.user]);
 
   const checkReservationDate = async () => {
-    
+    try{
+      const response = await axios.post(`http://localhost:5000/api/reservations/${storedRoomId}`, formData);
+      setReservationState(response.data);
+    }
+    catch{
+
+    }
   }
 
   const handleChange = (e) => {
