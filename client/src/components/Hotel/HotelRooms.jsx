@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import Nav from "../Nav/Nav";
 import ReservationForm from "../Reservation/Reservation";
-import "./HotelRoomsx.css";
+
 
 const customStyles = {
   content: {
@@ -14,8 +14,12 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    width: "600px",
+    width: "80%",
+    maxWidth: "800px",
     padding: "20px",
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
   },
   imageContent: {
     top: "50%",
@@ -25,7 +29,11 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     width: "80%",
+    maxWidth: "800px",
     padding: "20px",
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
   },
 };
 
@@ -97,12 +105,11 @@ const HotelRoomsx = () => {
   };
 
   const openReservationModal = (room) => {
-    // Save hotelId and roomId in localStorage when "Book Now" is clicked
-    localStorage.setItem('hotelId', hotelId);  // Save hotelId
-    localStorage.setItem('roomId', room._id);  // Save roomId
+    localStorage.setItem('hotelId', hotelId);  
+    localStorage.setItem('roomId', room._id);  
     
-    setSelectedRoom(room);  // Set the selected room
-    setIsReservationModalOpen(true);  // Open the reservation modal
+    setSelectedRoom(room);
+    setIsReservationModalOpen(true);
   };
 
   const closeReservationModal = () => {
@@ -110,17 +117,17 @@ const HotelRoomsx = () => {
     setSelectedRoom(null);
   };
 
-  if (loading) return <p>Loading rooms...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p className="text-center text-xl text-brown-600">Loading rooms...</p>;
+  if (error) return <p className="text-center text-xl text-red-500">{error}</p>;
 
   return (
-    <div className="hotel-rooms-container">
+    <div className="container mx-auto px-4 py-10">
       <Nav />
-      <h2>Available Rooms</h2>
+      <h2 className="text-3xl font-semibold text-brown-800 mb-6 text-center">Available Rooms</h2>
 
-      <div className="room-grid">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {rooms.map((room) => (
-          <div key={room._id} className="room-card">
+          <div key={room._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="room-image">
               {room.img && Array.isArray(room.img) ? (
                 room.img.map((image, index) => (
@@ -128,7 +135,7 @@ const HotelRoomsx = () => {
                     key={index}
                     src={`http://localhost:5000/uploads/${image.replace(/\\/g, "/")}`}
                     alt={room.title}
-                    style={{ width: "100%", height: "300px", objectFit: "cover" }}
+                    className="w-full h-48 object-cover cursor-pointer"
                     onClick={() => openImageModal(room.img)} 
                   />
                 ))
@@ -136,17 +143,22 @@ const HotelRoomsx = () => {
                 <img
                   src="default-image.jpg"
                   alt={room.title}
-                  style={{ width: "100%", height: "300px", objectFit: "cover" }}
+                  className="w-full h-48 object-cover cursor-pointer"
                   onClick={() => openImageModal([room.img])}
                 />
               )}
             </div>
-            <div className="room-info">
-              <h3>{room.title}</h3>
-              <p>{room.details}</p>
-              <p><strong>Price:</strong> ${room.price}</p>
-              <p><strong>Room Number:</strong> {room.roomNumber}</p>
-              <button onClick={() => openReservationModal(room)}>Book Now</button>
+            <div className="p-4">
+              <h3 className="text-xl font-semibold text-brown-800 mb-2">{room.title}</h3>
+              <p className="text-brown-700 mb-2">{room.details}</p>
+              <p className="text-brown-700"><strong>Price:</strong> ${room.price}</p>
+              <p className="text-brown-700 mb-4"><strong>Room Number:</strong> {room.roomNumber}</p>
+              <button 
+                onClick={() => openReservationModal(room)} 
+                className="bg-brown-500 text-white py-2 px-4 rounded-md hover:bg-brown-600 transition"
+              >
+                Book Now
+              </button>
             </div>
           </div>
         ))}
@@ -158,23 +170,27 @@ const HotelRoomsx = () => {
         style={customStyles.imageContent}
         contentLabel="Room Images Modal"
       >
-        <h2>Room Images</h2>
-        <div className="image-gallery">
+        <h2 className="text-xl font-semibold mb-4">Room Images</h2>
+        <div className="image-gallery grid grid-cols-2 gap-4">
           {currentRoomImages.length > 0 ? (
             currentRoomImages.map((image, index) => (
               <img
                 key={index}
                 src={`http://localhost:5000/uploads/${image.replace(/\\/g, "/")}`}
                 alt={`Room Image ${index + 1}`}
-                className="gallery-image"
-                style={{ width: "100%", height: "300px", objectFit: "cover" }}
+                className="w-full h-48 object-cover rounded-md shadow-md"
               />
             ))
           ) : (
-            <p>No images available for this room.</p>
+            <p className="text-center text-gray-500">No images available for this room.</p>
           )}
         </div>
-        <button onClick={closeImageModal} style={{ marginTop: "10px" }}>Close</button>
+        <button
+          onClick={closeImageModal}
+          className="mt-4 py-2 px-4 bg-brown-500 text-white rounded-md w-full hover:bg-brown-600 transition"
+        >
+          Close
+        </button>
       </Modal>
 
       <Modal
@@ -183,37 +199,40 @@ const HotelRoomsx = () => {
         style={customStyles}
         contentLabel="Reservation Form Modal"
       >
-        <h2>Create a Reservation for {selectedRoom?.title}</h2>
+        <h2 className="text-xl font-semibold mb-4">Create a Reservation for {selectedRoom?.title}</h2>
         <ReservationForm room={selectedRoom} onClose={closeReservationModal} />
-        <button onClick={closeReservationModal} style={{ marginTop: "10px" }}>
+        <button
+          onClick={closeReservationModal}
+          className="mt-4 py-2 px-4 bg-brown-500 text-white rounded-md w-full hover:bg-brown-600 transition"
+        >
           Close
         </button>
       </Modal>
 
       {room && (
-        <div>
-          <h2>{room.title}</h2>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+        <div className="mt-10">
+          <h2 className="text-3xl font-semibold text-brown-800 mb-4">{room.title}</h2>
+          <div className="flex flex-wrap gap-4 mb-4">
             {room.img && Array.isArray(room.img) ? (
               room.img.map((image, index) => (
                 <img
                   key={index}
                   src={`http://localhost:5000/uploads/${image.replace(/\\/g, "/")}`}
                   alt={room.title}
-                  style={{ width: "100%", height: "300px", objectFit: "cover" }}
+                  className="w-full h-48 object-cover rounded-md shadow-md"
                 />
               ))
             ) : (
               <img
                 src="default-image.jpg"
                 alt={room.title}
-                style={{ width: "100%", height: "300px", objectFit: "cover" }}
+                className="w-full h-48 object-cover rounded-md shadow-md"
               />
             )}
           </div>
-          <p>{room.details}</p>
-          <p><strong>Price:</strong> ${room.price}</p>
-          <p><strong>Location:</strong> {room.location}</p>
+          <p className="text-brown-700">{room.details}</p>
+          <p className="text-brown-700 mt-4"><strong>Price:</strong> ${room.price}</p>
+          <p className="text-brown-700"><strong>Location:</strong> {room.location}</p>
         </div>
       )}
     </div>

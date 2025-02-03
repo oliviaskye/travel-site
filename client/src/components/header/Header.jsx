@@ -42,32 +42,30 @@ function Header() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-black-300 via-gray-200 to-brown-100 min-h-screen flex flex-col items-center py-10 border-rounded">
-      <div className="bg-light-gray p-10 rounded-lg shadow-lg w-full max-w-4xl">
-        <h1 className="text-3xl font-bold text-black-800 mb-4 text-center">
+    <div className="bg-gradient-to-r from-gray-200 via-gray-100 to-gray-50 min-h-screen flex flex-col items-center pt-32">
+      <div className="bg-white p-4 rounded-md shadow-lg w-full max-w-md">
+        <h1 className="text-xl font-bold text-gray-800 mb-2 text-center">
           Find Your Next Trip
         </h1>
-        <small className="block text-gray-500 text-center mb-8">
+        <small className="block text-gray-500 text-center mb-4">
           Discover amazing destinations with exclusive deals
         </small>
 
-        <div className="space-y-6">
-          {/* Destination */}
-          <div className="flex items-center border rounded-lg p-1 bg-gray-50 shadow-sm">
+        <div className="space-y-3">
+          <div className="flex items-center border rounded-md p-2 bg-gray-50 shadow-sm">
             <HotelIcon className="text-gray-500 mr-2" />
             <input
               type="text"
               placeholder="Where are you going?"
-              className="w-full focus:outline-none text-gray-800 bg-transparent"
+              className="w-full focus:outline-none focus:ring-0 text-gray-800 bg-transparent"
               onChange={(e) => setDestination(e.target.value)}
             />
           </div>
 
-          {/* Date Picker */}
-          <div className="flex items-center border rounded-lg p-3 bg-gray-50 shadow-sm relative">
-            <CalendarTodayIcon className="text-gray-500 mr-3" />
+          <div className="flex items-center border rounded-md p-2 bg-gray-50 shadow-sm relative">
+            <CalendarTodayIcon className="text-gray-500 mr-2" />
             <span
-              className="text-gray-700 cursor-pointer"
+              className="text-gray-700 cursor-pointer text-sm"
               onClick={() => setOpenDate(!openDate)}
             >
               {`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(
@@ -84,26 +82,25 @@ function Header() {
                 }}
                 moveRangeOnFirstSelection={false}
                 ranges={date}
-                className=" absolute top-14 left-0 z-10"
+                className="absolute top-12 left-0 z-10 shadow-lg"
                 minDate={new Date()}
               />
             )}
           </div>
 
-          {/* Options */}
-          <div className="flex items-center border rounded-lg p-3 bg-gray-50 shadow-sm relative">
-            <PersonIcon className="text-gray-500 mr-3" />
+          <div className="flex items-center border rounded-md p-2 bg-gray-50 shadow-sm relative">
+            <PersonIcon className="text-gray-500 mr-2" />
             <span
-              className="text-gray-700 cursor-pointer"
+              className="text-gray-700 cursor-pointer text-sm"
               onClick={() => setOpenOptions(!openOptions)}
             >
               {`${options.adult} adult · ${options.children} children · ${options.room} room`}
             </span>
             {openOptions && (
-              <div className="absolute top-14 left-0 bg-white border rounded-lg p-4 shadow-lg space-y-4 z-10">
+              <div className="absolute top-12 left-0 bg-white border rounded-md p-3 shadow-lg space-y-2 z-10">
                 {["adult", "children", "room"].map((key) => (
                   <div className="flex justify-between items-center" key={key}>
-                    <span className="text-gray-700 capitalize">{key}</span>
+                    <span className="text-gray-700 capitalize text-sm">{key}</span>
                     <div className="flex items-center">
                       <button
                         className="px-2 py-1 text-white bg-gray-500 rounded disabled:bg-gray-300"
@@ -112,7 +109,7 @@ function Header() {
                       >
                         -
                       </button>
-                      <span className="mx-3">{options[key]}</span>
+                      <span className="mx-2">{options[key]}</span>
                       <button
                         className="px-2 py-1 text-white bg-gray-500 rounded"
                         onClick={() => handleOption(key, "i")}
@@ -126,10 +123,11 @@ function Header() {
             )}
           </div>
 
-          {/* Price Range */}
-          <div className="space-y-3">
-            <p className="text-gray-700">Price Range: ${priceRange[0]} - ${priceRange[1]}</p>
-            <div className="flex items-center space-x-4">
+          <div className="space-y-1">
+            <p className="text-gray-700 text-sm">
+              Price Range: ${priceRange[0]} - ${priceRange[1]}
+            </p>
+            <div className="flex items-center space-x-2">
               <input
                 type="range"
                 min="0"
@@ -138,7 +136,10 @@ function Header() {
                 onChange={(e) =>
                   setPriceRange([parseInt(e.target.value), priceRange[1]])
                 }
-                className="flex-1"
+                className="flex-1 appearance-none h-2 bg-gray-300 rounded focus:outline-none"
+                style={{
+                  accentColor: "gray",
+                }}
               />
               <input
                 type="range"
@@ -148,15 +149,17 @@ function Header() {
                 onChange={(e) =>
                   setPriceRange([priceRange[0], parseInt(e.target.value)])
                 }
-                className="flex-1"
+                className="flex-1 appearance-none h-2 bg-gray-300 rounded focus:outline-none"
+                style={{
+                  accentColor: "gray",
+                }}
               />
             </div>
           </div>
 
-          {/* Search Button */}
           <div>
             <button
-              className="w-full bg-black text-white py-3 rounded-lg shadow-md hover:bg-gray-800 transition"
+              className="w-full bg-gray-800 text-white py-2 rounded-md shadow-md hover:bg-black transition"
               onClick={handleSearch}
             >
               Search
@@ -169,4 +172,6 @@ function Header() {
 }
 
 export default Header;
+
+
 

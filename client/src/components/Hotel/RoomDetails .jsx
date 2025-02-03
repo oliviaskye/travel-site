@@ -10,6 +10,7 @@ const RoomDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showBookingForm, setShowBookingForm] = useState(false); 
+
   useEffect(() => {
     const fetchRoomDetails = async () => {
       try {
@@ -26,29 +27,40 @@ const RoomDetails = () => {
     fetchRoomDetails();
   }, [hotelId, roomId]);
 
-  if (loading) return <p>Loading room details...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p className="text-center text-xl text-brown-600">Loading room details...</p>;
+  if (error) return <p className="text-center text-xl text-red-500">{error}</p>;
 
   return (
-    <div>
-       <Nav />
-      <h2>{room.title}</h2>
+    <div className="container mx-auto px-4 py-10">
+      <Nav />
+      <h2 className="text-3xl font-semibold text-brown-800 mb-6 text-center">{room.title}</h2>
+
       <img
         src={`http://localhost:5000/${room.img ? room.img.replace(/\\/g, "/") : "default-image.jpg"}`}
         alt={room.title}
-        style={{ width: "100%", height: "300px", objectFit: "cover" }}
+        className="w-full h-72 object-cover rounded-lg shadow-md mb-6"
       />
-      <p>{room.details}</p>
-      <p><strong>Price:</strong> ${room.price}</p>
-      <p><strong>Location:</strong> {room.location}</p>
+      
+      <p className="text-brown-700 mb-4">{room.details}</p>
+      <p className="text-brown-700 mb-4"><strong>Price:</strong> ${room.price}</p>
+      <p className="text-brown-700 mb-6"><strong>Location:</strong> {room.location}</p>
 
-      <button onClick={() => setShowBookingForm(true)}>Book Now</button>
+      <button 
+        onClick={() => setShowBookingForm(true)} 
+        className="bg-brown-500 text-white py-2 px-6 rounded-md hover:bg-brown-600 transition"
+      >
+        Book Now
+      </button>
 
       {showBookingForm && (
-        <ReservationForm roomId={roomId} hotelId={hotelId} /> 
+        <div className="mt-6">
+          <ReservationForm roomId={roomId} hotelId={hotelId} />
+        </div>
       )}
     </div>
   );
 };
 
 export default RoomDetails;
+
+

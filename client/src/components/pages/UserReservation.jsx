@@ -15,7 +15,6 @@ import {
   Box,
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import "../Nav/Nav"
 import Nav from "../Nav/Nav";
 
 const UserReservation = () => {
@@ -82,14 +81,12 @@ const UserReservation = () => {
 
   if (loading) {
     return (
-     
       <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
         minHeight="100vh"
       >
-       
         <CircularProgress />
       </Box>
     );
@@ -97,7 +94,6 @@ const UserReservation = () => {
 
   if (error) {
     return (
-      
       <Box
         display="flex"
         justifyContent="center"
@@ -112,86 +108,92 @@ const UserReservation = () => {
   }
 
   return (
-    <div>
-        <Nav />
-    <Box p={3}>
-      <Typography variant="h4" gutterBottom>
-        Reservation History
-      </Typography>
+    <div className="bg-gray-100 min-h-screen">
+      <Nav />
+      <Box p={3} className="max-w-7xl mx-auto">
+        <Typography
+          variant="h4"
+          gutterBottom
+          className="text-brown-800 font-semibold text-center"
+        >
+          Reservation History
+        </Typography>
 
-      <Box mb={3}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Search by User ID or Hotel Name"
-          value={search}
-          onChange={handleSearchChange}
-        />
-      </Box>
+        <Box mb={3}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            placeholder="Search by User ID or Hotel Name"
+            value={search}
+            onChange={handleSearchChange}
+            className="bg-white border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-brown-500"
+          />
+        </Box>
 
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <strong>User ID</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Hotel Name</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Room Number</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Start Date</strong>
-              </TableCell>
-              <TableCell>
-                <strong>End Date</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Paid</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Actions</strong>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredReservations.map((reservation) => (
-              <TableRow key={reservation._id}>
-                <TableCell>{reservation.userId}</TableCell>
-                <TableCell>{reservation.HotelId.name}</TableCell>
+        <TableContainer component={Paper} className="shadow-lg">
+          <Table>
+            <TableHead>
+              <TableRow>
                 <TableCell>
-                  {reservation.roomId
-                    ? reservation.roomId.roomNumber.join(", ")
-                    : "N/A"}
+                  <strong>User ID</strong>
                 </TableCell>
                 <TableCell>
-                  {new Date(reservation.startDate).toLocaleDateString()}
+                  <strong>Hotel Name</strong>
                 </TableCell>
                 <TableCell>
-                  {new Date(reservation.endDate).toLocaleDateString()}
+                  <strong>Room Number</strong>
                 </TableCell>
-                <TableCell>{reservation.isPaid ? "Yes" : "No"}</TableCell>
                 <TableCell>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    startIcon={<Delete />}
-                    onClick={() => deleteReservation(reservation._id)}
-                  >
-                    Delete
-                  </Button>
+                  <strong>Start Date</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>End Date</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Paid</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Actions</strong>
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
-
+            </TableHead>
+            <TableBody>
+              {filteredReservations.map((reservation) => (
+                <TableRow key={reservation._id}>
+                  <TableCell>{reservation.userId}</TableCell>
+                  <TableCell>{reservation.HotelId.name}</TableCell>
+                  <TableCell>
+                    {reservation.roomId
+                      ? reservation.roomId.roomNumber.join(", ")
+                      : "N/A"}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(reservation.startDate).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(reservation.endDate).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>{reservation.isPaid ? "Yes" : "No"}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      startIcon={<Delete />}
+                      onClick={() => deleteReservation(reservation._id)}
+                      className="hover:bg-red-600"
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </div>
   );
 };
 
 export default UserReservation;
+

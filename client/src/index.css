@@ -1,5 +1,40 @@
-/* src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Global Styles */
+body {
+  @apply bg-light-gray text-black-800;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+input:focus {
+  @apply outline-none;
+}
+
+button {
+  @apply transition duration-300 ease-in-out;
+}
+
+.element {
+  position: relative; /* or absolute/fixed if necessary */
+  right: 0; /* Ensure it's aligned properly */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Ensures padding and borders are included in the element's total width/height */
+}
+
+
+.container {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+
 

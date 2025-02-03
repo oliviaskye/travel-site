@@ -45,85 +45,71 @@ const HotelFltring = () => {
     setSelectedLocation([longitude, latitude]);
   };
 
-  if (loading) return <p>Loading hotels...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (loading) return <p className="text-center text-xl font-semibold text-gray-700">Loading hotels...</p>;
+  if (error) return <p className="text-center text-red-500 font-semibold">{error}</p>;
 
   return (
-    <div>
+    <div className="bg-gray-50 min-h-screen py-10 px-4 sm:px-8">
       <Nav />
-      <h2>Available Hotels</h2>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "20px",
-        }}
-      >
+      <h2 className="text-3xl font-semibold text-center text-gray-800 mb-8">Available Hotels</h2>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {hotels.map((hotel) => (
           <div
             key={hotel._id}
-            className="container"
-            style={{ border: "1px solid #ccc", padding: "15px", borderRadius: "8px" }}
+            className="bg-white shadow-lg rounded-xl overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl hover:border hover:border-gray-300"
           >
-            <div className="hotel-images">
+            <div className="h-56 overflow-hidden mb-4">
               {hotel.photos?.length > 0 ? (
                 hotel.photos.map((photo, index) => (
                   <img
                     key={index}
                     src={`http://localhost:5000/${photo.replace(/\\/g, "/")}`}
                     alt={`${hotel.name} ${index + 1}`}
-                    className="hotel-img"
-                    style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
+                    className="w-full h-full object-cover rounded-t-xl"
                   />
                 ))
               ) : (
                 <img
                   src="http://localhost:5000/uploads/default-image.jpg"
                   alt="Default Hotel"
-                  className="hotel-img"
-                  style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
+                  className="w-full h-full object-cover rounded-t-xl"
                 />
               )}
             </div>
 
-            <h3>{hotel.name}</h3>
-            <p>
-              <strong>Country:</strong> {hotel.country}
-            </p>
-            <p>
-              <strong>City:</strong> {hotel.city}
-            </p>
-            <p>
-              <strong>Address:</strong> {hotel.address}
-            </p>
-            <p>
-              <strong>Cheapest Price:</strong> ${hotel.cheapestPrice}
-            </p>
-            <p>
-              <strong>Max Price:</strong> ${hotel.maxPrice}
-            </p>
-            <p>
-              <strong>Phone Number:</strong> {hotel.phoneNumber}
-            </p>
+            <div className="p-6">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-2">{hotel.name}</h3>
+              <p className="text-sm text-gray-600"><strong>Country:</strong> {hotel.country}</p>
+              <p className="text-sm text-gray-600"><strong>City:</strong> {hotel.city}</p>
+              <p className="text-sm text-gray-600"><strong>Address:</strong> {hotel.address}</p>
+              <p className="text-sm text-gray-600"><strong>Cheapest Price:</strong> ${hotel.cheapestPrice}</p>
+              <p className="text-sm text-gray-600"><strong>Max Price:</strong> ${hotel.maxPrice}</p>
+              <p className="text-sm text-gray-600"><strong>Phone Number:</strong> {hotel.phoneNumber}</p>
 
-            <Link
-              to={`/hotels/${hotel._id}/rooms`}
-              style={{
-                display: "block",
-                marginTop: "10px",
-                color: "#007BFF",
-                textDecoration: "underline",
-              }}
-            >
-              Go to Rooms
-            </Link>
+              <Link
+                to={`/hotels/${hotel._id}/rooms`}
+                className="text-blue-500 underline mt-4 block hover:text-blue-700 transition-colors"
+              >
+                Go to Rooms
+              </Link>
+
+              <button
+                onClick={() => handleShowLocation(hotel.latitude, hotel.longitude)}
+                className="mt-4 w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
+              >
+                Show on Map
+              </button>
+            </div>
           </div>
         ))}
       </div>
 
       {selectedLocation && (
-        <div style={{ height: "400px", marginTop: "20px" }}>
-          <Map selectedLocation={selectedLocation} />
+        <div className="mt-8">
+          <div className="h-96">
+            <Map selectedLocation={selectedLocation} />
+          </div>
         </div>
       )}
     </div>
@@ -131,3 +117,6 @@ const HotelFltring = () => {
 };
 
 export default HotelFltring;
+
+
+

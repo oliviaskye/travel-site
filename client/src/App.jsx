@@ -2,7 +2,8 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import "./index.css"
+import '../src/index.css'
+
 
 import RegisterLogin from "./Auth/Register-Login";
 
@@ -20,6 +21,7 @@ import UserReservation from "./components/pages/UserReservation";
 import UpdateProfile from "./components/pages/UpdateProfile";
 
 import Map from "./Map/Map/Map";
+import Contact from "./components/footer/Contact";
 
 
 const stripePromise = loadStripe("pk_test_51QFvkhLAzYW8YRzjlm4VYKp19bMXpFMoHcCsHM3wda661NR4YOjHO2iyXMrDZmNqKfGUNXD5neKjeUmt1mTClIgc00RBYWEAAX");
@@ -47,6 +49,7 @@ function App() {
           <Route path="/UpdateProfile" element={<UpdateProfile/>} />
 
           <Route path="/payment/:reservationId" element={<PaymentForm />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </Elements>
     </div>
