@@ -66,15 +66,18 @@ const ReservationForm = () => {
 
   const checkReservationDate = async () => {
     try{
+      // loop through all reservation dates and set them to disabled = true
       const response = await axios.post(`http://localhost:5000/api/reservations/${storedRoomId}`, formData);
       setReservationState(response.data);
+      console.log(reservationState);
     }
-    catch{
-
+    catch(error){
+      console.error(error);
     }
   }
 
   const handleChange = (e) => {
+    checkReservationDate();
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
