@@ -4,6 +4,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import { useValue } from "../../context/ContextProvider";
 import StripePaymentForm from "../Payment/StripePaymentForm";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const customStyles = {
   content: {
@@ -36,14 +38,16 @@ const ReservationForm = () => {
   });
 
   const [reservation, setReservation] = useState(null);
-  const [reservationState, setReservationState] = useState(false);
+  const [reservedDates, setReservedDates] = useState({});
   const [error, setError] = useState(null);
   const [payNow, setPayNow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
 
-  const date = new Date();
-  const todayDate = date.toISOString().substring(0, 10);
+  const date1 = new Date();
+  const todayDate = date1.toISOString().substring(0, 10);
 
   useEffect(() => {
    
@@ -64,21 +68,28 @@ const ReservationForm = () => {
     }
   }, [state.user]);
 
-  const checkReservationDate = async () => {
+  const checkReservationDate = async (selectedDate) => {
     try{
-      // loop through all reservation dates and set them to disabled = true
-      const response = await axios.post(`http://localhost:5000/api/reservations/${storedRoomId}`, formData);
-      setReservationState(response.data);
-      console.log(reservationState);
+      const response = await axios.get(`http://localhost:5000/api/reservations/all`)
+      const prevReservations = response.data;
+      console.log(prevReservations);
+      const prevDateRange=() => {
+        
+      }
+      if (selectedDate){}
     }
     catch(error){
-      console.error(error);
+      console.log(error)
     }
   }
 
-  const handleChange = (e) => {
-    checkReservationDate();
-    const { name, value } = e.target;
+  const handleChange = (range, e) => {
+    // checkReservationDate(formData.startDate, formData.endDate);
+    const [startDate, endDate] = range;
+      setStartDate(startDate);
+      setEndDate(endDate);
+    
+      const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -130,6 +141,7 @@ const ReservationForm = () => {
     setError(`Payment error: ${message}`);
   };
 
+
   return (
     <div>
 
@@ -138,25 +150,35 @@ const ReservationForm = () => {
         <form onSubmit={handleSubmit}>
           <div>
             <label>Start Date:</label>
-            <input
+            <DatePicker 
+              selected={startDate} 
+              onChange={handleChange}
+              minDate={todayDate}
+              startDate={startDate}
+              endDate={endDate}
+              selectsRange
+            />
+            {/* <input
               type="date"
               name="startDate"
               min={todayDate}
               value={formData.startDate}
+              excludeDates={reservedDates}
               onChange={handleChange}
               required
-            />
+            /> */}
           </div>
           <div>
             <label>End Date:</label>
-            <input
+            {/* <input
               type="date"
               name="endDate"
               min={todayDate}
               value={formData.endDate}
+              excludeDates={reservedDates}
               onChange={handleChange}
               required
-            />
+            /> */}
           </div>
 
           {payNow && (
@@ -214,6 +236,6 @@ const ReservationForm = () => {
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
-};
+}
 
 export default ReservationForm;
