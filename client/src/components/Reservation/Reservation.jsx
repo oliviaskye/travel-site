@@ -38,7 +38,7 @@ const ReservationForm = () => {
   });
 
   const [reservation, setReservation] = useState(null);
-  const [reservedDates, setReservedDates] = useState({});
+  const [reservedDates, setReservedDates] = useState(null);
   const [error, setError] = useState(null);
   const [payNow, setPayNow] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -69,17 +69,40 @@ const ReservationForm = () => {
   }, [state.user]);
 
   const checkReservationDate = async (selectedDate) => {
+
     try{
-      const response = await axios.get(`http://localhost:5000/api/reservations/all`)
-      const prevReservations = response.data;
-      console.log(prevReservations);
-      const prevDateRange=() => {
-        
-      }
-      if (selectedDate){}
+      const response = await axios.get(`http://localhost:5000/api/reservations/all`);
+      setReservedDates(response.data);
+      console.log(reservedDates);
+
+      // const prevDateRange=() => {
+      const newDate = reservedDates.startDate;
+      console.log(newDate);
+      const unavailableDates = [];
+      // while (newDate !== reservedDates.endDate){
+      //   newDate = newDate + 1;
+      //   console.log(newDate);
+      //   unavailableDates.append(newDate);
+      //     // console.log(newDate);
+      //   if (newDate == reservedDates.endDate){
+      //       // console.log(unavailableDates);
+      //     break;
+      //   }
+      // }
+      // }
+      // const unavailableDates = prevDateRange();
+      console.log(unavailableDates);
+      const state = true;
+      // for (i in unavailableDates){
+      //   if (i == selectedDate){
+      //     state = false;
+      //     break;
+      //   } 
+      // }
+      return state;
     }
     catch(error){
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -150,13 +173,12 @@ const ReservationForm = () => {
         <form onSubmit={handleSubmit}>
           <div>
             <label>Start Date:</label>
-            <DatePicker 
-              selected={startDate} 
-              onChange={handleChange}
-              minDate={todayDate}
+            <DatePicker
+              selectsStart
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
               startDate={startDate}
-              endDate={endDate}
-              selectsRange
+              disabled={checkReservationDate(startDate)}
             />
             {/* <input
               type="date"
@@ -170,6 +192,15 @@ const ReservationForm = () => {
           </div>
           <div>
             <label>End Date:</label>
+            <DatePicker
+              selectsEnd
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+              endDate={endDate}
+              startDate={startDate}
+              minDate={startDate}
+              disabled={checkReservationDate(endDate)}
+            />
             {/* <input
               type="date"
               name="endDate"
