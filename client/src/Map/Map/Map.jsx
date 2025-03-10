@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import mapboxgl from 'mapbox-gl';
 
 const Map = () => {
-  const theme = useTheme(); // Используем тему MUI
+  const theme = useTheme();
   const mapContainerRef = useRef(null);
   const [map, setMap] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -73,11 +73,10 @@ const Map = () => {
         display: 'flex', 
         flexDirection: { xs: 'column', md: 'row' }, 
         height: '100vh', 
-        backgroundColor: theme.palette.background.default, // Меняем фон в зависимости от темы
-        color: theme.palette.text.primary // Меняем цвет текста
+        backgroundColor: theme.palette.background.default,
+        color: theme.palette.text.primary
       }}>
 
-        {/* Блок поиска */}
         <Box sx={{ 
           width: { xs: '100%', md: '350px' }, 
           padding: '20px', 
@@ -95,8 +94,8 @@ const Map = () => {
             sx={{ 
               marginBottom: '10px',
               input: { 
-                color: theme.palette.text.primary, // Цвет текста внутри поля ввода
-                backgroundColor: theme.palette.mode === 'dark' ? '#444' : '#fff', // Фон поля ввода
+                color: theme.palette.text.primary,
+                backgroundColor: theme.palette.mode === 'dark' ? '#444' : '#fff',
                 borderRadius: '5px'
               }
             }}
@@ -155,7 +154,6 @@ const Map = () => {
           </Box>
         </Box>
 
-        {/* Карта */}
         <Box sx={{ flexGrow: 1, height: '100%' }}>
           <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
         </Box>

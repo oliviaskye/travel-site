@@ -8,7 +8,6 @@ function Nav() {
   const audioRef = useRef(new Audio(XSound));
   const navigate = useNavigate();
 
-  // Загружаем состояние из localStorage (если есть)
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
@@ -19,7 +18,6 @@ function Nav() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Эффект для применения темы и работы со звуком
   useEffect(() => {
     const root = document.documentElement;
     if (isDarkMode) {
@@ -30,7 +28,6 @@ function Nav() {
       root.classList.remove("dark");
     }
 
-    // Сохраняем в localStorage
     localStorage.setItem("darkMode", isDarkMode);
 
     if (!isSoundOn) {
@@ -41,17 +38,14 @@ function Nav() {
     localStorage.setItem("soundOn", isSoundOn);
   }, [isDarkMode, isSoundOn]);
 
-  // Переключение меню
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
-  // Переключение тёмной темы
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
   };
 
-  // Включение/выключение звука
   const toggleSound = () => {
     if (isSoundOn) {
       audioRef.current.pause();
@@ -62,7 +56,6 @@ function Nav() {
     setIsSoundOn((prev) => !prev);
   };
 
-  // Навигация на страницу логина
   const handleNavigateToRegister = () => {
     navigate("/RegisterLogin");
   };

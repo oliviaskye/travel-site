@@ -1,18 +1,16 @@
-/* Основные переменные для цветовой схемы */
 :root {
-  --background-color-light: #f7f7f7; /* светлый фон для светлой темы */
-  --background-color-dark: #1a1a1a; /* темный фон для темной темы */
-  --text-color-light: #555; /* цвет текста для светлой темы */
-  --text-color-dark: #ddd; /* цвет текста для темной темы */
-  --link-color-light: #003580; /* цвет ссылок для светлой темы */
-  --link-color-dark: #ff6a00; /* цвет ссылок для темной темы */
-  --hover-color-light: #ff6a00; /* цвет при наведении для светлой темы */
-  --hover-color-dark: #ff6a00; /* цвет при наведении для темной темы */
-  --footer-border-light: #ddd; /* цвет границы для светлой темы */
-  --footer-border-dark: #333; /* цвет границы для темной темы */
+  --background-color-light: #f7f7f7;
+  --background-color-dark: #1a1a1a;
+  --text-color-light: #555;
+  --text-color-dark: #ddd;
+  --link-color-light: #003580;
+  --link-color-dark: #ff6a00;
+  --hover-color-light: #ff6a00;
+  --hover-color-dark: #ff6a00;
+  --footer-border-light: #ddd;
+  --footer-border-dark: #333;
 }
 
-/* Настройка для светлой темы */
 @media (prefers-color-scheme: light) {
   :root {
     --background-color: var(--background-color-light);
@@ -23,7 +21,6 @@
   }
 }
 
-/* Настройка для темной темы */
 @media (prefers-color-scheme: dark) {
   :root {
     --background-color: var(--background-color-dark);
@@ -79,7 +76,6 @@
   margin-top: 20px;
 }
 
-/* Адаптивность */
 @media (max-width: 768px) {
   .fLists {
     flex-direction: column;

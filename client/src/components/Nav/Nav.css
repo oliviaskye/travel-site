@@ -1,14 +1,14 @@
 .navbar {
   position: fixed;
   top: 0;
-  left: 0; /* Убедись, что navbar начинается с левого края */
-  width: 100%; /* Растягиваем navbar на всю ширину */
+  left: 0;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 25px;
-  background-color: white; /* Или другой цвет */
-  z-index: 1000; /* Поверх остальных элементов */
+  background-color: white;
+  z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -56,12 +56,12 @@
   margin: 0;
   padding: 0;
   align-items: center;
-  flex-wrap: wrap; /* Позволяет кнопкам переноситься */
+  flex-wrap: wrap;
 }
 
 .navbar ul li {
   margin: 0 10px;
-  white-space: nowrap; /* Предотвращает перенос кнопки */
+  white-space: nowrap;
 }
 
 .navbar ul li button {

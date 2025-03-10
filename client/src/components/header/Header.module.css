@@ -1,15 +1,15 @@
 :root {
-  --input-bg: #333; /* Базовый фон для темной темы */
-  --input-text: #fff; /* Цвет текста */
+  --input-bg: #333;
+  --input-text: #fff;
 }
 
 .dark {
-  --input-bg: #333; /* Темный фон */
+  --input-bg: #333;
   --input-text: #fff;
 }
 
 .light {
-  --input-bg: #f9f9f9; /* Светлый фон */
+  --input-bg: #f9f9f9;
   --input-text: #000;
 }
 
