@@ -1,24 +1,93 @@
+/* Основные переменные для цветовой схемы */
+:root {
+  --background-color-light: #f7f7f7; /* светлый фон для светлой темы */
+  --background-color-dark: #1a1a1a; /* темный фон для темной темы */
+  --text-color-light: #555; /* цвет текста для светлой темы */
+  --text-color-dark: #ddd; /* цвет текста для темной темы */
+  --link-color-light: #003580; /* цвет ссылок для светлой темы */
+  --link-color-dark: #ff6a00; /* цвет ссылок для темной темы */
+  --hover-color-light: #ff6a00; /* цвет при наведении для светлой темы */
+  --hover-color-dark: #ff6a00; /* цвет при наведении для темной темы */
+  --footer-border-light: #ddd; /* цвет границы для светлой темы */
+  --footer-border-dark: #333; /* цвет границы для темной темы */
+}
 
-.footer{
+/* Настройка для светлой темы */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: var(--background-color-light);
+    --text-color: var(--text-color-light);
+    --link-color: var(--link-color-light);
+    --hover-color: var(--hover-color-light);
+    --footer-border: var(--footer-border-light);
+  }
+}
+
+/* Настройка для темной темы */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: var(--background-color-dark);
+    --text-color: var(--text-color-dark);
+    --link-color: var(--link-color-dark);
+    --hover-color: var(--hover-color-dark);
+    --footer-border: var(--footer-border-dark);
+  }
+}
+
+.footer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-size: 14px;
+  background-color: var(--background-color);
+  padding: 40px 20px;
+  color: var(--text-color);
+  border-top: 1px solid var(--footer-border);
+}
+
+.fLists {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.fList {
+  list-style: none;
+  padding: 0;
+  flex: 1;
+  min-width: 180px;
+}
+
+.fListItem {
+  margin-bottom: 10px;
+  color: var(--link-color);
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.fListItem:hover {
+  color: var(--hover-color);
+}
+
+.fText {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-color);
+  margin-top: 20px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .fLists {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .fList {
     width: 100%;
-    width: 1024px;
-    font-size: 12px;
+    text-align: center;
   }
-  
-  .fLists{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 50px;
-  }
-  
-  .fList{
-    list-style: none;
-    padding: 0;
-  }
-  
-  .fListItem{
-    margin-bottom: 10px;
-    color: #003580;
-    cursor: pointer;
-  }
+}

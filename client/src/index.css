@@ -23,15 +23,18 @@ html {
 
 
 :root {
-  --primary: #000; 
-  --secondary: rgb(24 24 27); 
-  --border: rgba(63, 63, 70, 0.4);
-  --title: rgb(244 244 245); 
-  --subtitle: rgb(161 161 170); 
-  --bgHeader: rgb(39, 39, 42);
-  --blue: rgb(93, 188, 252); 
-  --icon-hover: #d4d4d8; 
+  --primary: #f9f9f9; /* Светлый фон по умолчанию */
+  --secondary: rgb(240, 240, 240);
+  --border: rgba(202, 202, 202, 0.5);
+  --title: rgb(50, 50, 50); /* Цвет заголовков */
+  --subtitle: rgb(161, 161, 170);
+  --bgHeader: rgb(220, 220, 220);
+  --blue: rgb(93, 188, 252);
+  --icon-hover: #d4d4d8;
   --container-padding: 4.8rem;
+  --text: rgb(50, 50, 50); /* Цвет основного текста */
+  --input-bg: #fff; /* Фон инпутов */
+  --input-text: #000; /* Цвет текста в инпутах */
 }
 
 .dark {
@@ -39,6 +42,9 @@ html {
   --secondary: rgb(24, 24, 27);
   --text: rgb(240, 240, 240);
   --border: rgba(63, 63, 70, 0.4);
+  --title: rgb(244, 244, 245); /* Исправлено, чтобы было видно в темной теме */
+  --input-bg: #333;
+  --input-text: #fff;
 }
 
 .light {
@@ -46,12 +52,16 @@ html {
   --secondary: rgb(240, 240, 240);
   --text: rgb(50, 50, 50);
   --border: rgba(202, 202, 202, 0.5);
+  --title: rgb(50, 50, 50);
+  --input-bg: #f9f9f9;
+  --input-text: #000;
 }
 
 
 body {
   background-color: var(--primary); 
   color: var(--text);
+  padding-top: 85px; /* Подстрой значение под высоту navbar */
 }
 
 

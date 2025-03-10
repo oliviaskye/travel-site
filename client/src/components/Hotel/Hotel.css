@@ -1,6 +1,12 @@
 :root {
-  --title-color-light: #343a40; /* Темный цвет текста для светлой темы */
-  --title-color-dark: #ffffff; /* Белый цвет текста для темной темы */
+  --title: var(--title-color-light);
+  --go-rooms-gradient-start: #2193b0;
+  --go-rooms-gradient-end: #6dd5ed;
+  --see-pics-gradient-start: #ff8008;
+  --see-pics-gradient-end: #ffc837;
+}
+.dark-theme {
+  --title: var(--title-color-dark);
 }
 
 /* General Styling for Hotel Grid */
@@ -32,60 +38,134 @@
   height: 200px;
   object-fit: cover;
   border-bottom: 1px solid var(--border);
+  transition: transform 0.5s ease;
 }
 
-/* Hotel Info Section */
+.hotel-image img:hover {
+  transform: scale(1.05);
+}
+
 .hotel-info {
   padding: 20px;
-  color: var(--title);
+  color: var(--title) !important;
 }
 
 .hotel-info h3 {
   font-size: 1.4rem;
   margin-bottom: 15px;
-  color: var(--title-color-light); /* Для светлой темы */
+  color: var(--title-color-light) !important; 
 }
 
 .dark-theme .hotel-info h3 {
-  color: var(--title-color-dark); /* Для темной темы */
+  color: var(--title-color-dark) !important; 
 }
 
-.hotel-info p {
+.hotel-info p, 
+.hotel-info b {
   font-size: 1rem;
   margin: 5px 0;
-  color: var(--subtitle);
+  color: var(--text-color-light) !important;
 }
 
+.dark-theme .hotel-info p, 
+.dark-theme .hotel-info b {
+  color: var(--text-color-dark) !important;
+}
+
+/* Enhanced Button Styling */
+/* Go to Rooms Button */
 .hotel-info a {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 15px;
-  background-color: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 10px 0 0;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--go-rooms-gradient-start), var(--go-rooms-gradient-end));
   color: #fff;
   text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(33, 147, 176, 0.2);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .hotel-info a:hover {
-  background-color: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(33, 147, 176, 0.3);
+  background: linear-gradient(135deg, var(--go-rooms-gradient-start), var(--go-rooms-gradient-end));
 }
 
-/* Button Styling */
+.hotel-info a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.5s;
+  z-index: -1;
+}
+
+.hotel-info a:hover::before {
+  left: 100%;
+}
+
+/* See Pics Button */
 .hotel-info button {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 15px;
-  background-color: #28a745;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 10px 0 0;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--see-pics-gradient-start), var(--see-pics-gradient-end));
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(255, 128, 8, 0.2);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .hotel-info button:hover {
-  background-color: #218838;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 128, 8, 0.3);
+  background: linear-gradient(135deg, var(--see-pics-gradient-start), var(--see-pics-gradient-end));
+}
+
+.hotel-info button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.5s;
+  z-index: -1;
+}
+
+.hotel-info button:hover::before {
+  left: 100%;
+}
+
+/* Button Container */
+.button-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center; /* Выравнивание по вертикали */
+  justify-content: center; /* Выровнять по центру */
+  margin-top: 10px;
 }
 
 /* Search Input */
@@ -136,51 +216,69 @@ input[type="text"]:focus {
 }
 
 .ModalCloseButton {
-  background-color: var(--blue);
+  background: linear-gradient(135deg, var(--go-rooms-gradient-start), var(--go-rooms-gradient-end));
   color: #fff;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 10px 20px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(33, 147, 176, 0.2);
 }
 
 .ModalCloseButton:hover {
-  background-color: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(33, 147, 176, 0.3);
 }
 
 .ModalImage {
   width: 100px;
   height: 100px;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 8px;
   margin: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.ModalImage:hover {
+  transform: scale(1.1);
 }
 
 .ModalImageGallery {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 10px;
 }
 
 .ModalImageGallery img {
   max-width: 100%;
   height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.ModalImageGallery img:hover {
+  transform: scale(1.05);
 }
 
 .ModalNavigationButton {
-  background-color: #28a745;
+  background: linear-gradient(135deg, var(--see-pics-gradient-start), var(--see-pics-gradient-end));
   color: #fff;
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(255, 128, 8, 0.2);
 }
 
 .ModalNavigationButton:hover {
-  background-color: #218838;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 128, 8, 0.3);
 }
 
 /* Modal Fade-in Animation */

@@ -6,10 +6,20 @@ import "./Nav.css";
 function Nav() {
   const menuRef = useRef();
   const audioRef = useRef(new Audio(XSound));
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isSoundOn, setIsSoundOn] = useState(false);
   const navigate = useNavigate();
 
+  // Загружаем состояние из localStorage (если есть)
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true";
+  });
+
+  const [isSoundOn, setIsSoundOn] = useState(() => {
+    return localStorage.getItem("soundOn") === "true";
+  });
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Эффект для применения темы и работы со звуком
   useEffect(() => {
     const root = document.documentElement;
     if (isDarkMode) {
@@ -20,34 +30,39 @@ function Nav() {
       root.classList.remove("dark");
     }
 
+    // Сохраняем в localStorage
+    localStorage.setItem("darkMode", isDarkMode);
+
     if (!isSoundOn) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
+
+    localStorage.setItem("soundOn", isSoundOn);
   }, [isDarkMode, isSoundOn]);
 
+  // Переключение меню
   const toggleMenu = () => {
-    if (menuRef.current) {
-      menuRef.current.classList.toggle("active");
-    }
+    setIsMenuOpen((prev) => !prev);
   };
 
+  // Переключение тёмной темы
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    setIsDarkMode((prev) => !prev);
   };
 
+  // Включение/выключение звука
   const toggleSound = () => {
     if (isSoundOn) {
-      // sound off
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     } else {
-      // sound on
       audioRef.current.play();
     }
-    setIsSoundOn(!isSoundOn);
+    setIsSoundOn((prev) => !prev);
   };
 
+  // Навигация на страницу логина
   const handleNavigateToRegister = () => {
     navigate("/RegisterLogin");
   };
@@ -57,7 +72,7 @@ function Nav() {
       <div className="logo">
         <Link to="/">Traveler</Link>
       </div>
-      <ul ref={menuRef}>
+      <ul ref={menuRef} className={isMenuOpen ? "active" : ""}>
         <li>
           <Link to="/">Home</Link>
         </li>
@@ -67,7 +82,6 @@ function Nav() {
         <li>
           <Link to="/UserProfile">Profile</Link>
         </li>
-
         <li>
           <button onClick={toggleDarkMode}>
             {isDarkMode ? "Light Mode" : "Dark Mode"}
@@ -80,12 +94,16 @@ function Nav() {
         </li>
         <li>
           <button className="button" onClick={handleNavigateToRegister}>
-            Signin
+            Sign In
           </button>
         </li>
       </ul>
       <div className="navbar-actions">
-        <button className="menu-toggle" onClick={toggleMenu}>
+        <button
+          className={`menu-toggle ${isMenuOpen ? "open" : ""}`}
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
           ☰
         </button>
       </div>

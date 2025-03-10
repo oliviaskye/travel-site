@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, TextField, Button, Typography } from '@mui/material';
+import { Box, TextField, Button, Typography, useTheme } from '@mui/material';
 import { fetchCityCoordinates, fetchHotelsByCity } from '../Search/Search';
 import { initializeMap, flyToLocation } from '../mapUtils/mapUtils';
 import Nav from "../../components/Nav/Nav";
@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import mapboxgl from 'mapbox-gl';
 
 const Map = () => {
+  const theme = useTheme(); // Используем тему MUI
   const mapContainerRef = useRef(null);
   const [map, setMap] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -32,37 +33,29 @@ const Map = () => {
       const cityData = await fetchCityCoordinates(searchQuery);
       if (cityData) {
         const [longitude, latitude] = cityData.geometry.coordinates;
-        
 
         const cityMarker = new mapboxgl.Marker({ anchor: 'center' })
           .setLngLat([longitude, latitude])
           .addTo(map);
           
-      
         cityMarker.getElement().style.pointerEvents = 'none';
-  
-   
         flyToLocation(map, [longitude, latitude]);
       }
     
-  
       const hotelsData = await fetchHotelsByCity(searchQuery);
       setHotels(hotelsData);
   
       if (hotelsData.length === 0) {
         alert('No hotels found in this location.');
       } else {
-  
         hotelsData.forEach((hotel) => {
           if (hotel.latitude && hotel.longitude) {
             const hotelMarker = new mapboxgl.Marker({ anchor: 'center' })
               .setLngLat([hotel.longitude, hotel.latitude])
               .addTo(map);
             
-       
             hotelMarker.getElement().style.pointerEvents = 'none';
           }
-          console.log(hotel.longitude, hotel.latitude)
         });
       }
     } catch (error) {
@@ -72,67 +65,102 @@ const Map = () => {
       setLoading(false);
     }
   };
+
   return (
     <div>
-      <Nav/>
-    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Nav />
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: { xs: 'column', md: 'row' }, 
+        height: '100vh', 
+        backgroundColor: theme.palette.background.default, // Меняем фон в зависимости от темы
+        color: theme.palette.text.primary // Меняем цвет текста
+      }}>
 
+        {/* Блок поиска */}
+        <Box sx={{ 
+          width: { xs: '100%', md: '350px' }, 
+          padding: '20px', 
+          overflowY: 'auto', 
+          backgroundColor: theme.palette.mode === 'dark' ? '#333' : '#f8f9fa', 
+          borderRadius: '10px',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+        }}>
+          <TextField
+            label="Search by city or country"
+            variant="outlined"
+            fullWidth
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            sx={{ 
+              marginBottom: '10px',
+              input: { 
+                color: theme.palette.text.primary, // Цвет текста внутри поля ввода
+                backgroundColor: theme.palette.mode === 'dark' ? '#444' : '#fff', // Фон поля ввода
+                borderRadius: '5px'
+              }
+            }}
+          />
+          <Button onClick={handleSearch} variant="contained" color="primary" fullWidth>
+            Search
+          </Button>
 
-      <Box sx={{ width: '300px', padding: '20px', overflowY: 'auto' }}>
-        <TextField
-          label="Search by city or country"
-          variant="outlined"
-          fullWidth
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ marginBottom: '10px' }}
-        />
-        <Button onClick={handleSearch} variant="contained" color="primary">
-          Search
-        </Button>
-
-        {loading && (
-          <Typography variant="h6" color="primary" style={{ marginTop: '20px' }}>
-            Searching...
-          </Typography>
-        )}
-
-        <Box style={{ marginTop: '20px' }}>
-          <Typography variant="h5" gutterBottom>
-            Hotels in {searchQuery}
-          </Typography>
-
-          {hotels.length === 0 ? (
-            <Typography>No hotels found in this city.</Typography>
-          ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)', gap: '20px' }}>
-              {hotels.map((hotel) => (
-                <div key={hotel._id} className="container" style={{ border: '1px solid #ccc', padding: '15px' }}>
-                  <img
-                    src={`http://localhost:5000/${hotel.photos && hotel.photos.length > 0 ? hotel.photos[0].replace(/\\/g, '/') : 'default-image.jpg'}`}
-                    alt={hotel.name}
-                    style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                  />
-                  <h3>{hotel.name}</h3>
-                  <p><strong>Country:</strong> {hotel.country}</p>
-                  <p><strong>City:</strong> {hotel.city}</p>
-                  <p><strong>Address:</strong> {hotel.address}</p>
-                  <p><strong>Cheapest Price:</strong> ${hotel.cheapestPrice}</p>
-                  <p><strong>Max Price:</strong> ${hotel.maxPrice}</p>
-                  <p><strong>Phone Number:</strong> {hotel.phoneNumber}</p>
-
-                  <Link to={`/hotels/${hotel._id}/rooms`}>Go to Rooms</Link>
-                </div>
-              ))}
-            </div>
+          {loading && (
+            <Typography variant="h6" color="primary" sx={{ marginTop: '20px' }}>
+              Searching...
+            </Typography>
           )}
-        </Box>
-      </Box>
 
-      <Box sx={{ flexGrow: 1, height: '500px', marginTop: '20px' }}>
-        <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
+          <Box sx={{ marginTop: '20px' }}>
+            <Typography variant="h5" gutterBottom>
+              Hotels in {searchQuery}
+            </Typography>
+
+            {hotels.length === 0 ? (
+              <Typography>No hotels found in this city.</Typography>
+            ) : (
+              <Box sx={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
+                {hotels.map((hotel) => (
+                  <Box 
+                    key={hotel._id} 
+                    sx={{ 
+                      border: '1px solid #ddd', 
+                      padding: '15px', 
+                      borderRadius: '10px', 
+                      boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
+                      backgroundColor: theme.palette.mode === 'dark' ? '#222' : '#fff',
+                      color: theme.palette.text.primary
+                    }}
+                  >
+                    <img
+                      src={`http://localhost:5000/${hotel.photos?.[0]?.replace(/\\/g, '/') || 'default-image.jpg'}`}
+                      alt={hotel.name}
+                      style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '10px' }}
+                    />
+                    <Typography variant="h6">{hotel.name}</Typography>
+                    <Typography><strong>Country:</strong> {hotel.country}</Typography>
+                    <Typography><strong>City:</strong> {hotel.city}</Typography>
+                    <Typography><strong>Address:</strong> {hotel.address}</Typography>
+                    <Typography><strong>Cheapest Price:</strong> ${hotel.cheapestPrice}</Typography>
+                    <Typography><strong>Max Price:</strong> ${hotel.maxPrice}</Typography>
+                    <Typography><strong>Phone Number:</strong> {hotel.phoneNumber}</Typography>
+
+                    <Link to={`/hotels/${hotel._id}/rooms`} style={{ textDecoration: 'none', color: theme.palette.primary.main }}>
+                      Go to Rooms
+                    </Link>
+                  </Box>
+                ))}
+              </Box>
+            )}
+          </Box>
+        </Box>
+
+        {/* Карта */}
+        <Box sx={{ flexGrow: 1, height: '100%' }}>
+          <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
+        </Box>
+
       </Box>
-    </Box>
     </div>
   );
 };
