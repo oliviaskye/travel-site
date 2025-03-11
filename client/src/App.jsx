@@ -33,7 +33,7 @@ function App() {
   return (
     <div className="container">
       <Elements stripe={stripePromise}>
-        <Routes>
+          <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/RegisterLogin" element={<RegisterLogin />} />
           <Route path="/map" element={<Map />} />
@@ -51,6 +51,7 @@ function App() {
           <Route path="/payment/:reservationId" element={<PaymentForm />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
+        
       </Elements>
     </div>
   );
