@@ -43,6 +43,7 @@ const ReservationForm = () => {
   const [payNow, setPayNow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
@@ -174,11 +175,12 @@ const ReservationForm = () => {
           <div>
             <label>Start Date:</label>
             <DatePicker
-              selectsStart
               selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              onChange={handleChange()}
               startDate={startDate}
+              endDate={endDate}
               disabled={checkReservationDate(startDate)}
+              selectsRange
             />
             {/* <input
               type="date"
@@ -192,15 +194,6 @@ const ReservationForm = () => {
           </div>
           <div>
             <label>End Date:</label>
-            <DatePicker
-              selectsEnd
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-              endDate={endDate}
-              startDate={startDate}
-              minDate={startDate}
-              disabled={checkReservationDate(endDate)}
-            />
             {/* <input
               type="date"
               name="endDate"
