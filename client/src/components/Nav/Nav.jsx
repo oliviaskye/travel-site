@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import XSound from "../../assets/XSound.wav";
+import XSound from "@assets/XSound.wav";
 import "./Nav.css";
 
 function Nav() {
