@@ -15,8 +15,8 @@ import {
   Box,
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import "../Nav/Nav"
-import Nav from "../Nav/Nav";
+// import "../Nav/Nav"
+import Nav from "@Nav";
 
 const UserReservation = () => {
   const [reservations, setReservations] = useState([]);

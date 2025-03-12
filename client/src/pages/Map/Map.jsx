@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Box, TextField, Button, Typography, useTheme } from '@mui/material';
-import { fetchCityCoordinates, fetchHotelsByCity } from '../Search/Search';
-import { initializeMap, flyToLocation } from '../mapUtils/mapUtils';
-import Nav from "../../components/Nav/Nav";
+import { fetchCityCoordinates, fetchHotelsByCity } from './Search';
+import { initializeMap, flyToLocation } from './mapUtils';
+import Nav from "@Nav";
 import { Link } from "react-router-dom";
 import mapboxgl from 'mapbox-gl';
 

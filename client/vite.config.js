@@ -1,8 +1,15 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from "vite";
+import path from "path";
 
 export default defineConfig({
-  base: '/',
+  base: "/",
   server: {
     port: 3000,
+  },
+  resolve: {
+    alias: {
+      "@assets": path.resolve(__dirname, "public/assets/images"),
+      "@Nav": path.resolve(__dirname, "src/components/Nav/Nav.jsx"),
+    },
   },
 });

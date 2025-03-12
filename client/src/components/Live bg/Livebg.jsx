@@ -1,6 +1,6 @@
 import React from "react";
 import './../../components/Live bg/Livebg.css';
-import BgVideo from './../../assets/BgVideo.mp4';
+import BgVideo from '@assets/BgVideo.mp4';
 
 const Livebg = () => {
     return (

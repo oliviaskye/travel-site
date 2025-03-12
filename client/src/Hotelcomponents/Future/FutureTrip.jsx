@@ -1,9 +1,9 @@
 import React from "react";
 import futureTripCSS from "./FutureTrip.module.css"
 
-import image3 from '../../assets/Blog3.png'
-import image2 from '../../assets/Blog2.png'
-import image1 from '../../assets/Blog1.png'
+import image3 from '@assets/Blog3.png'
+import image2 from '@assets/Blog2.png'
+import image1 from '@assets/Blog1.png'
 
 function FutureTrip () {
     return (

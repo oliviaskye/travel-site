@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Modal from "react-modal";
-import { useValue } from "../../context/ContextProvider";
+import { useValue } from "../../Middleware/context/ContextProvider";
 import StripePaymentForm from "../Payment/StripePaymentForm";
 
 const customStyles = {
