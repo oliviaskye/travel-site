@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
-import Nav from "../Nav/Nav";
+import Nav from "@Nav";
 import ReservationForm from "../Reservation/Reservation";
 import "./HotelRoomsx.css";
 

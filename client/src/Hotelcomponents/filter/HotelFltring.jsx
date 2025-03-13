@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
-import Map from "../../Map/Map/Map";
-import Nav from "../Nav/Nav";
+import Map from "../../pages/Map/Map";
+import Nav from "@Nav";
 
 const HotelFltring = () => {
   const [hotels, setHotels] = useState([]);

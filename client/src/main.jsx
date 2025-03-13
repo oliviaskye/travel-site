@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
-import ContextProvider from './context/ContextProvider';
+import ContextProvider from './Middleware/context/ContextProvider';
 import { BrowserRouter } from "react-router-dom";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';

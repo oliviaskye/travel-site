@@ -1,9 +1,9 @@
 import React from "react";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import Nav from "../components/Nav/Nav";
-import Hotels from "../components/Hotel/Hotel";
-import FutureTrip from "../components/Future/FutureTrip";
+import Nav from "@Nav";
+import Hotels from "../Hotelcomponents/Hotel/Hotel";
+import FutureTrip from "../Hotelcomponents/Future/FutureTrip";
 import "../index.css";
 
 const Home = () => {

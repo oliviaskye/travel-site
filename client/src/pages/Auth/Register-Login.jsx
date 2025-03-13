@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Register from "./Register";
 import Login from "./LogIn";
-import Nav from "../components/Nav/Nav";
+import Nav from "@Nav";
 import { useLocation } from "react-router-dom";
 
 function RegisterLogin() {
