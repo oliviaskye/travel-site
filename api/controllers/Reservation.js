@@ -56,7 +56,44 @@ export const createReservation = async (req, res) => {
   }
 };
 
+export const checkReservations = async (req, res) => {
+  const { hotelId, roomId, startDate, endDate } = req.body;
 
+  try {
+ 
+    if (!hotelId || !roomId || !startDate || !endDate) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+  
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+    if (startDateObj >= endDateObj) {
+      return res.status(400).json({ message: "End date must be after start date." });
+    }
+      
+    const room = await Room.findById(roomId);
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+  
+    const existingReservations = await Reservation.find({
+      roomId,
+      $or: [
+        { startDate: { $lte: endDateObj, $gte: startDateObj } },
+        { endDate: { $gte: startDateObj, $lte: endDateObj } }
+      ]
+    });
+  
+    if (existingReservations.length > 0) {
+      return res.json({ booked : true });
+    }
+
+  }
+  catch(error) {
+    console.error("Error creating reservation:", error);
+    res.status(500).json({ message: "Error creating reservation", error: error.message });
+  }
+}
 
 export const GetReservation = async (req, res, next) => {
   try {

@@ -36,10 +36,13 @@ const ReservationForm = () => {
   });
 
   const [reservation, setReservation] = useState(null);
+  const [reservedDates, setReservedDates] = useState(null);
   const [error, setError] = useState(null);
   const [payNow, setPayNow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const todayDate = date1.toISOString().substring(0, 10);
 
   useEffect(() => {
    
@@ -61,7 +64,7 @@ const ReservationForm = () => {
   }, [state.user]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+      const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -113,8 +116,9 @@ const ReservationForm = () => {
     setError(`Payment error: ${message}`);
   };
 
+
   return (
-    <div>¨
+    <div>
 
       <h2>Create a Reservation</h2>
       {!reservation ? (
@@ -124,7 +128,9 @@ const ReservationForm = () => {
             <input
               type="date"
               name="startDate"
+              min={todayDate}
               value={formData.startDate}
+              excludeDates={reservedDates}
               onChange={handleChange}
               required
             />
@@ -134,7 +140,9 @@ const ReservationForm = () => {
             <input
               type="date"
               name="endDate"
+              min={todayDate}
               value={formData.endDate}
+              excludeDates={reservedDates}
               onChange={handleChange}
               required
             />
@@ -195,6 +203,6 @@ const ReservationForm = () => {
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
-};
+}
 
 export default ReservationForm;
