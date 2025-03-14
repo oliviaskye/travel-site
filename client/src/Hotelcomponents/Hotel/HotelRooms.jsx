@@ -39,6 +39,7 @@ const HotelRoomsx = () => {
   const [error, setError] = useState(null);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [currentRoomImages, setCurrentRoomImages] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -73,6 +74,7 @@ const HotelRoomsx = () => {
         const response = await axios.get(
           `http://localhost:5000/api/hotels/${hotelId}/rooms`
         );
+        console.log("Rooms Data:", response.data);
         setRooms(response.data);
         setLoading(false);
       } catch (error) {
@@ -107,6 +109,7 @@ const HotelRoomsx = () => {
 
   const openImageModal = (roomImages) => {
     setCurrentRoomImages(roomImages);
+    setCurrentImageIndex(0); // Reset to first image
     setIsImageModalOpen(true);
   };
 
@@ -141,16 +144,21 @@ const HotelRoomsx = () => {
         {rooms.map((room) => (
           <div key={room._id} className="room-card">
             <div className="room-image">
-              {room.img && Array.isArray(room.img) ? (
-                room.img.map((image, index) => (
-                  <img
-                    key={index}
-                    src={`http://localhost:5000/uploads/${image.replace(/\\/g, "/")}`}
-                    alt={room.title}
-                    style={{ width: "100%", height: "300px", objectFit: "cover" }}
-                    onClick={() => openImageModal(room.img)}
-                  />
-                ))
+              {room.img && Array.isArray(room.img) && room.img.length > 0 ? (
+                <img
+                  src={`http://localhost:5000/${room.img[0].replace(
+                    /\\/g,
+                    "/"
+                  )}`}
+                  alt={room.title}
+                  style={{
+                    width: "100%",
+                    height: "300px",
+                    objectFit: "cover",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => openImageModal(room.img)}
+                />
               ) : (
                 <img
                   src="default-image.jpg"
@@ -169,12 +177,15 @@ const HotelRoomsx = () => {
               <p>
                 <strong>Room Number:</strong> {room.roomNumber}
               </p>
-              <button onClick={() => openReservationModal(room)}>Book Now</button>
+              <button onClick={() => openReservationModal(room)}>
+                Book Now
+              </button>
             </div>
           </div>
         ))}
       </div>
 
+      {/* Image Modal */}
       <Modal
         isOpen={isImageModalOpen}
         onRequestClose={closeImageModal}
@@ -184,15 +195,40 @@ const HotelRoomsx = () => {
         <h2>Room Images</h2>
         <div className="image-gallery">
           {currentRoomImages.length > 0 ? (
-            currentRoomImages.map((image, index) => (
+            <>
               <img
-                key={index}
-                src={`http://localhost:5000/uploads/${image.replace(/\\/g, "/")}`}
-                alt={`Room Image ${index + 1}`}
+                src={`http://localhost:5000/${currentRoomImages[
+                  currentImageIndex
+                ].replace(/\\/g, "/")}`}
+                alt={`Room Image ${currentImageIndex + 1}`}
                 className="gallery-image"
-                style={{ width: "100%", height: "300px", objectFit: "cover" }}
+                style={{
+                  width: "100%",
+                  height: "300px",
+                  objectFit: "cover",
+                }}
               />
-            ))
+              <div className="image-navigation">
+                <button
+                  onClick={() =>
+                    setCurrentImageIndex((prev) => Math.max(prev - 1, 0))
+                  }
+                  disabled={currentImageIndex === 0}
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={() =>
+                    setCurrentImageIndex((prev) =>
+                      Math.min(prev + 1, currentRoomImages.length - 1)
+                    )
+                  }
+                  disabled={currentImageIndex === currentRoomImages.length - 1}
+                >
+                  Next
+                </button>
+              </div>
+            </>
           ) : (
             <p>No images available for this room.</p>
           )}

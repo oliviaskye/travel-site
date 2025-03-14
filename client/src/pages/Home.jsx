@@ -5,6 +5,7 @@ import Nav from "@Nav";
 import Hotels from "../Hotelcomponents/Hotel/Hotel";
 import FutureTrip from "../Hotelcomponents/Future/FutureTrip";
 import "../index.css";
+import "../Middleware/mood/Light-Dark.css";
 
 const Home = () => {
   return (
@@ -17,9 +18,11 @@ const Home = () => {
       <div>
         <div>
           <FutureTrip />
+          <div className="divider" />
           <Hotels />
         </div>
       </div>
+      <div className="divider" />
       <div className="footer">
         <Footer />
       </div>
