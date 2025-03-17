@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import "./index.css";
-
+import  "@container" 
 import RegisterLogin from "./pages/Auth/Register-Login";
 
 import Home from "./pages/Home";
@@ -28,7 +28,9 @@ const stripePromise = loadStripe(
   "pk_test_51QFvkhLAzYW8YRzjlm4VYKp19bMXpFMoHcCsHM3wda661NR4YOjHO2iyXMrDZmNqKfGUNXD5neKjeUmt1mTClIgc00RBYWEAAX"
 );
 
+
 function App() {
+  
   return (
     <div>
       <Livebg />
@@ -36,6 +38,7 @@ function App() {
         <Elements stripe={stripePromise}>
           <Routes>
             <Route path="/" element={<Home />} />
+
             <Route path="/RegisterLogin" element={<RegisterLogin />} />
             <Route path="/map" element={<Map />} />
             <Route path="/hotels" element={<Hotels />} />
@@ -55,5 +58,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;

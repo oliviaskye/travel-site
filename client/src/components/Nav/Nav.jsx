@@ -1,7 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import XSound from "@assets/XSound.wav";
+import { FaMoon, FaSun, FaVolumeUp, FaVolumeMute } from 'react-icons/fa'; // Importing the icons
 import "./Nav.css";
+
+export const navItems = [
+  { label: "Home", path: "/" },
+  { label: "Map", path: "/map" },
+  { label: "Profile", path: "/UserProfile" },
+  { label: "Dark Mode", action: "toggleDarkMode" },
+  { label: "Sound", action: "toggleSound" },
+  { label: "Sign In", action: "signIn" },
+];
 
 function Nav() {
   const menuRef = useRef();
@@ -20,32 +30,21 @@ function Nav() {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (isDarkMode) {
-      root.classList.add("dark");
-      root.classList.remove("light");
-    } else {
-      root.classList.add("light");
-      root.classList.remove("dark");
-    }
-
+    root.classList.toggle("dark", isDarkMode);
+    root.classList.toggle("light", !isDarkMode);
     localStorage.setItem("darkMode", isDarkMode);
 
     if (!isSoundOn) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
+    } else {
+      audioRef.current.play();
     }
-
     localStorage.setItem("soundOn", isSoundOn);
   }, [isDarkMode, isSoundOn]);
 
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
-
-  const toggleDarkMode = () => {
-    setIsDarkMode((prev) => !prev);
-  };
-
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+  const toggleDarkMode = () => setIsDarkMode((prev) => !prev);
   const toggleSound = () => {
     if (isSoundOn) {
       audioRef.current.pause();
@@ -56,13 +55,7 @@ function Nav() {
     setIsSoundOn((prev) => !prev);
   };
 
-  const handleNavigateToRegister = () => {
-    navigate("/RegisterLogin");
-  };
-
-  const handleLogout = () => {
-    localStorage.clear();
-  }
+  const handleNavigateToRegister = () => navigate("/RegisterLogin");
 
   return (
     <nav className={`navbar ${isDarkMode ? "dark" : "light"}`}>
@@ -70,32 +63,31 @@ function Nav() {
         <Link to="/">Traveler</Link>
       </div>
       <ul ref={menuRef} className={isMenuOpen ? "active" : ""}>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/map">Map</Link>
-        </li>
-        <li>
-          <Link to="/UserProfile">Profile</Link>
-        </li>
-        <li>
-          <button onClick={toggleDarkMode}>
-            {isDarkMode ? "Light Mode" : "Dark Mode"}
-          </button>
-        </li>
-        <li>
-          <button onClick={toggleSound}>
-            {isSoundOn ? "🔊 Sound On" : "🔇 Sound Off"}
-          </button>
-        </li>
-
-        <li>
-          <button className="button" onClick={handleNavigateToRegister}>
-            Sign In
-          </button>
-        </li>
-
+        {navItems.map((item, index) => (
+          <li key={index}>
+            {item.path ? (
+              <Link to={item.path}>{item.label}</Link>
+            ) : (
+              <button
+                onClick={() => {
+                  if (item.action === "toggleDarkMode") toggleDarkMode();
+                  if (item.action === "toggleSound") toggleSound();
+                  if (item.action === "signIn") handleNavigateToRegister();
+                }}
+              >
+                {item.label === "Dark Mode"
+                  ? isDarkMode
+                    ? <><FaSun /> Light Mode</>
+                    : <><FaMoon /> Dark Mode</>
+                  : item.label === "Sound"
+                  ? isSoundOn
+                    ? <><FaVolumeUp /> Sound On</>
+                    : <><FaVolumeMute /> Sound Off</>
+                  : item.label}
+              </button>
+            )}
+          </li>
+        ))}
       </ul>
       <div className="navbar-actions">
         <button
