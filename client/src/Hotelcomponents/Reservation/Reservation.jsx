@@ -36,7 +36,6 @@ const ReservationForm = () => {
   });
 
   const [reservation, setReservation] = useState(null);
-  const [reservedDates, setReservedDates] = useState(null);
   const [error, setError] = useState(null);
   const [payNow, setPayNow] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -130,7 +129,6 @@ const ReservationForm = () => {
               name="startDate"
               min={todayDate}
               value={formData.startDate}
-              excludeDates={reservedDates}
               onChange={handleChange}
               required
             />
@@ -142,7 +140,6 @@ const ReservationForm = () => {
               name="endDate"
               min={todayDate}
               value={formData.endDate}
-              excludeDates={reservedDates}
               onChange={handleChange}
               required
             />
