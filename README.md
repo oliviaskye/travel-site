@@ -141,7 +141,7 @@ Local Installation
 -
 Clone the repository:
 ```
-  git clone https: //github.com/your-repo/travel-site.git
+  git clone https://github.com/oliviaskye/travel-site.git
 ```
 Install dependencies for both client and server:
 ```
