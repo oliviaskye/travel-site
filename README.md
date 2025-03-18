@@ -10,32 +10,51 @@ Participants
 -
 This project was a team effort by Abdullah al-Tammemi, Ricards Aleksejuks, Minoo Yaghoubi and Olivia Hinkle. All were involved in the development of components and troubleshooting issues 
 in both the front and backend of the project at all stages. Specific responsibilities included:
+
 Olivia Hinkle: Project management
+
 Abdullah al-Tammemi: Backend management
+
 Ricards Aleksejuks: User features and styling
+
 Minoo Yaghoubi: Payment features, security and styling
 
 Features
 -
 User authentication and authorization
+
 Hotel room search and filtering
+
 Room reservation and payment processing
+
 User profile management and reservation history
+
 Admin panel for content management
 
 Dependencies
 -
 ReactJS: Frontend framework for the user interface.
+
 Node.js: Backend runtime for handling server-side operations.
+
 Express: Web framework for building API routes and handling requests.
+
 Vite: Development build tool for faster frontend development.
+
 CSS: Styling and layout for the user interface.
+
 MongoDB: NoSQL database for storing user and hotel data.
+
 mongoose: ODM library for interacting with MongoDB.
+
 Stripe: Payment processing for hotel reservations.
+
 JSON Web Token (JWT): User authentication and authorization.
+
 bcrypt: Password hashing for secure authentication.
+
 Postman: API testing tool for backend endpoints.
+
 Render: Cloud hosting service for deployment.
 
 Render
@@ -44,6 +63,7 @@ The project is hosted on Render cloud hosting, a production version can be viewe
 
 Project Structure
 -
+```
 travel-site/
 │
 ├── admin/                     # Admin panel frontend
@@ -116,15 +136,15 @@ travel-site/
 │   ├── package-lock.json      # Dependency version tracking
 │   ├── package.json           # Project dependencies
 │   └── vite.config.js         # Vite configuration file
-
+```
 Local Installation
 -
 Clone the repository:
-
+```
   git clone https: //github.com/your-repo/travel-site.git
-
+```
 Install dependencies for both client and server:
-  
+```
   cd api
   npm install
   
@@ -133,9 +153,9 @@ Install dependencies for both client and server:
   
   cd ../admin
   npm install
-
+```
 Run the development servers:
-
+```
   cd api
   npm start
   
@@ -144,11 +164,12 @@ Run the development servers:
   
   cd ../admin
   npm start
-
+```
 Access the application in your browser at http://localhost:3000
 
 Database Schemas
 -
+```
 Hotel:
 const HotelSchema = new mongoose.Schema({
     name: {
@@ -292,55 +313,121 @@ const RoomSchema = new mongoose.Schema({
       required: true,
     },
 });
-
+```
 API Endpoints:
 -
-Auth Endpoints:
+
+**Auth Endpoints:**
+
+
 // POST
+
 Add a user: "localhost::5000/api/auth/register"
+
 Authenticate a user: "localhost::5000/api/auth/login"
+
+
 // GET
+
 Get all users: "localhost::5000/api/auth/users"
+
 Get current user: "localhost::5000/api/auth/users/:id"
+
+
 // DELETE
+
 Delete current user: "localhost::5000/api/auth/users/:id"
+
+
 // PUT
+
 Update current user: "localhost:5000/api/auth/users/:id"
 
-Hotel Endpoints:
+
+
+**Hotel Endpoints:**
+
+
 // POST
+
 Add a hotel: "localhost/"
+
+
 // UPDATE
+
 Update hotel information: "/:id"
+
+
 // DELETE
+
 Remove a hotel listing: router.delete("/:id", deleteHotel);
+
+
 // GET
+
 Get all hotels: "localhost:5000/api/hotels"
+
 Get a specific hotel by id: "localhost:5000/api/hotels/:id"
+
 Use filter conditions to get specific hotels: "localhost:5000/api/hotels/filter"
+
 Map function for hotel search: "localhost:5000/api/hotels/map"
 
-Payment Endpoints:
+
+
+**Payment Endpoints:**
+
+
 // POST
+
 Submit a payment for a reservation: "localhost:5000/api/payment"
 
-Reservation Endpoints:
+
+
+**Reservation Endpoints:**
+
+
 // POST
+
 Add a new reservation: "localhost:5000/api/reservations/"
+
+
 // GET
+
 Get all reservations: "localhost:5000/api/reservations/all"
+
 Get the current user's reservations: "localhost:5000/api/reservations/user/:id"
+
 Get reservation to check validity: "localhost:5000/api/reservations"
+
+
 // DELETE
+
 Delete a reservation from the current user: "localhost:5000/api/reservations/:id"
 
-Room Endpoints:
+
+
+**Room Endpoints:**
+
+
 // POST
+
 Add a new room listing: "localhost:5000/api/hotels/:hotelId/rooms"
+
+
 // PUT
+
 Update a room listing: "localhost:5000/api/hotels/:hotelId/rooms/:roomId"
+
+
 // GET
+
 Get all hotel rooms: "localhost:5000/api/hotels/:hotelId/rooms"
+
 Get a specific room by id: "localhost:5000/api/hotels/:hotelId/rooms/:roomId"
+
+
 // DELETE
+
 Delete a room by id: "localhost:5000/api/hotels/:hotelId/rooms/:roomId"
+
