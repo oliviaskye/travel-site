@@ -12,8 +12,7 @@ import Home from "./pages/Home";
 import HotelFltring from "./Hotelcomponents/filter/HotelFltring";
 import Hotels from "./Hotelcomponents/Hotel/Hotel";
 
-// Change this import if needed
-import oneRoom from "./Hotelcomponents/room/oneRoom";
+
 
 
 import Rooms from "./Hotelcomponents/room/Rooms";
@@ -47,6 +46,8 @@ function App() {
             <Route path="/hotels" element={<Hotels />} />
           
             <Route path="/hotels/:hotelId/rooms" element={<Rooms />} />
+         
+
             <Route
               path="/reservation/:roomId/:hotelId"
               element={<ReservationForm />}

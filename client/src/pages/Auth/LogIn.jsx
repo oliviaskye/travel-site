@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useValue } from "../../Middleware/context/ContextProvider";
 
-
 const Login = () => {
   const [inputs, setInputs] = useState({
     emailOrPhone: "",
@@ -34,11 +33,15 @@ const Login = () => {
       console.log(response.data);
 
       if (response.data.success) {
+        // تحديث حالة المستخدم في context
         dispatch({ type: "UPDATE_USER", payload: response.data.result });
 
+        // تخزين التوكن وبيانات المستخدم في localStorage
+        localStorage.setItem("token", response.data.result.token);
         localStorage.setItem("userId", response.data.result.id);
         localStorage.setItem("email", response.data.result.email);
 
+        // توجيه المستخدم إلى الصفحة التي كان يرغب في الوصول إليها
         navigate(redirectPath);
       }
     } catch (error) {

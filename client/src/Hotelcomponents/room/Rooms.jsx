@@ -26,6 +26,7 @@ const Rooms = () => {
       } catch (error) {
         setError("Failed to fetch rooms. Please try again.");
         setLoading(false);
+        console.error(error); // Log the error for debugging
       }
     };
 
@@ -43,8 +44,8 @@ const Rooms = () => {
   };
 
   const handleRoomSelection = (roomId) => {
-    setSelectedRoomId(roomId);  // Set selected roomId
-    localStorage.setItem("selectedRoomId", roomId);  // Store the selected roomId in localStorage
+    setSelectedRoomId(roomId); // Set selected roomId
+    localStorage.setItem("selectedRoomId", roomId); // Store the selected roomId in localStorage
   };
 
   if (loading) return <p>Loading rooms...</p>;
@@ -56,14 +57,15 @@ const Rooms = () => {
 
       <div className="room-grid">
         {rooms.map((room) => (
-          <div key={room._id} className="room-card">
+          <div
+            key={room._id}
+            className={`room-card ${selectedRoomId === room._id ? "selected" : ""}`}
+            onClick={() => handleRoomSelection(room._id)}
+          >
             <div className="room-image">
               {room.img?.length > 0 ? (
                 <img
-                  src={`http://localhost:5000/${room.img[0].replace(
-                    /\\/g,
-                    "/"
-                  )}`}
+                  src={`http://localhost:5000/${room.img[0].replace(/\\/g, "/")}`}
                   alt={room.title}
                   className="room-img"
                   onClick={() => openImageModal(room.img)}
@@ -80,21 +82,27 @@ const Rooms = () => {
             <div className="room-info">
               <h3>{room.title}</h3>
               <p>{room.details}</p>
-              <p><strong>Price:</strong> ${room.price}</p>
-              <p><strong>Room Number:</strong> {room.roomNumber}</p>
+              <p>
+                <strong>Price:</strong> ${room.price}
+              </p>
+              <p>
+                <strong>Room Number:</strong> {room.roomNumber}
+              </p>
 
-              <button onClick={() => handleRoomSelection(room._id)}>
-                {selectedRoomId === room._id ? (
-                  <Link
-                    to={`/reservation/${hotelId}/${room._id}`}
-                    className="link-button"
-                  >
-                    Book Now
-                  </Link>
-                ) : (
-                  <span>Select this room to book</span>  // Inform user to select the room
-                )}
-              </button>
+              {/* Conditional rendering for the button */}
+              <Link
+                to={`/reservation/${hotelId}/${room._id}`}
+                className="link-button"
+              >
+                <button className="nav-button">Book now</button>
+              </Link>
+              {/* Uncomment the following to use the "See" button */}
+              {/* <Link
+                to={`/hotels/${hotelId}/rooms/${room._id}`}
+                className="link-button"
+              >
+                <button className="nav-button">See</button>
+              </Link> */}
             </div>
           </div>
         ))}
