@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import { useValue } from "../../Middleware/context/ContextProvider";
 import StripePaymentForm from "../Payment/StripePaymentForm";
+import Nav from "@Nav";
 
 const customStyles = {
   content: {
@@ -42,7 +43,6 @@ const ReservationForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-   
     const storedHotelId = localStorage.getItem("hotelId");
     const storedRoomId = localStorage.getItem("roomId");
     const storedEmail = localStorage.getItem("email");
@@ -73,14 +73,10 @@ const ReservationForm = () => {
     setError(null);
     setLoading(true);
 
-    if (!formData.hotelId || !formData.roomId || !formData.userId || !formData.startDate || !formData.endDate) {
-      setError("All fields are required.");
-      setLoading(false);
-      return;
-    }
-
+    // Check if user is logged in
     if (!state.user) {
       alert("You must be logged in to make a reservation.");
+      // Redirect to login page and pass the current location to navigate back after login
       navigate("/RegisterLogin", { state: { from: location } });
       setLoading(false);
       return;
@@ -114,8 +110,8 @@ const ReservationForm = () => {
   };
 
   return (
-    <div>¨
-
+    <div>
+      <Nav />
       <h2>Create a Reservation</h2>
       {!reservation ? (
         <form onSubmit={handleSubmit}>
@@ -142,8 +138,7 @@ const ReservationForm = () => {
 
           {payNow && (
             <>
-             
-             
+              {/* Payment form can go here */}
             </>
           )}
 
