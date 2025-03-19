@@ -1,176 +1,70 @@
-:root {
-  --input-bg: #333;
-  --input-text: #fff;
+.header_wrapper {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
-.dark {
-  --input-bg: #333;
-  --input-text: #fff;
+.swiper {
+  height: 100vh !important;
+  width: 100% !important;
 }
 
-.light {
-  --input-bg: #f9f9f9;
-  --input-text: #000;
-}
-
-.HeaderWrapper {
-  height: 80vh;
-  background-image: url("../../assets/header.jpg");
+.Header_slide {
+  height: 100vh;
+  width: 100%;
+  background-image: url(/assets/images/box-hero-1.png);
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
   position: relative;
 }
 
-.HeaderWrapper::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 30%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+.slide2 {
+  background-image: url(/assets/images/box-hero-2.png);
 }
 
-.Container {
-  display: flex;
+.slide3 {
+  background-image: url(/assets/images/box-hero-3.png);
+}
+
+.Header_slide .content {
+  position: absolute;
+  bottom: 20%;
+  left: 50px;
+  z-index: 2;
   flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-  width: 100%;
-  max-width: 800px;
-  background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 20px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  gap: 18px;
+  background: rgba(0, 0, 0, 0.5);
 }
 
-.Container h1 {
-  font-size: 58px;
-  line-height: 65px;
-  font-family: 'Roboto', sans-serif;
-  color: #ffd700;
-  text-align: center;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.Container small {
-  color: #f0f0f0;
-  font-family: 'Roboto', sans-serif;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.inputContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  background-color: var(--input-bg);
-  color: var(--input-text);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-}
-
-.inputContainer input {
-  background-color: var(--input-bg);
-  color: var(--input-text);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 10px;
-  border-radius: 5px;
-  width: 100%;
-  max-width: 200px;
-  font-size: 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease-in-out;
-}
-
-.inputContainer input:focus {
-  border-color: #ff4500;
-  box-shadow: 0 0 8px rgba(255, 69, 0, 0.5);
-  outline: none;
-}
-
-.light .inputContainer input {
-  border: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-.inputContainer button {
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #ff4500;
+.Header_slide .content small {
   color: #fff;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.1s;
-  box-shadow: 0 4px 8px rgba(255, 69, 0, 0.3);
+  font-size: 16px;
+}
+.Header_slide .content h2 {
+  color: #fff;
+  font-size: 36px;
 }
 
-.inputContainer button:hover {
-  background-color: #d43f00;
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(255, 69, 0, 0.5);
+.Header_slide .content h2 span {
+  color: #cb5c00;
+
 }
 
-.inputContainer button:active {
-  transform: scale(0.95);
-}
 
-.date-dropdown {
-  position: absolute;
-  top: 50px;
-  left: 0;
-  background: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  border-radius: 5px;
-  z-index: 100;
-}
-
-.apply-btn {
-  display: block;
-  margin-top: 10px;
-  padding: 8px 12px;
-  background: #ff6600;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-@media (max-width: 900px) {
-  .inputContainer {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
+@media screen and (max-width: 768px) {
+  .Header_slide .content {
+    left: 20px; /* Reduce the left padding */
+    bottom: 10%; /* Move the content higher up */
+    text-align: center; /* Center the text */
   }
 
-  .inputContainer input,
-  .inputContainer .date-picker,
-  .inputContainer .price-range-input,
-  .inputContainer button {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .Container h1 {
-    font-size: 28px;
-    line-height: 34px;
+  .Header_slide .content h2 {
+    font-size: 24px; /* Smaller font size for smaller screens */
   }
 
-  .Container small {
-    font-size: 14px;
+  .Header_slide .content small {
+    font-size: 14px; /* Smaller font size for small screens */
   }
 }

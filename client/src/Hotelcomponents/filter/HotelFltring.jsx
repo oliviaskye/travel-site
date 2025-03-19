@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
-import Map from "../../pages/Map/Map";
+import RoomModals from "./RoomModals";
+import "../Hotel/Hotel.css";
 import Nav from "@Nav";
 
-const HotelFltring = () => {
+const Hotels = () => {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentHotelImages, setCurrentHotelImages] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const location = useLocation();
-  const { destination, date, options, priceRange } = location.state || {};
+  const { destination, priceRange } = location.state || {};
 
+  // Fetch hotels based on destination and price range
   useEffect(() => {
     const fetchHotels = async () => {
       if (!destination || !priceRange || priceRange[1] <= 0) {
@@ -20,7 +24,7 @@ const HotelFltring = () => {
         setLoading(false);
         return;
       }
-    
+
       try {
         const response = await axios.get("http://localhost:5000/api/hotels/filter", {
           params: {
@@ -35,23 +39,40 @@ const HotelFltring = () => {
         setLoading(false);
       }
     };
-    
-    
 
     fetchHotels();
   }, [destination, priceRange]);
 
-  const handleShowLocation = (latitude, longitude) => {
-    setSelectedLocation([longitude, latitude]);
+  const handleViewImages = (hotel) => {
+    if (hotel.photos && hotel.photos.length > 0) {
+      setCurrentHotelImages(hotel.photos);
+      setCurrentImageIndex(0);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex < currentHotelImages.length - 1 ? prevIndex + 1 : prevIndex
+    );
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : prevIndex
+    );
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   if (loading) return <p>Loading hotels...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div>
       <Nav />
-      <h2>Available Hotels</h2>
       <div
         style={{
           display: "grid",
@@ -60,74 +81,60 @@ const HotelFltring = () => {
         }}
       >
         {hotels.map((hotel) => (
-          <div
-            key={hotel._id}
-            className="container"
-            style={{ border: "1px solid #ccc", padding: "15px", borderRadius: "8px" }}
-          >
-            <div className="hotel-images">
-              {hotel.photos?.length > 0 ? (
-                hotel.photos.map((photo, index) => (
-                  <img
-                    key={index}
-                    src={`http://localhost:5000/${photo.replace(/\\/g, "/")}`}
-                    alt={`${hotel.name} ${index + 1}`}
-                    className="hotel-img"
-                    style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
-                  />
-                ))
-              ) : (
-                <img
-                  src="http://localhost:5000/uploads/default-image.jpg"
-                  alt="Default Hotel"
-                  className="hotel-img"
-                  style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
-                />
-              )}
+          <div key={hotel._id} className="hotel-card">
+            <div className="hotel-image">
+              <img
+                src={`http://localhost:5000/${
+                  hotel.photos?.length
+                    ? hotel.photos[0].replace(/\\/g, "/")
+                    : "default-image.jpg"
+                }`}
+                alt={hotel.name}
+                className="hotel-img"
+                onClick={() => handleViewImages(hotel)}
+                style={{ cursor: "pointer" }}
+              />
             </div>
-
-            <h3>{hotel.name}</h3>
-            <p>
-              <strong>Country:</strong> {hotel.country}
-            </p>
-            <p>
-              <strong>City:</strong> {hotel.city}
-            </p>
-            <p>
-              <strong>Address:</strong> {hotel.address}
-            </p>
-            <p>
-              <strong>Cheapest Price:</strong> ${hotel.cheapestPrice}
-            </p>
-            <p>
-              <strong>Max Price:</strong> ${hotel.maxPrice}
-            </p>
-            <p>
-              <strong>Phone Number:</strong> {hotel.phoneNumber}
-            </p>
-
-            <Link
-              to={`/hotels/${hotel._id}/rooms`}
-              style={{
-                display: "block",
-                marginTop: "10px",
-                color: "#007BFF",
-                textDecoration: "underline",
-              }}
-            >
-              Go to Rooms
-            </Link>
+            <div className="hotel-info">
+              <h3>{hotel.name}</h3>
+              <p>
+                <strong>Country:</strong> {hotel.country}
+              </p>
+              <p>
+                <strong>City:</strong> {hotel.city}
+              </p>
+              <p>
+                <strong>Address:</strong> {hotel.address}
+              </p>
+              <p>
+                <strong>Price:</strong> ${hotel.cheapestPrice}
+              </p>
+              <p>
+                <strong>Max Price:</strong> ${hotel.maxPrice}
+              </p>
+              <p>
+                <strong>Phone Number:</strong> {hotel.phoneNumber}
+              </p>
+              <button className="nav-button">
+                <Link to={`/hotels/${hotel._id}/rooms`}>
+                  <p>Go to Rooms</p>
+                </Link>
+              </button>
+            </div>
           </div>
         ))}
       </div>
 
-      {selectedLocation && (
-        <div style={{ height: "400px", marginTop: "20px" }}>
-          <Map selectedLocation={selectedLocation} />
-        </div>
-      )}
+      <RoomModals
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        images={currentHotelImages}
+        currentIndex={currentImageIndex}
+        onNext={handleNextImage}
+        onPrev={handlePrevImage}
+      />
     </div>
   );
 };
 
-export default HotelFltring;
+export default Hotels;

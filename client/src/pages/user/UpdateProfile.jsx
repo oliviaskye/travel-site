@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"; 
 import CountrySelect from "../Auth/CountrySelect"; 
 import { useNavigate } from "react-router-dom";
-import "./RegisterLoginIn.css"
+
 
 
 const UpdateProfile = () => {
@@ -126,9 +126,13 @@ const UpdateProfile = () => {
             <CountrySelect selectedCountry={inputs.country} onChange={handleChange} />
             
             {error && <p className="error">{error}</p>}
-            <button onClick={handleClick}>Update</button>
-            <button onClick={cancelUpdate}>Cancel</button>
+            
+            <div className="bottom-buttons">
+            <button   className="nav-button1" onClick={handleClick}>Update</button>
+            <button   className="nav-button1" onClick={cancelUpdate}>Cancel</button>
+            </div>
           </form>
+
         </div>
       </div>
     </div>

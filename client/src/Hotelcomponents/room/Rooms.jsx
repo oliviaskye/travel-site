@@ -1,75 +1,112 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import Nav from "@Nav";
+import RoomModals from "./RoomModals";
+import "./Rooms.css";
 
 const Rooms = () => {
-  const location = useLocation();
-  const { destination, price, date, options } = location.state || {};
+  const { hotelId } = useParams();
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [currentRoomImages, setCurrentRoomImages] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedRoomId, setSelectedRoomId] = useState(null);
 
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/hotels/rooms/filter`, {
-          params: {
-            city: destination,
-            minPrice: price?.min || 0,
-            maxPrice: price?.max || 10000,
-            startDate: date?.startDate,
-            endDate: date?.endDate,
-            adult: options?.adult,
-            children: options?.children,
-            room: options?.room,
-          },
-        });
+        const response = await axios.get(
+          `http://localhost:5000/api/hotels/${hotelId}/rooms`
+        );
         setRooms(response.data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching rooms:", error);
         setError("Failed to fetch rooms. Please try again.");
         setLoading(false);
       }
     };
 
     fetchRooms();
-  }, [destination, price, date, options]);
+  }, [hotelId]);
+
+  const openImageModal = (roomImages) => {
+    setCurrentRoomImages(roomImages);
+    setCurrentImageIndex(0);
+    setIsImageModalOpen(true);
+  };
+
+  const closeImageModal = () => {
+    setIsImageModalOpen(false);
+  };
+
+  const handleRoomSelection = (roomId) => {
+    setSelectedRoomId(roomId);  // Set selected roomId
+    localStorage.setItem("selectedRoomId", roomId);  // Store the selected roomId in localStorage
+  };
 
   if (loading) return <p>Loading rooms...</p>;
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <h2>Available Rooms</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+    <div className="hotel-rooms-container">
+      <Nav />
+
+      <div className="room-grid">
         {rooms.map((room) => (
-          <div key={room._id} style={{ border: "1px solid #ccc", padding: "10px", borderRadius: "8px" }}>
-            <div style={{ display: "flex", overflowX: "auto", gap: "10px" }}>
-              {room.img && Array.isArray(room.img) ? (
-                room.img.map((image, index) => (
-                  <img
-                    key={index}
-                    src={`http://localhost:5000/${image.replace(/\\/g, "/")}`}
-                    alt={`${room.title} ${index + 1}`}
-                    style={{ width: "150px", height: "150px", objectFit: "cover", borderRadius: "4px" }}
-                  />
-                ))
+          <div key={room._id} className="room-card">
+            <div className="room-image">
+              {room.img?.length > 0 ? (
+                <img
+                  src={`http://localhost:5000/${room.img[0].replace(
+                    /\\/g,
+                    "/"
+                  )}`}
+                  alt={room.title}
+                  className="room-img"
+                  onClick={() => openImageModal(room.img)}
+                />
               ) : (
                 <img
-                  src={`http://localhost:5000/${room.img ? room.img.replace(/\\/g, "/") : "default-image.jpg"}`}
+                  src="default-image.jpg"
                   alt={room.title}
-                  style={{ width: "100%", height: "200px", objectFit: "cover" }}
+                  className="room-img"
+                  onClick={() => openImageModal([room.img])}
                 />
               )}
             </div>
-            <h3>{room.title}</h3>
-            <p>{room.details}</p>
-            <p><strong>Price:</strong> ${room.price}</p>
-            <p><strong>Room Number:</strong> {room.roomNumber}</p>
+            <div className="room-info">
+              <h3>{room.title}</h3>
+              <p>{room.details}</p>
+              <p><strong>Price:</strong> ${room.price}</p>
+              <p><strong>Room Number:</strong> {room.roomNumber}</p>
+
+              <button onClick={() => handleRoomSelection(room._id)}>
+                {selectedRoomId === room._id ? (
+                  <Link
+                    to={`/reservation/${hotelId}/${room._id}`}
+                    className="link-button"
+                  >
+                    Book Now
+                  </Link>
+                ) : (
+                  <span>Select this room to book</span>  // Inform user to select the room
+                )}
+              </button>
+            </div>
           </div>
         ))}
       </div>
+
+      <RoomModals
+        isImageModalOpen={isImageModalOpen}
+        closeImageModal={closeImageModal}
+        currentRoomImages={currentRoomImages}
+        currentImageIndex={currentImageIndex}
+        setCurrentImageIndex={setCurrentImageIndex}
+      />
     </div>
   );
 };
