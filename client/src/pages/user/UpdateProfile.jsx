@@ -86,7 +86,7 @@ const UpdateProfile = () => {
             <label>name</label><br/>
             <input
               type="text"
-              placeholder="Name"
+              placeholder={user.name}
               name="name"
               onChange={handleChange}
               required
@@ -94,7 +94,7 @@ const UpdateProfile = () => {
             <label>email</label><br/>
             <input
               type="email"
-              placeholder="Email"
+              placeholder={user.email}
               name="email"
               onChange={handleChange}
               required
@@ -102,7 +102,7 @@ const UpdateProfile = () => {
             <label>password</label><br/>
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Enter password"
               name="password"
               onChange={handleChange}
               required
@@ -117,13 +117,13 @@ const UpdateProfile = () => {
             <label>phone number</label><br/>
             <input
               type="text"
-              placeholder="Phone Number"
+              placeholder={user.phoneNumber}
               name="phoneNumber"
               onChange={handleChange}
               required
             /><br/>
             <label>country</label><br/>
-            <CountrySelect selectedCountry={inputs.country} onChange={handleChange} />
+            <CountrySelect selectedCountry={user.country} onChange={handleChange} />
             
             {error && <p className="error">{error}</p>}
             

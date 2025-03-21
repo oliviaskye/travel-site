@@ -1,0 +1,30 @@
+.All-Parts {
+    display: grid;
+    grid-template-columns: 30% auto;
+    grid-template-rows: 10% auto 10% auto;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto; 
+    background-color: white;
+  }
+  
+.part-1 {
+    grid-column: 1 / -1;
+    background-color: lightgray;
+}
+
+.part-2 {
+    background-color: white;
+}
+
+.part-3 {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.part-4 {
+    grid-column: 1 / -1; 
+    background-color: black;
+    color: white;
+    height: 100%}

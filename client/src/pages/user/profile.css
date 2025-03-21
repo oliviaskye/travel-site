@@ -1,73 +1,72 @@
 /* Container for the profile page */
 .user-profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Navigation bar styling - removed */
-  
-  /* Header styling */
-  h2 {
-    margin-top: 20px;
-    color: #333;
-  }
-  
-  /* Container for the user information */
-  .user-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    width: 100%;
-    max-width: 400px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.7); 
-  }
-  
-  /* Information styling */
-  .user-info div {
-    margin: 10px 0;
-  }
-  
-  .user-info strong {
-    color: black;
-    font-weight: bold;
-  }
-  
-  
-  
-  .user-info strong p{
-    color: black;
-    font-weight: bold;
-  }
-  
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
 
-   .bottom-buttons {
-    display: flex;
-    flex-direction: row;
-    margin-top: 30px;
-  
-    width: 100%;
-    max-width: 400px;
-   
-  }
-  
+/* Navigation bar styling - removed */
 
-  
-  /* Additional styling for confirm and loading states */
-  .error,
-  .loading {
-    color: red;
-    text-align: center;
-  }
-  
-  .loading {
-    font-size: 18px;
-  }
-  
+/* Header styling */
+h2 {
+  margin-top: 20px;
+  color: #333;
+}
+
+/* Container for the user information */
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.7); 
+}
+
+/* Information styling */
+.user-info div {
+  margin: 10px 0;
+}
+
+.user-info strong {
+  color: black;
+  font-weight: bold;
+}
+
+
+
+.user-info strong p{
+  color: black;
+  font-weight: bold;
+}
+
+
+
+ .bottom-buttons {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+
+  width: 100%;
+  max-width: 400px;
+ 
+}
+
+
+
+/* Additional styling for confirm and loading states */
+.error,
+.loading {
+  color: red;
+  text-align: center;
+}
+
+.loading {
+  font-size: 18px;
+}
