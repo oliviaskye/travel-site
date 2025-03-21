@@ -1,0 +1,28 @@
+
+.container123 {
+    display: grid;
+    grid-template-rows: 10% 1fr 10%; /* 10% للـ Nav و Footer، والباقي للقسم المتبقي */
+    grid-template-columns: 1fr; /* العرض الكامل للقسم المتبقي */
+    height: 100vh; /* لضمان أن الصفحة تأخذ كامل ارتفاع الشاشة */
+  }
+  
+  .m123, .f123 {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+  }
+  
+  .main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* تقسيم القسم المتبقي إلى نصفين */
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .left, .right {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+  

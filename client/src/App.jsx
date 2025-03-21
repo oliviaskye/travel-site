@@ -11,7 +11,7 @@ import Home from "./pages/Home";
 
 import HotelFltring from "./Hotelcomponents/filter/HotelFltring";
 import Hotels from "./Hotelcomponents/Hotel/Hotel";
-
+import Discover from "./pages/Discover/Discover";
 
 
 
@@ -26,9 +26,12 @@ import UpdateProfile from "./pages/user/UpdateProfile";
 
 import Map from "./pages/Map/Map";
 
-import Livebg from "./components/Live bg/Livebg";
+
 import Contact from "./components/contact/Contact";
 
+
+import HotelRoomsx from "./Hotels/rooms/HotelRooms"
+import Reservationgrid from "./Hotels/Reservation/Reservation"
 const stripePromise = loadStripe(
   "pk_test_51QFvkhLAzYW8YRzjlm4VYKp19bMXpFMoHcCsHM3wda661NR4YOjHO2iyXMrDZmNqKfGUNXD5neKjeUmt1mTClIgc00RBYWEAAX"
 );
@@ -36,7 +39,7 @@ const stripePromise = loadStripe(
 function App() {
   return (
     <div>
-      <Livebg />
+     
       <div className="container">
         <Elements stripe={stripePromise}>
           <Routes>
@@ -45,9 +48,13 @@ function App() {
             <Route path="/map" element={<Map />} />
             <Route path="/hotels" element={<Hotels />} />
           
-            <Route path="/hotels/:hotelId/rooms" element={<Rooms />} />
-         
+            <Route path="/Discover/:hotelId/rooms" element={<HotelRoomsx />} />
+            <Route path="/Discover/reservation/:hotelId/:roomId" element={<Reservationgrid />} />
 
+         
+            <Route path="/hotels/" element={<Rooms />} />
+         
+            <Route path="/Discover" element={<Discover />} />
             <Route
               path="/reservation/:roomId/:hotelId"
               element={<ReservationForm />}

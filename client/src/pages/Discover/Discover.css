@@ -1,0 +1,54 @@
+.container1 {
+    display: grid;
+    grid-template-columns: 30% auto; /* العمود الأول 30% والثاني يأخذ الباقي */
+    grid-template-rows: 10% auto 10%; /* الصف العلوي والسفلي 10% والوسط يأخذ الباقي */
+    width: 100vw; /* عرض الحاوية هو عرض الشاشة بالكامل */
+    height: 100vh; /* ارتفاع الحاوية هو ارتفاع الشاشة بالكامل */
+    overflow: hidden; /* منع أي محتوى زائد من الظهور */
+}
+
+.header {
+    grid-column: 1 / -1; 
+    background-color: lightgray;
+}
+
+.sidebar {
+    background-color: lightblue;
+}
+
+.content {
+    background-color: lightblue;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.footer {
+    grid-column: 1 / -1; 
+    background-color: lightgray;
+    min-height: 10%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.nav-button1 {
+    height: 38px;
+    width: 830px;
+    border: none;
+    justify-content: space-between;
+    background-color: #cb5c00;
+    font-family: 'Poppins';
+    letter-spacing: 2px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    border-radius: 30px;
+    box-shadow: 2px 2px 3px #ffffff49, inset 3px 3px 10px #ffffff39;
+    transition: 1s;
+    cursor: pointer;
+  }
+
+

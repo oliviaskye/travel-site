@@ -1,0 +1,90 @@
+.hotels-container {
+  max-height: 80vh;
+  padding-right: 15px;
+  overflow-y: auto;
+}
+
+/* تحسين تصميم بطاقة الفندق */
+.hotel-card {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  width: 90%;
+  max-width: 140vh;
+  height: auto;
+  padding: 15px;
+}
+
+/* تأثير عند التمرير فوق البطاقة */
+.hotel-card:hover {
+  transform: scale(1.05);
+}
+
+/* تحسين صورة الفندق */
+.hotel-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  cursor: pointer;
+  border-bottom: 2px solid #eee;
+}
+
+/* معلومات الفندق */
+.hotel-info {
+  padding: 15px;
+  text-align: center;
+}
+
+.hotel-info h3 {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+/* تحسين تصميم الموقع */
+.loaction {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 5px 0;
+}
+
+.loaction p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.loaction p svg {
+  margin-right: 8px;
+  color: gray;
+}
+
+/* زر التنقل */
+.nav-button {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-button:hover {
+  background-color: #0056b3;
+}
+
+/* تحسين الحدود */
+.border {
+  border: 2px solid red;
+}

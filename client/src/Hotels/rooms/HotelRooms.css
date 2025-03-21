@@ -1,0 +1,76 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; /* خلفية رمادية فاتحة لتحسين التباين */
+}
+
+.container2 {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto; /* تعديل الارتفاعات */
+  grid-template-columns: 15% 85%;
+  height: 100vh;
+  background-color: white;
+}
+
+.navbar1 {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: span 2;
+  padding: 10px;
+}
+
+.header1 {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: 2 / 3;
+  padding: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333; /* لون النص */
+}
+
+.rating {
+  background-color: #222; /* لون غامق ليظهر النص */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  text-align: center;
+  color: white;
+  grid-row: 2 / 4;
+  grid-column: 1 / 2;
+  padding: 10px;
+}
+
+.content6 {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: 2 / 3;
+  padding: 20px;
+  font-size: 1.1rem;
+  color: #333; /* لون النص */
+}
+
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: span 2;
+  padding: 10px;
+}

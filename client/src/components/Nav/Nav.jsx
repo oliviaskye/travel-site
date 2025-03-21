@@ -7,7 +7,7 @@ const navItemses = [
   { label: "Map", path: "/map" },
   { label: "Contact", path: "/Contact" },
   { label: "Profile", path: "/UserProfile" },
-  { label: "Dark Mode", action: "toggleDarkMode" },
+  { label: "Discover", path: "/Discover" },
   { label: "Sound", action: "toggleSound" },
   { label: "Sign In", path: "/RegisterLogin" },
 ];

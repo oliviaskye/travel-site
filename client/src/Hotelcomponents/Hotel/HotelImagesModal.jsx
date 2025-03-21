@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "react-modal";
-import "../Hotel/HotelImagesModal.css";  // This will now use the same CSS file as the second one.
+import "../Hotel/HotelImagesModal.css";  
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { FaArrowLeft, FaArrowRight, FaTimes } from "react-icons/fa";
