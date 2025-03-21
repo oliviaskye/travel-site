@@ -57,14 +57,11 @@
   transform: scale(0.95);
 }
 
-.card-title-h2{
-  color: black !important; 
-}
-
-
-.location p {
+.location .details{
   color: black !important;
 }
+
+
 
 .hotel-info p {
   color: black !important;

@@ -83,13 +83,17 @@ const Hotels = ({ searchData }) => {
                     }}
                   />
                 </p>
-                <p>
+               <div className="details">
+               <p >
                   {hotel.country} / {hotel.city}
                 </p>
+                <p >
+                  {hotel.details} 
+                </p>
+                </div>
+
               </div>
-              <p>
-                <strong>Price:</strong> ${hotel.cheapestPrice}
-              </p>
+            
               <button className="card-btn">
                 <Link
                   to={`/Discover/${hotel._id}/Rooms`}

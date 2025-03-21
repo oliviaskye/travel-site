@@ -2,32 +2,35 @@ import React, { useState, useEffect } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 
-const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) => {
+const StripePaymentForm = ({
+  reservationId,
+  onPaymentSuccess,
+  onPaymentError,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
 
   const [email, setEmail] = useState("");
-  const [amount, setAmount] = useState(""); 
+  const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
 
-  // Get the amount and the add-on data from localStorage
+  // استرجاع بيانات الحجز والإضافات من localStorage
   useEffect(() => {
-    const reservationData = JSON.parse(localStorage.getItem("reservationData"));
-    const addsData = JSON.parse(localStorage.getItem("addsData"));
+    const reservationData = JSON.parse(localStorage.getItem("reservationData")) || {};
+    const addsData = JSON.parse(localStorage.getItem("addsData")) || {};
 
-    if (reservationData && reservationData.price) {
-      setAmount(reservationData.price); // Set the room price
-    }
+    const roomPrice = parseFloat(reservationData.price) || 0; // تحويل السعر إلى رقم عشري
+    setAmount(roomPrice);
 
-    if (addsData) {
-      const additionalPrice = 
-        addsData.wifiPrice + addsData.parkingPrice + addsData.roomServicePrice + addsData.breakfastPrice;
+    const additionalPrice =
+      (addsData.wifiPrice || 0) +
+      (addsData.parkingPrice || 0) +
+      (addsData.roomServicePrice || 0) +
+      (addsData.breakfastPrice || 0);
 
-      // Calculate the total price by adding the room price and the add-ons
-      setTotalPrice(parseFloat(reservationData.price) + additionalPrice);
-    }
+    setTotalPrice(roomPrice + additionalPrice);
   }, []);
 
   const handleSubmit = async (e) => {
@@ -43,25 +46,23 @@ const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) 
 
     try {
       const { data } = await axios.post("http://localhost:5000/api/payment", {
-        amount: totalPrice * 100, // Send the total price in cents
+        amount: totalPrice * 100, // إرسال المبلغ بالسنتات
         email,
         reservationId,
       });
 
       const clientSecret = data.clientSecret;
-
-      // Getting the CardElement from elements
       const cardElement = elements.getElement(CardElement);
 
-      // Confirm the payment
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            email,
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+            billing_details: { email },
           },
-        },
-      });
+        }
+      );
 
       if (error) {
         onPaymentError(error.message);
@@ -90,14 +91,8 @@ const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) 
           />
         </div>
         <div>
-          <input
-            type="number"
-            placeholder="Amount (USD)"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
-            readOnly
-          />
+          <p>Amount (USD): {amount.toFixed(2)}</p>
+          <p>Total Price (USD): {totalPrice.toFixed(2)}</p>
         </div>
         <div>
           <CardElement />
@@ -106,9 +101,6 @@ const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) 
           {loading ? "Processing..." : "Pay"}
         </button>
       </form>
-
-      <h1>Total Price: ${totalPrice.toFixed(2)}</h1> {/* Display total price */}
-
       {message && <p>{message}</p>}
     </div>
   );

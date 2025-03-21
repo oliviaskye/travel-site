@@ -17,13 +17,14 @@
 }
 
 .room-card {
-  background-color: #fff;
+  background-color: rgba(128, 128, 128, 0.3);
   width: 300px;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: transform 0.3s ease;
+  margin-left: 20px;
+  border: 2px solid antiquewhite;
 }
 
 .room-card:hover {
@@ -76,4 +77,26 @@
   font-size: 14px;
   color: #333;
   margin-bottom: 10px;
+}
+.room-card .nav-button {
+  height: 38px;
+  width: 130px;
+  border: none;
+  justify-content: center;
+  background-color: #cb5c00;
+  font-family: 'Poppins';
+  letter-spacing: 2px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  border-radius: 30px;
+  box-shadow: 2px 2px 3px #ffffff49, inset 3px 3px 10px #ffffff39;
+  transition: 1s;
+  cursor: pointer;
+
+}
+
+.nav-button:hover {
+  box-shadow: 2px 0px 3px #69696949, inset 3px 3px 10px #ffffff39;
+  transform: scale(0.95);
 }

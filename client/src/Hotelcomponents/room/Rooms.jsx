@@ -133,11 +133,12 @@ const Rooms = () => {
               <h3>{room.title || "No title"}</h3>
               <p>{room.details || "No details available"}</p>
               <p className="price">${room.price ?? "N/A"}</p>
-              <p className="room-number">
+              <p className="room-number">   
                 <strong>Room Number:</strong> {room.roomNumber || "Unknown"}
               </p>
               <Link to={bookingLink}>
-                <button onClick={() => handleRoomSelection(room)}>
+                
+                <button  className="nav-button" onClick={() => handleRoomSelection(room)}>
                   Book now
                 </button>
               </Link>

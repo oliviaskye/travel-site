@@ -22,7 +22,9 @@ const Part12 = ({ hotelId }) => {
  
       {hotel ? (
         <div style={styles.hotelInfo}>
-          <h2 style={styles.hotelName}>{hotel.name}</h2>
+          <h2 style={styles.hotelName}>
+            <span> Hotel name </span>
+            {hotel.name}</h2>
           <div style={styles.hotelInfo1}>
             <p>
               <strong>Country:</strong> {hotel.country}
@@ -31,7 +33,10 @@ const Part12 = ({ hotelId }) => {
               <strong>City:</strong> {hotel.city}
             </p>
             <p>
-              <strong>Price:</strong> ${hotel.cheapestPrice}
+              <strong>title:</strong>  {hotel.title}
+            </p>
+            <p>
+              <strong>desc:</strong>  {hotel.desc}
             </p>
           </div>
         </div>
@@ -43,6 +48,7 @@ const Part12 = ({ hotelId }) => {
 };
 
 const styles = {
+ 
   container: {
     width: "100vw", 
     display: "flex",
@@ -51,24 +57,33 @@ const styles = {
     padding: "20px",
     backgroundColor: "white",
     justifyContent: "flex-end",
+    
   },
   hotelInfo: {
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    flexDirection: "row",  // Keep items in a row
+    justifyContent: "flex-start",  // Align items to the start of the container
     gap: "10px", 
+    flexWrap: "nowrap",  // Prevent items from wrapping to the next line
+    
   },
   hotelName: {
     fontSize: "30px",  
     fontWeight: "bold", 
     fontFamily: "'Arial', sans-serif", 
-    
+    marginRight: "20px",  // Add some space between hotel name and other info
+  
   },
   hotelInfo1: {
     fontSize: "14px",
     fontWeight: "normal", 
     fontFamily: "'Tahoma', sans-serif", // اختيار خط أخف
     color: "black", 
+    display: "flex", // Ensure the country, city, and price appear in one line
+    flexDirection: "row",  // Align them horizontally
+    gap: "10px",  // Space between each element
+    marginTop: "2cm",
+  
   },
 };
 
