@@ -8,9 +8,10 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  margin-left: 15px;
 }
 
-/* Styling for the heading */
+
 .sidebar h1 {
   text-align: center;
   font-size: 24px;
@@ -19,7 +20,7 @@
 }
 
 .Filter {
-  padding-left: 60px; /* دفع العنصر إلى الجهة اليسرى */
+  padding-left: 60px;
 }
 span {
   color: #cb5c00;

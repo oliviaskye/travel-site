@@ -51,3 +51,12 @@
   transition: 1s;
   cursor: pointer;
 }
+
+
+
+.divider {
+  border-bottom: 1px solid    aqua;
+  margin: 3rem 0;
+  width: calc(100% + var(--container-padding) + var(--container-padding));
+  margin-left: calc(var(--container-padding) * -1);
+}

@@ -1,33 +1,25 @@
 import React from "react";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import Nav from "@Nav"
-import Hotels from "../Hotelcomponents/Hotel/Hotel";
+import Nav from "@Nav";
 
+import FutureTrip from "../Hotelcomponents/Future/FutureTrip";
 import "../index.css";
-import "../Middleware/mood/Light-Dark";
 
 const Home = () => {
   return (
     <div>
-      <div>
-        <Nav />
-      </div>
-      <div className="Header_Container">
-        <Header />
-      </div>
-  
+      <Nav />
 
-      <div>
-        <div>
-          <div className="divider" />
-          <Hotels />
-        </div>
-      </div>
+      <Header />
+
       <div className="divider" />
-      <div className="footer">
-        <Footer />
-      </div>
+
+      <FutureTrip />
+
+      <div className="divider" />
+
+      <Footer />
     </div>
   );
 };

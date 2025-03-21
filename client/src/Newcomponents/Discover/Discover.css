@@ -1,12 +1,13 @@
 .All-Parts {
     display: grid;
-    grid-template-columns: 30% auto;
-    grid-template-rows: 10% auto 10% auto;
+    grid-template-columns: 1fr 3fr; /* تعديل لتوفير مساحة أكثر للأجزاء */
+    grid-template-rows: auto 1fr auto;
     width: 100vw;
     height: 100vh;
-    overflow-y: auto; 
+    overflow-y: auto;
     background-color: white;
-  }
+}
+
   
 .part-1 {
     grid-column: 1 / -1;
@@ -18,10 +19,12 @@
 }
 
 .part-3 {
+    grid-column: 2 / 3;
+    grid-row: 2;
     background-color: white;
-    display: flex;
-    flex-direction: column;
-}
+    padding: 10px;
+  }
+  
 
 .part-4 {
     grid-column: 1 / -1; 

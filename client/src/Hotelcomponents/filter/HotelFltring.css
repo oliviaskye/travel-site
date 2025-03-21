@@ -1,13 +1,14 @@
 .hotels-container {
-  margin-left: 80px;
+  margin-left: 190px;
   display: flex;
   flex-wrap: wrap;
-
-  gap: 50px;
+  gap: 20px; /* تقليل الفجوة */
 }
 
 .hotel-card {
-  width: 20rem;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 20px;
   border-radius: 1rem;
   box-shadow: 0px 10px 8px #999;
   display: flex;
@@ -31,37 +32,40 @@
   margin: 0.5rem 0;
 }
 
+
 .card-btn {
-  height: 80%;
-  width: 200%;
+  height: 38px;
+  width: 100px;
   border: none;
   justify-content: space-between;
   background-color: #cb5c00;
   letter-spacing: 2px;
   font-size: 15px;
   font-weight: 10;
-  color: #fff;
-  border-radius: 10px;
+  
+  border-radius: 30px;
   box-shadow: 2px 2px 3px #ffffff49, inset 3px 3px 10px #ffffff39;
   transition: 1s;
   cursor: pointer;
 }
+
+
+
 
 .card-btn :hover {
   box-shadow: 2px 0px 3px #69696949, inset 3px 3px 10px #ffffff39;
   transform: scale(0.95);
 }
 
-
-
-.card-title {
-  color: black; /* تغيير لون النص إلى الأسود */
+.card-title-h2{
+  color: black !important; 
 }
 
+
 .location p {
-  color: black; /* تغيير لون النص في الموقع إلى الأسود */
+  color: black !important;
 }
 
 .hotel-info p {
-  color: black; /* تغيير لون النص في السعر إلى الأسود */
+  color: black !important;
 }

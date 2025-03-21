@@ -24,7 +24,8 @@ const stripePromise = loadStripe(
 
 
 
-import Discover from "./Newcomponents/Discover/Discover"
+import Discover from "./Newcomponents/Discover/Discover";
+import HotelEachRooms from "./Newcomponents/RoomsHo/HotelEachRooms";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
 
 
             <Route path="/Discover" element={<Discover />} />
+            <Route path="/Discover/:hotelId/rooms" element={<HotelEachRooms />} />
 
 
           </Routes>

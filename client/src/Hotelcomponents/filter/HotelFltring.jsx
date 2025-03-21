@@ -73,7 +73,7 @@ const Hotels = ({ searchData }) => {
               onClick={() => handleOpenModal(hotel.photos)}
             />
             <div className="hotel-info">
-              <h3 className="card-title">{hotel.name}</h3>
+              <h3 className="card-title"><h2 className="card-title-h">{hotel.name}</h2></h3>
               <div className="location">
                 <p>
                   <FaMapMarkerAlt
@@ -90,15 +90,16 @@ const Hotels = ({ searchData }) => {
               <p>
                 <strong>Price:</strong> ${hotel.cheapestPrice}
               </p>
-              <Link
-                to={`/Discover/${hotel._id}/Rooms`}
-                onClick={() =>
-                  localStorage.setItem("selectedHotel", JSON.stringify(hotel))
-                }
-                className="hotel-room-button card-btn"
-              >
-                Rooms
-              </Link>
+              <button className="card-btn">
+                <Link
+                  to={`/Discover/${hotel._id}/Rooms`}
+                  onClick={() =>
+                    localStorage.setItem("selectedHotel", JSON.stringify(hotel))
+                  }
+                >
+                  Rooms
+                </Link>
+              </button>
             </div>
           </div>
         ))
