@@ -3,6 +3,7 @@ import "./HotelEachRooms.css";
 import Part13 from "./part-13";
 import Part12 from "./part-12";
 import Nav from "@Nav";
+import Rooms from "../../Hotelcomponents/room/Rooms"
 
 const HotelEachRooms = () => {
   return (
@@ -16,7 +17,9 @@ const HotelEachRooms = () => {
       <div className="part-13">
         <Part13 />
       </div>
-      <div className="part-14">part-14</div>
+      <div className="part-14">
+        <Rooms />
+      </div>
       <div className="part-15">part-15</div>
     </div>
   );

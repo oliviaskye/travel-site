@@ -67,6 +67,8 @@ const styles = {
     overflowx: "auto",
     writingMode: "horizontal-tb",
     justifyContent: "space-btwen",
+    backgroundColor: "white",
+    border: "none",
   },
   ratingItem: {
     display: "flex",

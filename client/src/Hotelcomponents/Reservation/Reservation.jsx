@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import { useValue } from "../../Middleware/context/ContextProvider";
 import StripePaymentForm from "../Payment/StripePaymentForm";
-import Nav from "@Nav";
 
 const customStyles = {
   content: {
@@ -31,7 +30,7 @@ const ReservationForm = () => {
     userId: "",
     startDate: "",
     endDate: "",
-    hotelId: "",
+    hotelId: "", // Ensure hotelId is set correctly
     email: "", 
     price: "", 
   });
@@ -42,23 +41,30 @@ const ReservationForm = () => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+ 
   useEffect(() => {
-    const storedHotelId = localStorage.getItem("hotelId");
-    const storedRoomId = localStorage.getItem("roomId");
-    const storedEmail = localStorage.getItem("email");
-    const storedPrice = localStorage.getItem("price");
+    const storedReservationData = localStorage.getItem("reservationData");
 
-    if (storedHotelId && storedRoomId) {
-      setFormData((prev) => ({  
+    if (storedReservationData) {
+      const parsedData = JSON.parse(storedReservationData);
+      setFormData((prev) => ({
         ...prev,
-        hotelId: storedHotelId,
-        roomId: storedRoomId,
+        ...parsedData,
         userId: state.user ? state.user.id : "",
-        email: storedEmail || "",
-        price: storedPrice || "",
       }));
     }
-  }, [state.user]);
+
+  
+    const searchParams = new URLSearchParams(location.search);
+    const hotelIdFromUrl = searchParams.get("hotelId");
+    if (hotelIdFromUrl) {
+      setFormData((prev) => ({
+        ...prev,
+        hotelId: hotelIdFromUrl, 
+      }));
+    }
+
+  }, [state.user, location]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,10 +79,9 @@ const ReservationForm = () => {
     setError(null);
     setLoading(true);
 
-    // Check if user is logged in
+  
     if (!state.user) {
       alert("You must be logged in to make a reservation.");
-      // Redirect to login page and pass the current location to navigate back after login
       navigate("/RegisterLogin", { state: { from: location } });
       setLoading(false);
       return;
@@ -111,7 +116,6 @@ const ReservationForm = () => {
 
   return (
     <div>
-      <Nav />
       <h2>Create a Reservation</h2>
       {!reservation ? (
         <form onSubmit={handleSubmit}>
@@ -135,12 +139,8 @@ const ReservationForm = () => {
               required
             />
           </div>
-
-          {payNow && (
-            <>
-              {/* Payment form can go here */}
-            </>
-          )}
+          <p><strong>Price:</strong> ${formData.price}</p>
+          <p><strong>Email:</strong> {formData.email}</p>
 
           <div>
             <label>

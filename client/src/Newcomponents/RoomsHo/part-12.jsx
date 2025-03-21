@@ -49,7 +49,7 @@ const styles = {
     flexDirection: "row-reverse",
     alignItems: "center",
     padding: "20px",
-    backgroundColor: "#f4f4f4",
+    backgroundColor: "white",
     justifyContent: "flex-end",
   },
   hotelInfo: {

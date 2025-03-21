@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 
@@ -10,6 +10,25 @@ const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) 
   const [amount, setAmount] = useState(""); 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  // Get the amount and the add-on data from localStorage
+  useEffect(() => {
+    const reservationData = JSON.parse(localStorage.getItem("reservationData"));
+    const addsData = JSON.parse(localStorage.getItem("addsData"));
+
+    if (reservationData && reservationData.price) {
+      setAmount(reservationData.price); // Set the room price
+    }
+
+    if (addsData) {
+      const additionalPrice = 
+        addsData.wifiPrice + addsData.parkingPrice + addsData.roomServicePrice + addsData.breakfastPrice;
+
+      // Calculate the total price by adding the room price and the add-ons
+      setTotalPrice(parseFloat(reservationData.price) + additionalPrice);
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +43,7 @@ const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) 
 
     try {
       const { data } = await axios.post("http://localhost:5000/api/payment", {
-        amount: parseFloat(amount) * 100,
+        amount: totalPrice * 100, // Send the total price in cents
         email,
         reservationId,
       });
@@ -77,6 +96,7 @@ const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) 
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             required
+            readOnly
           />
         </div>
         <div>
@@ -86,6 +106,9 @@ const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) 
           {loading ? "Processing..." : "Pay"}
         </button>
       </form>
+
+      <h1>Total Price: ${totalPrice.toFixed(2)}</h1> {/* Display total price */}
+
       {message && <p>{message}</p>}
     </div>
   );
