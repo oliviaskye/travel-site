@@ -26,7 +26,6 @@ import UpdateProfile from "./pages/user/UpdateProfile";
 
 import Map from "./pages/Map/Map";
 
-import Livebg from "./components/Live bg/Livebg";
 import Contact from "./components/contact/Contact";
 
 const stripePromise = loadStripe(
@@ -36,7 +35,6 @@ const stripePromise = loadStripe(
 function App() {
   return (
     <div>
-      <Livebg />
       <div className="container">
         <Elements stripe={stripePromise}>
           <Routes>

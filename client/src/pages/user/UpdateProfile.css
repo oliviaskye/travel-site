@@ -1,0 +1,26 @@
+.container{
+    padding-left: 12%;
+    padding-right: 12%;
+}
+
+h1{
+    padding-top: 30px;
+}
+  
+.nav-button2 {
+    height: 38px;
+    width: 830px;
+    border: none;
+    margin: 5px;
+    justify-content: center;
+    background-color: #cb5c00;
+    font-family: 'Poppins';
+    letter-spacing: 2px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    border-radius: 30px;
+    box-shadow: 2px 2px 3px #ffffff49, inset 3px 3px 10px #ffffff39;
+    transition: 0.5s;
+    cursor: pointer;
+}

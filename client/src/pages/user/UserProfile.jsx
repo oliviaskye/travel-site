@@ -58,12 +58,15 @@ const UserProfile = () => {
     navigate("/UpdateProfile");
   };
 
+  const userReservation = () => {
+    navigate("/UserReservation");
+  };
+
   return (
     <div>
-      {" "}
       <Nav />
       <div className="user-profile">
-        <h2>User Profile</h2>
+        <h1>User Profile</h1>
 
         <div className="user-info">
           <div>
@@ -82,13 +85,13 @@ const UserProfile = () => {
 
         <div className="bottom-buttons">
           <button className="nav-button" onClick={updateProfile}>
-            Edit{" "}
+            Edit
           </button>
           <button className="nav-button" onClick={deleteProfile}>
             Delete
           </button>
-          <button className="nav-button">
-            <Link to={`/UserReservation`}>Reservation</Link>
+          <button className="nav-button" onClick={userReservation}>
+            Reservation
           </button>
         </div>
       </div>
