@@ -51,7 +51,7 @@ function Nav() {
     <nav className={navCSS.nav_wrapper}>
       <div className={navCSS.logo}>
         <a href="/">
-          Traveler<span>X</span>
+        <span>T</span>raveler
         </a>
       </div>
 

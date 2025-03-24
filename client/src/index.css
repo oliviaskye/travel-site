@@ -16,6 +16,7 @@
   height: 38px;
   width: 130px;
   border: none;
+  margin: 5px;
   justify-content: center;
   background-color: #cb5c00;
   font-family: 'Poppins';
@@ -33,7 +34,6 @@
   box-shadow: 2px 0px 3px #69696949, inset 3px 3px 10px #ffffff39;
   transform: scale(0.95);
 }
-
 
 .nav-button1 {
   height: 38px;
