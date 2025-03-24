@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; 
+import Nav from "@Nav";
 import CountrySelect from "../Auth/CountrySelect"; 
 import { useNavigate } from "react-router-dom";
-
+import "./updateProfile.css";
 
 
 const UpdateProfile = () => {
@@ -79,11 +80,12 @@ const UpdateProfile = () => {
   
   return (
     <div>
+      <Nav/>
       <div>
         <div className="container">
           <h1>Update Profile</h1>
           <form>
-            <label>name</label><br/>
+            <label>Name:</label><br/>
             <input
               type="text"
               placeholder={user.name}
@@ -91,7 +93,7 @@ const UpdateProfile = () => {
               onChange={handleChange}
               required
             /><br/>
-            <label>email</label><br/>
+            <label>Email:</label><br/>
             <input
               type="email"
               placeholder={user.email}
@@ -99,7 +101,7 @@ const UpdateProfile = () => {
               onChange={handleChange}
               required
             /><br/>
-            <label>password</label><br/>
+            <label>Password:</label><br/>
             <input
               type="password"
               placeholder="Enter password"
@@ -114,7 +116,7 @@ const UpdateProfile = () => {
               onChange={handleConfirm}
               required
             /><br/>
-            <label>phone number</label><br/>
+            <label>Phone Number:</label><br/>
             <input
               type="text"
               placeholder={user.phoneNumber}
@@ -122,14 +124,14 @@ const UpdateProfile = () => {
               onChange={handleChange}
               required
             /><br/>
-            <label>country</label><br/>
+            <label>Country:</label><br/>
             <CountrySelect selectedCountry={user.country} onChange={handleChange} />
             
             {error && <p className="error">{error}</p>}
             
             <div className="bottom-buttons">
-            <button   className="nav-button1" onClick={handleClick}>Update</button>
-            <button   className="nav-button1" onClick={cancelUpdate}>Cancel</button>
+            <button   className="nav-button2" onClick={handleClick}>Update</button>
+            <button   className="nav-button2" onClick={cancelUpdate}>Cancel</button>
             </div>
           </form>
 

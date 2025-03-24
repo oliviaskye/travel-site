@@ -14,8 +14,6 @@ function Header() {
 
 
 
-  
-
   return (
     <div className={headerCSS.header_wrapper}>
       <Swiper
@@ -33,10 +31,10 @@ function Header() {
     
             <div className={headerCSS.content}>
               <small data-swiper-parallax="100px">
-                Luxury hotel & Restaurant
+                Luxury Hotel & Restaurant
               </small>
               <h2 data-swiper-parallax="100px">
-                Enjoy your <span>dream </span>time
+                Enjoy your <span>dream </span>vacation
               </h2>
             </div>
           </div>
@@ -47,10 +45,10 @@ function Header() {
 
             <div className={headerCSS.content}>
               <small data-swiper-parallax="100px">
-                Luxury hotel & Restaurant
+                Luxury Hotel & Restaurant
               </small>
               <h2 data-swiper-parallax="100px">
-                Enjoy your <span>dream </span>time
+                Find <span>luxurious </span>experiences
               </h2>
             </div>
           </div>
@@ -61,10 +59,10 @@ function Header() {
 
             <div className={headerCSS.content}>
               <small data-swiper-parallax="100px">
-                Luxury hotel & Restaurant
+                Luxury Hotel & Restaurant
               </small>
               <h2 data-swiper-parallax="100px">
-                Enjoy your <span>dream </span>time
+                Experience <span>new </span>destinations
               </h2>
             </div>
           </div>
