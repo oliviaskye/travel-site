@@ -5,7 +5,7 @@ import Nav from "@Nav";
 
 import FutureTrip from "../Hotelcomponents/Future/FutureTrip";
 import "../index.css";
-import Rewie from "./rewie";
+import Rewie from '../pages/Rewie';
 
 const Home = () => {
   return (

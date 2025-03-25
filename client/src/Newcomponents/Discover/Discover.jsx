@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import "./Discover.css"
 import Nav from "@Nav"

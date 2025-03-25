@@ -8,6 +8,11 @@ function Searchtrem({ onSearch }) {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const datePickerRef = useRef(null);
 
+
+
+
+
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (

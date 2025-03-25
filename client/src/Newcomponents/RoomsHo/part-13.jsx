@@ -66,7 +66,7 @@ const styles = {
     width: "100%",
     overflowx: "auto",
     writingMode: "horizontal-tb",
-    justifyContent: "space-btwen",
+    justifyContent: "space-between",
     backgroundColor: "white",
     border: "none",
   },

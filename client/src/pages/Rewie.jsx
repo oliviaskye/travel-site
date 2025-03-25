@@ -22,10 +22,10 @@ function Review() {
           768: { slidesPerView: 2 },
           1024: { slidesPerView: 3 },
         }}
-        spaceBetween={0}  // 👈 No space between slides
+        spaceBetween={10}  // Decreased gap between slides
         loop={true}
-        autoplay={{ delay: 2500, disableOnInteraction: false }}
-        speed={800}
+        autoplay={{ delay: 2000, disableOnInteraction: false }}  // Faster autoplay speed
+        speed={700}  // Faster slide transition
         parallax={true}
         modules={[Autoplay, Parallax]}
       >
@@ -51,49 +51,51 @@ function Review() {
 const styles = {
   wrapper: {
     width: "100%",
-    overflow: "hidden",
-    padding: "0", // 👈 No extra padding
+    height: "auto",
+    padding: "10px 10",
+    backgroundColor: "#f9f9f9",  // Light background for a modern look
   },
   ratingItem: {
     display: "flex",
     alignItems: "center",
-    padding: "6px",  // 👈 Reduced padding
+    padding: "40px",  // Increased padding for a larger box
     backgroundColor: "#fff",
-    borderRadius: "6px",
-    width: "100%", // 👈 Full width to eliminate gaps
+    borderRadius: "20px",  // Rectangular, no rounded corners
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",  // Subtle shadow for elevation
+    marginBottom: "2px",  // Increased margin for more separation between reviews
+    transition: "transform 0.3s ease-in-out",  // Smooth hover effect
+    maxWidth: "450px",  // Increased width for the review box
+    margin: "0 auto",  // Center the item horizontally
   },
   image: {
-    width: "40px", // 👈 Slightly smaller image
-    height: "40px",
+    width: "80px",  // Larger image for better visual impact
+    height: "80px",
     borderRadius: "50%",
     objectFit: "cover",
-    marginRight: "8px",
+    marginRight: "20px",  
   },
   textContainer: {
     flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
   },
   name: {
-    fontSize: "12px",
-    fontWeight: "bold",
-    margin: "1px 0",
+    fontSize: "20px",  // Larger font size for name
+    fontWeight: "600",  // Slightly bolder text
+    margin: "5px 0",
+    color: "#333",
   },
   comment: {
-    fontSize: "10px",
-    color: "#555",
-    margin: "2px 0",
+    fontSize: "16px",  // Larger font size for comment
+    color: "#666",
+    margin: "10px 0",
+    lineHeight: "1.6",  // More line spacing for better readability
   },
   stars: {
-    fontSize: "12px",
-    color: "#f39c12",
+    fontSize: "20px",  // Larger stars for more visibility
+    color: "#f39c12",  
   },
 };
 
 export default Review;
-
-
-
-
-
-
-
-
