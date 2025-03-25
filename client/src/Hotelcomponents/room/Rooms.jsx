@@ -81,7 +81,7 @@ const Rooms = () => {
       userId: "",
     };
 
-    localStorage.setItem("reservationData", JSON.stringify(reservationData));
+    sessionStorage.setItem("reservationData", JSON.stringify(reservationData));
     console.log("✅ Reservation data saved:", reservationData);
   };
 

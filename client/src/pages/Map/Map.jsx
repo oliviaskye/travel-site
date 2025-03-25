@@ -5,6 +5,7 @@ import { initializeMap, flyToLocation } from './mapUtils';
 import Nav from "@Nav";
 import { Link } from "react-router-dom";
 import mapboxgl from 'mapbox-gl';
+import "./Map.css" // Keep the old CSS file for styling
 
 const Map = () => {
   const theme = useTheme();
@@ -25,10 +26,10 @@ const Map = () => {
       alert('Please enter a city or country name!');
       return;
     }
-  
+
     setLoading(true);
     setHotels([]);
-  
+
     try {
       const cityData = await fetchCityCoordinates(searchQuery);
       if (cityData) {
@@ -37,14 +38,14 @@ const Map = () => {
         const cityMarker = new mapboxgl.Marker({ anchor: 'center' })
           .setLngLat([longitude, latitude])
           .addTo(map);
-          
+
         cityMarker.getElement().style.pointerEvents = 'none';
         flyToLocation(map, [longitude, latitude]);
       }
-    
+
       const hotelsData = await fetchHotelsByCity(searchQuery);
       setHotels(hotelsData);
-  
+
       if (hotelsData.length === 0) {
         alert('No hotels found in this location.');
       } else {
@@ -53,7 +54,7 @@ const Map = () => {
             const hotelMarker = new mapboxgl.Marker({ anchor: 'center' })
               .setLngLat([hotel.longitude, hotel.latitude])
               .addTo(map);
-            
+
             hotelMarker.getElement().style.pointerEvents = 'none';
           }
         });
@@ -69,38 +70,39 @@ const Map = () => {
   return (
     <div>
       <Nav />
-      <Box sx={{ 
-        display: 'flex', 
-        flexDirection: { xs: 'column', md: 'row' }, 
-        height: '100vh', 
-        backgroundColor: theme.palette.background.default,
-        color: theme.palette.text.primary
+      
+      <Box sx={{
+        display: 'flex',
+        flexDirection: { xs: 'column', md: 'row' },
+        height: '100vh',
       }}>
-
-        <Box sx={{ 
-          width: { xs: '100%', md: '350px' }, 
-          padding: '20px', 
-          overflowY: 'auto', 
-          backgroundColor: theme.palette.mode === 'dark' ? '#333' : '#f8f9fa', 
+        {/* Left Sidebar with search and hotel list */}
+        <Box sx={{
+          width: { xs: '100%', md: '350px' },
+          padding: '20px',
+          overflowY: 'auto',
+          backgroundColor: theme.palette.mode === 'dark' ? '#333' : '#f8f9fa',
           borderRadius: '10px',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}>
+
           <TextField
+          
             label="Search by city or country"
             variant="outlined"
             fullWidth
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            sx={{ 
+            sx={{
               marginBottom: '10px',
-              input: { 
+              input: {
                 color: theme.palette.text.primary,
                 backgroundColor: theme.palette.mode === 'dark' ? '#444' : '#fff',
-                borderRadius: '5px'
-              }
+                borderRadius: '5px',
+              },
             }}
           />
-          <Button onClick={handleSearch} variant="contained" color="primary" fullWidth>
+          <Button onClick={handleSearch}  className='nav-buttonmap ' variant="contained" color="primary" fullWidth>
             Search
           </Button>
 
@@ -120,21 +122,14 @@ const Map = () => {
             ) : (
               <Box sx={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
                 {hotels.map((hotel) => (
-                  <Box 
-                    key={hotel._id} 
-                    sx={{ 
-                      border: '1px solid #ddd', 
-                      padding: '15px', 
-                      borderRadius: '10px', 
-                      boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
-                      backgroundColor: theme.palette.mode === 'dark' ? '#222' : '#fff',
-                      color: theme.palette.text.primary
-                    }}
+                  <Box
+                    key={hotel._id}
+                    className="hotel-card"
                   >
                     <img
                       src={`http://localhost:5000/${hotel.photos?.[0]?.replace(/\\/g, '/') || 'default-image.jpg'}`}
                       alt={hotel.name}
-                      style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '10px' }}
+                      className="hotel-image"
                     />
                     <Typography variant="h6">{hotel.name}</Typography>
                     <Typography><strong>Country:</strong> {hotel.country}</Typography>
@@ -144,7 +139,7 @@ const Map = () => {
                     <Typography><strong>Max Price:</strong> ${hotel.maxPrice}</Typography>
                     <Typography><strong>Phone Number:</strong> {hotel.phoneNumber}</Typography>
 
-                    <Link to={`/hotels/${hotel._id}/rooms`} style={{ textDecoration: 'none', color: theme.palette.primary.main }}>
+                    <Link to={`/hotels/${hotel._id}/rooms`} className="hotel-link">
                       Go to Rooms
                     </Link>
                   </Box>
@@ -154,10 +149,10 @@ const Map = () => {
           </Box>
         </Box>
 
+        {/* Right side with map */}
         <Box sx={{ flexGrow: 1, height: '100%' }}>
           <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
         </Box>
-
       </Box>
     </div>
   );

@@ -8,6 +8,7 @@ import { Calendar } from "@hassanmojab/react-modern-calendar-datepicker";
 import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
 import "./Reservation.css";
+
 const customStyles = {
   content: {
     top: "50%",
@@ -27,7 +28,7 @@ const ReservationForm = () => {
   const { state } = useValue();
   const navigate = useNavigate();
   const location = useLocation();
-  const datePickerRef = useRef(null); // تعريف الـ ref
+  const datePickerRef = useRef(null);
 
   const [formData, setFormData] = useState({
     roomId: "",
@@ -50,14 +51,21 @@ const ReservationForm = () => {
   };
 
   useEffect(() => {
-    const storedReservationData = localStorage.getItem("reservationData");
+    const storedReservationData = sessionStorage.getItem("reservationData");
+    const userIdFromSession = sessionStorage.getItem("userId");
+
+    if (!userIdFromSession) {
+      alert("You must be logged in to make a reservation.");
+      navigate("/RegisterLogin", { state: { from: location } });
+      return;
+    }
 
     if (storedReservationData) {
       const parsedData = JSON.parse(storedReservationData);
       setFormData((prev) => ({
         ...prev,
         ...parsedData,
-        userId: state.user ? state.user.id : "",
+        userId: userIdFromSession,
       }));
     }
 
@@ -92,13 +100,7 @@ const ReservationForm = () => {
     setError(null);
     setLoading(true);
 
-    if (!state.user) {
-      alert("You must be logged in to make a reservation.");
-      navigate("/RegisterLogin", { state: { from: location } });
-      setLoading(false);
-      return;
-    }
-
+ 
     if (!selectedRange.from || !selectedRange.to) {
       setError("Please select a valid date range.");
       setLoading(false);
@@ -200,7 +202,7 @@ const ReservationForm = () => {
                   checked={payNow}
                   onChange={(e) => setPayNow(e.target.checked)}
                 />
-              
+
               </label>
             </h3>
           </div>

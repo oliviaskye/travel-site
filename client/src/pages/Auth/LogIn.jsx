@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useValue } from "../../Middleware/context/ContextProvider";
 
+
 const Login = () => {
   const [inputs, setInputs] = useState({
     emailOrPhone: "",
@@ -33,15 +34,12 @@ const Login = () => {
       console.log(response.data);
 
       if (response.data.success) {
-        // تحديث حالة المستخدم في context
         dispatch({ type: "UPDATE_USER", payload: response.data.result });
 
-        // تخزين التوكن وبيانات المستخدم في localStorage
-        localStorage.setItem("token", response.data.result.token);
-        localStorage.setItem("userId", response.data.result.id);
-        localStorage.setItem("email", response.data.result.email);
+        sessionStorage.setItem("token", response.data.result.token);
+        sessionStorage.setItem("userId", response.data.result.id);
+        sessionStorage.setItem("email", response.data.result.email);
 
-        // توجيه المستخدم إلى الصفحة التي كان يرغب في الوصول إليها
         navigate(redirectPath);
       }
     } catch (error) {
@@ -55,11 +53,11 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-form-container">
-        <h2 className="auth-title">Login</h2>
+    <div >
+      <div >
+        <h2 >Login</h2>
         <form onSubmit={handleLogin}>
-          <label htmlFor="input">Email/Phone Number</label>
+          <label >Email/Phone Number</label>
           <input
             type="text"
             placeholder="Email or Phone Number"
@@ -67,7 +65,7 @@ const Login = () => {
             onChange={handleChange}
             required
           />
-          <label htmlFor="input">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             placeholder="Password"

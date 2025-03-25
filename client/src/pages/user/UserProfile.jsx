@@ -12,7 +12,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userId = localStorage.getItem("userId");
+        const userId = sessionStorage.getItem("userId");
         const response = await axios.get(
           `http://localhost:5000/api/auth/users/${userId}`
         );
@@ -59,39 +59,41 @@ const UserProfile = () => {
   };
 
   return (
-    <div>
-      {" "}
+    <div className="contener">
+      
       <Nav />
       <div className="user-profile">
-        <h2>User Profile</h2>
+  <h2>User Profile</h2>
 
-        <div className="user-info">
-          <div>
-            <strong>Name: {user.name}</strong>
-          </div>
-          <div>
-            <strong>Email: {user.email}</strong>
-          </div>
-          <div>
-            <strong>Phone: {user.phoneNumber}</strong>
-          </div>
-          <div>
-            <strong>Country: {user.country}</strong>
-          </div>
-        </div>
+  <table className="user-info-table">
+    <tbody>
+      <tr>
+        <td><strong>Name:</strong></td>
+        <td>{user.name}</td>
+      </tr>
+      <tr>
+        <td><strong>Email:</strong></td>
+        <td>{user.email}</td>
+      </tr>
+      <tr>
+        <td><strong>Phone:</strong></td>
+        <td>{user.phoneNumber}</td>
+      </tr>
+      <tr>
+        <td><strong>Country:</strong></td>
+        <td>{user.country}</td>
+      </tr>
+    </tbody>
+  </table>
 
-        <div className="bottom-buttons">
-          <button className="nav-button" onClick={updateProfile}>
-            Edit{" "}
-          </button>
-          <button className="nav-button" onClick={deleteProfile}>
-            Delete
-          </button>
-          <button className="nav-button">
-            <Link to={`/UserReservation`}>Reservation</Link>
-          </button>
-        </div>
-      </div>
+  <div className="bottom-buttons">
+  <button className="nav-button" onClick={updateProfile}>Edit</button>
+  <button className="nav-button" onClick={deleteProfile}>Delete</button>
+  <Link to="/UserReservation" className="nav-button link-button">Reservation</Link>
+</div>
+
+</div>
+
     </div>
   );
 };

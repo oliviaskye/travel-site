@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
+import "./StripePaymentForm.css"; // Import a CSS file for styling
 
 const StripePaymentForm = ({
   reservationId,
@@ -15,13 +16,13 @@ const StripePaymentForm = ({
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const [additionalPrice, setAdditionalPrice] = useState(0);
 
-  // استرجاع بيانات الحجز والإضافات من localStorage
   useEffect(() => {
-    const reservationData = JSON.parse(localStorage.getItem("reservationData")) || {};
-    const addsData = JSON.parse(localStorage.getItem("addsData")) || {};
+    const reservationData = JSON.parse(sessionStorage.getItem("reservationData")) || {};
+    const addsData = JSON.parse(sessionStorage.getItem("addsData")) || {};
 
-    const roomPrice = parseFloat(reservationData.price) || 0; // تحويل السعر إلى رقم عشري
+    const roomPrice = parseFloat(reservationData.price) || 0;
     setAmount(roomPrice);
 
     const additionalPrice =
@@ -30,6 +31,7 @@ const StripePaymentForm = ({
       (addsData.roomServicePrice || 0) +
       (addsData.breakfastPrice || 0);
 
+    setAdditionalPrice(additionalPrice);
     setTotalPrice(roomPrice + additionalPrice);
   }, []);
 
@@ -46,7 +48,7 @@ const StripePaymentForm = ({
 
     try {
       const { data } = await axios.post("http://localhost:5000/api/payment", {
-        amount: totalPrice * 100, // إرسال المبلغ بالسنتات
+        amount: totalPrice * 100,
         email,
         reservationId,
       });
@@ -78,30 +80,41 @@ const StripePaymentForm = ({
   };
 
   return (
-    <div>
+    <div className="payment-form-container">
       <h2>Stripe Payment Form</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="payment-form">
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
           <input
             type="email"
-            placeholder="Email"
+            id="email"
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
-        <div>
-          <p>Amount (USD): {amount.toFixed(2)}</p>
-          <p>Total Price (USD): {totalPrice.toFixed(2)}</p>
+        <div className="form-group">
+          <label>Amount (USD):</label>
+          <p>{amount.toFixed(2)}</p>
         </div>
-        <div>
-          <CardElement />
+        <div className="form-group">
+          <label>Additional Charges (USD):</label>
+          <p>{additionalPrice.toFixed(2)}</p>
         </div>
-        <button type="submit" disabled={loading || !stripe}>
+        <div className="form-group">
+          <label>Total Price (USD):</label>
+          <p>{totalPrice.toFixed(2)}</p>
+        </div>
+        <div className="form-group">
+          <label htmlFor="card-element">Card Details</label>
+          <CardElement id="card-element" />
+        </div>
+        <button type="submit" disabled={loading || !stripe} className="pay-button">
           {loading ? "Processing..." : "Pay"}
         </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="error-message">{message}</p>}
     </div>
   );
 };

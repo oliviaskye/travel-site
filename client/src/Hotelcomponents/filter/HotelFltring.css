@@ -1,68 +1,185 @@
 .hotels-container {
-  margin-left: 190px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* تقليل الفجوة */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  justify-items: center;
+  margin-left: 0;
+}
+/* Hotel Price Styling */
+.hotel-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;  /* Dark color for price text */
+  margin-bottom: 15px;
+  text-align: center; /* Center the price */
 }
 
+/* Min Price Styling */
+.hotel-price .min-price {
+  color:#e74c3c; 
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+/* Max Price Styling */
+.hotel-price .max-price {
+  color: #e74c3c; /* Red for the maximum price */
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+/* Separator Styling */
+.hotel-price .separator {
+  color: #333; /* Dark color for the "to" separator */
+  margin: 0 5px;
+}
+
+
 .hotel-card {
-  width: 100%;
-  max-width: 300px;
-  margin-bottom: 20px;
-  border-radius: 1rem;
-  box-shadow: 0px 10px 8px #999;
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  margin: 0.5rem;
-  margin-top: 1.5cm;
-  background-color: rgba(169, 169, 169, 0.5);
-  height: fit-content;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 320px;
+  width: 100%;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.hotel-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.2);
 }
 
 .hotel-img {
   width: 100%;
-  border-radius: 1rem 1rem 0 0;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 1.5rem 1.5rem 0 0;
 }
 
 .hotel-info {
-  padding: 0.5rem 5%;
+  padding: 20px;
+  background-color: white;
+  border-radius: 0 0 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.card-title {
-  margin: 0.5rem 0;
+.hotel-rating {
+  margin-bottom: 10px;
 }
 
+.star {
+  color: #ffd700;
+  margin-right: 5px;
+}
+
+.star.full {
+  color: #ffd700;
+}
+
+.star.empty {
+  color: #e0e0e0;
+}
+
+.star.half {
+  color: #ffcc00;
+}
+
+.hotel-name {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.location {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.location p {
+  font-size: 1rem;
+  color: #777;
+  margin-left: 8px;
+}
+
+.location-icon {
+  color: #cb5c00;
+}
+
+/* Hotel Price Styling - Ensure dark orange color with higher specificity */
+.hotels-container .hotel-card .hotel-info .hotel-price {
+  color: #cb5c00 !important; /* Dark orange color with !important */
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center; /* Center the text */
+}
+
+/* Hotel Description Styling - Ensure dark gray color with higher specificity */
+.hotels-container .hotel-card .hotel-info .hotel-description {
+  font-size: 0.95rem;
+  color: #555 !important; /* Dark gray for description text with !important */
+  margin-bottom: 15px;
+  text-align: center; /* Center the description text */
+}
 
 .card-btn {
-  height: 38px;
-  width: 100px;
-  border: none;
-  justify-content: space-between;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  width: 100%;
   background-color: #cb5c00;
-  letter-spacing: 2px;
-  font-size: 15px;
-  font-weight: 10;
-  
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: none;
   border-radius: 30px;
-  box-shadow: 2px 2px 3px #ffffff49, inset 3px 3px 10px #ffffff39;
-  transition: 1s;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   cursor: pointer;
 }
 
-
-
-
-.card-btn :hover {
-  box-shadow: 2px 0px 3px #69696949, inset 3px 3px 10px #ffffff39;
-  transform: scale(0.95);
+.card-btn:hover {
+  background-color: #d47800;
+  transform: scale(1.05);
 }
 
-.location .details{
-  color: black !important;
+.card-btn a {
+  color: white;
+  text-decoration: none;
+}
+
+.card-btn a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .hotels-container {
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+
+  .hotel-card {
+    max-width: 90%;
+  }
+
+  .hotel-name {
+    font-size: 1.4rem;
+  }
 }
 
 
 
-.hotel-info p {
-  color: black !important;
-}
+

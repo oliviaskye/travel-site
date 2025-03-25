@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm, ValidationError } from "@formspree/react";
 import "./Contact.css";
 import Nav from "@Nav";
-
+import Footer from "../footer/Footer";
 const Contact = () => {
   const [formStatus, setFormStatus] = useState("idle");
   const [state, handleSubmit] = useForm("xrbzykle");
@@ -67,10 +67,12 @@ const Contact = () => {
                   <p>Thanks for reaching out! We'll get back to you soon.</p>
                 )}
               </div>
+            
             </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

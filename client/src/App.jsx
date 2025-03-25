@@ -22,7 +22,7 @@ const stripePromise = loadStripe(
 );
 
 
-
+import Login from "./components/Login"
 
 import Discover from "./Newcomponents/Discover/Discover";
 import HotelEachRooms from "./Newcomponents/RoomsHo/HotelEachRooms";
@@ -33,13 +33,16 @@ function App() {
       <div className="container">
         <Elements stripe={stripePromise}>
           <Routes>
+
+          <Route path="/Login" element={<Login />} />
+
             <Route path="/" element={<Home />} />
             <Route path="/RegisterLogin" element={<RegisterLogin />} />
             <Route path="/map" element={<Map />} />
             <Route path="/hotels" element={<Hotels />} />
 
             <Route path="/hotels/:hotelId/rooms" element={<Rooms />} />
-
+              
             <Route
               path="/reservation/:roomId/:hotelId"
               element={<ReservationForm />}

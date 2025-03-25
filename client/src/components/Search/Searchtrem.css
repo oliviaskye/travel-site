@@ -1,61 +1,150 @@
-/* Sidebar styling */
+/* Sidebar Styling */
 .sidebar {
-  background-color: white;
-  width: 100%; /* Sidebar takes 30% width */
-  height: 100vh; /* Full viewport height */
-  padding: 20px;
+  background-color: #ffffff;
+  width: 280px;
+  height: 100vh;
+  padding: 25px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  margin-left: 15px;
+  align-items: center;
+  margin-left: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease-in-out;
+  gap: 20px;
+  justify-content: flex-start;
 }
 
-
-.sidebar h1 {
-  text-align: center;
-  font-size: 24px;
-  margin-top: 25px;
-  text-align: flex-end;
-}
-
-.Filter {
-  padding-left: 60px;
-}
-span {
-  color: #cb5c00;
-}
-
-.Filter:hover {
-  color: #cb5c00;
-  cursor: pointer;
-}
-
-/* Styling for section headings */
+/* Title Styling */
 .sidebar h2 {
-  font-size: 18px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #222;
+  text-align: center;
+  margin-bottom: 25px;
+  margin-left: 5PX;
+  padding: 8px 18px;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  width: 100%;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Input Fields */
+.sidebar input[type="text"],
+.sidebar input[type="number"] {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #bbb;
+  margin-bottom: 15px;
+  transition: all 0.3s ease-in-out;
+  outline: none;
+}
+
+/* Focused Input Fields */
+.sidebar input[type="text"]:focus,
+.sidebar input[type="number"]:focus {
+  border-color: #cb5c00;
+  box-shadow: 0 0 6px rgba(203, 92, 0, 0.5);
+}
+
+/* Price Range Slider Styling */
+.sidebar input[type="range"] {
+  width: 100%;
+  height: 4px; /* Reduced the height for a thinner line */
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(to right, #cb5c00 0%, #ddd 0%);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+/* Slider Track */
+.sidebar input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px; /* Matching the line height */
+  background: transparent;
+}
+
+/* Slider Thumb */
+.sidebar input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px; /* Reduced width of the thumb */
+  height: 14px; /* Reduced height of the thumb */
+  border-radius: 50%; /* Ensures the thumb remains a circle */
+  background: #cb5c00;
+  border: 2px solid white;
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease-in-out;
+  margin-top: -5px; /* Adjusted margin for better alignment */
+}
+
+.sidebar input[type="range"]::-webkit-slider-thumb:hover {
+  background: #e97f00;
+  transform: scale(1.3); /* Hover effect to increase size */
+}
+
+.sidebar input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(1.4); /* Active state to slightly enlarge the thumb */
+}
+
+/* Price Range Text */
+.sidebar p {
+  font-size: 15px;
+  color: #222;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
-/* Styling for input fields */
-.sidebar input[type="text"],
-.sidebar input[type="range"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+/* Button Styling */
+.nav-button {
+  background-color: #cb5c00;
+  color: white;
   font-size: 14px;
-  background-color: transparent;
+  padding: 14px 22px;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+
+  /* Centering the button */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto; /* Centers horizontally */
 }
 
-.input {
-  background-color: transparent;
+/* Hover effect */
+.nav-button:hover {
+  background-color: #e97f00;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Styling for the price range label */
-.sidebar p {
-  font-size: 16px;
-  color: #333;
-  text-align: center;
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    padding: 18px;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .sidebar h2 {
+    font-size: 22px;
+    padding: 6px 12px;
+  }
+
+  .nav-button {
+    padding: 12px 20px;
+  }
 }

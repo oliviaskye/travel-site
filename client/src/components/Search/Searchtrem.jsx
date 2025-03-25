@@ -6,6 +6,9 @@ function Searchtrem({ onSearch }) {
   const [destination, setDestination] = useState("");
   const [maxPrice, setMaxPrice] = useState(1000);
   const [isModalOpen, setIsModalOpen] = useState(true);
+  const [sliderBackground, setSliderBackground] = useState(
+    `linear-gradient(to right, #cb5c00 100%, #ddd 0%)`
+  );
   const datePickerRef = useRef(null);
 
   useEffect(() => {
@@ -41,11 +44,18 @@ function Searchtrem({ onSearch }) {
     }
   };
 
+  const handleRangeChange = (e) => {
+    const value = e.target.value;
+    setMaxPrice(value);
+
+    // Update the background gradient dynamically based on the slider value
+    const percentage = (value / 1000) * 100; // Calculate percentage based on 1000
+    const gradient = `linear-gradient(to right, #cb5c00 ${percentage}%, #ddd ${percentage}%)`;
+    setSliderBackground(gradient);
+  };
+
   return (
     <div className="sidebar">
-      <h1 className="Filter">
-        Filte<span>r</span>
-      </h1>
       <p
         onClick={() => setIsModalOpen(!isModalOpen)}
         style={{ background: "none", border: "none", cursor: "pointer" }}
@@ -56,13 +66,13 @@ function Searchtrem({ onSearch }) {
           <FaChevronDown
             size={20}
             color="black"
-            style={{ paddingLeft: "200px" }} // إضافة الحشوة هنا
+            style={{ paddingLeft: "200px" }}
           />
         )}
       </p>
       {isModalOpen && (
         <div className="searchtrem">
-          <h2>City</h2>
+          <h2>Hotel Search</h2>
           <input
             type="text"
             placeholder="City"
@@ -75,9 +85,12 @@ function Searchtrem({ onSearch }) {
               min="0"
               max="1000"
               value={maxPrice}
-              onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+              onChange={handleRangeChange}
+              style={{
+                background: sliderBackground,  // Apply dynamic gradient
+              }}
             />
-            <p>{`$0 - $${maxPrice}`}</p>
+            <p>{`Price Range: $0 - $${maxPrice}`}</p>
             <input
               className="input"
               type="number"

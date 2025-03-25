@@ -1,72 +1,100 @@
-/* Container for the profile page */
+.contener{
+  background-color: #201b17;
+}
+
 .user-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 600px;
+  margin: 20px auto; /* تقليل المسافة العلوية */
   padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-/* Navigation bar styling - removed */
-
-/* Header styling */
-h2 {
-  margin-top: 20px;
-  color: #333;
-}
-
-/* Container for the user information */
-.user-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  width: 100%;
-  max-width: 400px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.7); 
-}
-
-/* Information styling */
-.user-info div {
-  margin: 10px 0;
-}
-
-.user-info strong {
-  color: black;
-  font-weight: bold;
-}
-
-
-
-.user-info strong p{
-  color: black;
-  font-weight: bold;
-}
-
-
-
- .bottom-buttons {
-  display: flex;
-  flex-direction: row;
-  margin-top: 30px;
-
-  width: 100%;
-  max-width: 400px;
- 
-}
-
-
-
-/* Additional styling for confirm and loading states */
-.error,
-.loading {
-  color: red;
+  border: 1px solid #cb5c00;
+  border-radius: 10px;
+  background-color: antiquewhite;
+  box-shadow: 0 4px 8px rgba(203, 92, 0, 1);
   text-align: center;
+  position: relative;
+  top: -15px; /* رفع العنصر للأعلى */
+}
+.user-info {
+  margin: 20px 0;
+  font-size: 18px;
+  justify-content: space-around;
+
 }
 
-.loading {
+.user-info div {
+  margin-bottom: 10px;
+  border: 1px solid #cb5c00;
+}
+
+
+
+
+
+.loading,
+.error {
+  text-align: center;
   font-size: 18px;
+  color: red;
+}
+
+
+.user-info-table {
+  width: 100%;
+  background-color:rgb(245, 245, 245) ;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.user-info-table td {
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 9);
+  border-bottom: 1px solid #ddd;
+}
+
+.user-info-table td:first-child {
+  text-align: right;
+  font-weight: bold;
+  width: 30%;
+}
+
+.user-info-table td:last-child {
+  text-align: left;
+  width: 70%;
+}
+
+.bottom-buttons {
+  display: flex;
+  justify-content: space-between; /* توزيع الأزرار بالتساوي */
+  align-items: center;
+  gap: 10px; /* مسافة بين الأزرار */
+  margin-top: 20px;
+  width: 100%;
+}
+
+.nav-button,
+.link-button { /* توحيد الزر و الـ Link */
+  flex: 1; /* يجعل جميع العناصر بنفس الحجم */
+  text-align: center;
+  height: 45px; /* زيادة الارتفاع لجعلها أوضح */
+  border: none;
+  background-color: #cb5c00;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 2px;
+  font-size: 16px; /* تكبير الخط */
+  font-weight: 600;
+  color: white;
+  border-radius: 30px;
+  box-shadow: 2px 2px 3px #ffffff49, inset 3px 3px 10px #ffffff39;
+  transition: 0.3s;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none; /* إزالة التزيين من الـ Link */
+}
+
+.nav-button:hover,
+.link-button:hover {
+  box-shadow: 2px 0px 3px #69696949, inset 3px 3px 10px #ffffff39;
+  transform: scale(0.95);
 }

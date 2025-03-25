@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import navCSS from "./Nav.module.css";
 import XSound from "@assets/XSound.wav";
 
@@ -9,17 +10,37 @@ const navItemses = [
   { label: "Profile", path: "/UserProfile" },
   { label: "Discover", path: "/Discover" },
   { label: "Sound", action: "toggleSound" },
-  { label: "Sign In", path: "/RegisterLogin" },
+  // The login/logout items will be conditionally added
 ];
 
 function Nav() {
+  const navigate = useNavigate();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1200);
   const [isSoundOn, setIsSoundOn] = useState(
     () => localStorage.getItem("soundOn") === "true"
   );
+  
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    sessionStorage.getItem("userId") !== null 
+  );
+  
 
   const audioRef = useRef(new Audio(XSound));
+
+  const handleLogout = () => {
+    sessionStorage.clear();
+    alert("You have logged out successfully.");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
+
+  const handleLogin = () => {
+
+    setIsLoggedIn(true);
+    navigate("/RegisterLogin");
+  };
 
   useEffect(() => {
     if (!isSoundOn) {
@@ -44,8 +65,17 @@ function Nav() {
   const handleAction = (action) => {
     if (action === "toggleSound") {
       toggleSound();
+    } else if (action === "handleLogout") {
+      handleLogout();
     }
   };
+
+  const navItems = [
+    ...navItemses,
+    isLoggedIn
+      ? { label: "Logout", action: "handleLogout" }
+      : { label: "Login", path: "/RegisterLogin", onClick: handleLogin },
+  ];
 
   return (
     <nav className={navCSS.nav_wrapper}>
@@ -55,10 +85,11 @@ function Nav() {
         </a>
       </div>
 
-      {!isMobile && (
-        <div>
+      {/* Menu for screens larger than 1200px */}
+      <div>
+        {!isMobile && (
           <ul className={navCSS.navList}>
-            {navItemses.map((item, index) => (
+            {navItems.map((item, index) => (
               <li key={index}>
                 <a
                   href={item.path || "#"}
@@ -66,6 +97,9 @@ function Nav() {
                     if (item.action) {
                       e.preventDefault();
                       handleAction(item.action);
+                    } else if (item.onClick) {
+                      e.preventDefault();
+                      item.onClick();
                     }
                   }}
                 >
@@ -74,8 +108,8 @@ function Nav() {
               </li>
             ))}
           </ul>
-        </div>
-      )}
+        )}
+      </div>
 
       {isMobile && (
         <div className={navCSS.Nav_btns}>
@@ -90,7 +124,7 @@ function Nav() {
 
       {isMobile && isMenuVisible && (
         <ul className={navCSS.showNav}>
-          {navItemses.map((item, index) => (
+          {navItems.map((item, index) => (
             <li key={index}>
               <a
                 href={item.path || "#"}
@@ -98,6 +132,9 @@ function Nav() {
                   if (item.action) {
                     e.preventDefault();
                     handleAction(item.action);
+                  } else if (item.onClick) {
+                    e.preventDefault();
+                    item.onClick();
                   }
                 }}
               >

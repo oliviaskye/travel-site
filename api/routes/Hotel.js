@@ -1,5 +1,5 @@
 import express from "express";
-import { createHotel, deleteHotel, getHotel, getHotels, updateHotel,filterHotelsByCityAndPrice,Map} from "../controllers/Hotel.js";
+import { createHotel, deleteHotel, getHotel, getHotels, updateHotel,filterHotelsByCityAndPrice,map} from "../controllers/Hotel.js";
 import upload from "../Middleware/upload.js";
 
 
@@ -7,7 +7,6 @@ const router = express.Router();
 
 // POST
 router.post("/", upload.array("photos"), createHotel);
-
 // UPDATE
 router.put("/:id", updateHotel);
 
@@ -18,7 +17,11 @@ router.delete("/:id", deleteHotel);
 router.get("/", getHotels);
 router.get("/find/:id", getHotel);
 router.get("/filter", filterHotelsByCityAndPrice)
-router.get("/map", Map); 
+
+
+router.get("/map", map); 
+
+
 
 
 export default router;

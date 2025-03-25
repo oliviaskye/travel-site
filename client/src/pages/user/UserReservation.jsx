@@ -28,7 +28,7 @@ const UserReservation = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const userId = localStorage.getItem("userId");
+        const userId = sessionStorage.getItem("userId");
         const response = await axios.get(
           `http://localhost:5000/api/reservations/user/${userId}`
         );
@@ -119,16 +119,7 @@ const UserReservation = () => {
         Reservation History
       </Typography>
 
-      <Box mb={3}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Search by User ID or Hotel Name"
-          value={search}
-          onChange={handleSearchChange}
-        />
-      </Box>
-
+  
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -151,9 +142,9 @@ const UserReservation = () => {
               <TableCell>
                 <strong>Paid</strong>
               </TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <strong>Actions</strong>
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -173,7 +164,7 @@ const UserReservation = () => {
                   {new Date(reservation.endDate).toLocaleDateString()}
                 </TableCell>
                 <TableCell>{reservation.isPaid ? "Yes" : "No"}</TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <Button
                     variant="contained"
                     color="error"
@@ -182,7 +173,7 @@ const UserReservation = () => {
                   >
                     Delete
                   </Button>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

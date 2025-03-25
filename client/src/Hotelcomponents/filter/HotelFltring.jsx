@@ -3,7 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import RoomModals from "./RoomModals";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import "./HotelFltring.css"; // Ensure this file includes the styles
+import { FaStar } from "react-icons/fa";
+import "./HotelFltring.css";
 
 const Hotels = ({ searchData }) => {
   const [hotels, setHotels] = useState([]);
@@ -54,6 +55,27 @@ const Hotels = ({ searchData }) => {
   if (loading) return <p>Loading hotels...</p>;
   if (error) return <p>{error}</p>;
 
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 !== 0;
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<FaStar key={`full-${i}`} className="star full" />);
+    }
+
+    if (halfStar) {
+      stars.push(<FaStar key="half" className="star half" />);
+    }
+
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(<FaStar key={`empty-${i}`} className="star empty" />);
+    }
+
+    return stars;
+  };
+
   return (
     <div className="hotels-container">
       {hotels.length > 0 ? (
@@ -73,27 +95,24 @@ const Hotels = ({ searchData }) => {
               onClick={() => handleOpenModal(hotel.photos)}
             />
             <div className="hotel-info">
-              <h3 className="card-title"><h2 className="card-title-h">{hotel.name}</h2></h3>
-              <div className="location">
-                <p>
-                  <FaMapMarkerAlt
-                    style={{
-                      marginRight: "8px",
-                      color: "gray",
-                    }}
-                  />
-                </p>
-               <div className="details">
-               <p >
-                  {hotel.country} / {hotel.city}
-                </p>
-                <p >
-                  {hotel.details} 
-                </p>
-                </div>
-
+              <div className="hotel-rating">
+                {renderStars(hotel.rating)}
               </div>
-            
+              <h2 className="hotel-name">{hotel.name}</h2>
+              <div className="location">
+                <FaMapMarkerAlt className="location-icon" />
+                <span>{hotel.country} / {hotel.city}</span>
+              </div>
+              <p className="hotel-price">
+  Price: <span className="min-price">${hotel.cheapestPrice}</span> 
+  <span className="separator">to</span> 
+  <span className="max-price">${hotel.maxPrice}</span> 
+  
+</p>
+
+              <p className="hotel-description">
+                {hotel.description || "Experience the comfort and luxury at our hotel. Enjoy modern amenities, spacious rooms, and exceptional service."}
+              </p>
               <button className="card-btn">
                 <Link
                   to={`/Discover/${hotel._id}/Rooms`}
@@ -120,3 +139,4 @@ const Hotels = ({ searchData }) => {
 };
 
 export default Hotels;
+

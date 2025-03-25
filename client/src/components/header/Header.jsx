@@ -12,10 +12,6 @@ const display = {
 function Header() {
   const [autoplay, setAutoplay] = useState(display);
 
-
-
-  
-
   return (
     <div className={headerCSS.header_wrapper}>
       <Swiper
@@ -30,13 +26,12 @@ function Header() {
       >
         <SwiperSlide>
           <div className={`${headerCSS.Header_slide} ${headerCSS.slide1}`}>
-    
             <div className={headerCSS.content}>
               <small data-swiper-parallax="100px">
-                Luxury hotel & Restaurant
+                Explore the world with us
               </small>
               <h2 data-swiper-parallax="100px">
-                Enjoy your <span>dream </span>time
+                Experience <span>new adventures</span>
               </h2>
             </div>
           </div>
@@ -44,13 +39,12 @@ function Header() {
 
         <SwiperSlide>
           <div className={`${headerCSS.Header_slide} ${headerCSS.slide2}`}>
-
             <div className={headerCSS.content}>
               <small data-swiper-parallax="100px">
-                Luxury hotel & Restaurant
+                Unforgettable trips await
               </small>
               <h2 data-swiper-parallax="100px">
-                Enjoy your <span>dream </span>time
+                Discover your <span>perfect destination</span>
               </h2>
             </div>
           </div>
@@ -58,13 +52,12 @@ function Header() {
 
         <SwiperSlide>
           <div className={`${headerCSS.Header_slide} ${headerCSS.slide3}`}>
-
             <div className={headerCSS.content}>
               <small data-swiper-parallax="100px">
-                Luxury hotel & Restaurant
+                Ultimate luxury experiences
               </small>
               <h2 data-swiper-parallax="100px">
-                Enjoy your <span>dream </span>time
+                Indulge in <span>luxurious stays</span>
               </h2>
             </div>
           </div>

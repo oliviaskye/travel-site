@@ -5,6 +5,7 @@ import Nav from "@Nav";
 
 import FutureTrip from "../Hotelcomponents/Future/FutureTrip";
 import "../index.css";
+import Rewie from "./rewie";
 
 const Home = () => {
   return (
@@ -18,7 +19,9 @@ const Home = () => {
       <FutureTrip />
 
       <div className="divider" />
-
+     |
+    <Rewie />
+    < div className="divider" />
       <Footer />
     </div>
   );

@@ -23,8 +23,7 @@ const Add = () => {
       breakfastPrice: breakfastChecked ? 6 : 0,
     };
     
-    // Save the selected add-ons and their prices to localStorage
-    localStorage.setItem('addsData', JSON.stringify(addsData));
+    sessionStorage.setItem('addsData', JSON.stringify(addsData));
     alert("Your selections have been saved!");
     console.log(addsData)
   };
