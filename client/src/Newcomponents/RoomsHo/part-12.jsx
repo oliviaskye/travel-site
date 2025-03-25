@@ -23,22 +23,9 @@ const Part12 = ({ hotelId }) => {
       {hotel ? (
         <div style={styles.hotelInfo}>
           <h2 style={styles.hotelName}>
-            <span> Hotel name </span>
+           
             {hotel.name}</h2>
-          <div style={styles.hotelInfo1}>
-            <p>
-              <strong>Country:</strong> {hotel.country}
-            </p>
-            <p>
-              <strong>City:</strong> {hotel.city}
-            </p>
-            <p>
-              <strong>title:</strong>  {hotel.title}
-            </p>
-            <p>
-              <strong>desc:</strong>  {hotel.desc}
-            </p>
-          </div>
+         
         </div>
       ) : (
         <p>Loading hotel data...</p>

@@ -41,11 +41,17 @@ function Searchtrem({ onSearch }) {
     }
   };
 
+  const handleRangeChange = (e) => {
+    const value = e.target.value;
+    setMaxPrice(value);
+
+    // Dynamically set the gradient background for the slider
+    e.target.style.background = `linear-gradient(to right, #cb5c00 ${value}%, #ddd ${value}%)`;
+  };
+
   return (
     <div className="sidebar">
-      <h1 className="Filter">
-        Filte<span>r</span>
-      </h1>
+      
       <p
         onClick={() => setIsModalOpen(!isModalOpen)}
         style={{ background: "none", border: "none", cursor: "pointer" }}
@@ -56,13 +62,14 @@ function Searchtrem({ onSearch }) {
           <FaChevronDown
             size={20}
             color="black"
-            style={{ paddingLeft: "200px" }} // إضافة الحشوة هنا
+            style={{ paddingLeft: "200px" }} 
           />
         )}
       </p>
       {isModalOpen && (
         <div className="searchtrem">
-          <h2>City</h2>
+          <h2>Hotels Searchs </h2>
+          <h2></h2>
           <input
             type="text"
             placeholder="City"
@@ -75,7 +82,10 @@ function Searchtrem({ onSearch }) {
               min="0"
               max="1000"
               value={maxPrice}
-              onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+              onChange={(e) => handleRangeChange(e)}
+              style={{
+                background: `linear-gradient(to right, #cb5c00 ${maxPrice}%, #ddd ${maxPrice}%)`,
+              }}
             />
             <p>{`$0 - $${maxPrice}`}</p>
             <input
