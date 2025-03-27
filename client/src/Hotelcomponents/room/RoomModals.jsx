@@ -29,7 +29,11 @@ const customStyles = {
   },
 };
 
-const RoomModals = ({ isImageModalOpen, closeImageModal, currentRoomImages }) => {
+const RoomModals = ({
+  isImageModalOpen,
+  closeImageModal,
+  currentRoomImages,
+}) => {
   const swiperRef = useRef(null);
 
   const handlePreviousImage = () => {
@@ -76,6 +80,7 @@ const RoomModals = ({ isImageModalOpen, closeImageModal, currentRoomImages }) =>
                         borderRadius: "8px",
                         margin: "0 auto",
                         display: "block",
+                        marginTop: "10rem",
                       }}
                     />
                   </SwiperSlide>

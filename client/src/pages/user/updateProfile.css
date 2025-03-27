@@ -1,0 +1,108 @@
+/* Container for the Update Profile page */
+.update-profile {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  height: auto; 
+  background-color: antiquewhite;
+  color: white;
+
+  border: 2px solid #cb5c00;}
+
+  /* Header styling */
+  h1 {
+    color: black;
+    margin-left: 200px;
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  /* Form and input fields styling */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+    color: black;
+    margin-bottom: 5px;
+  }
+  
+  input {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #cb5c00;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: #f0f0f0;
+    color: black;
+  }
+  
+  /* Country select styling */
+  select {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #cb5c00;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    color: black;
+  }
+  
+  /* Error message styling */
+  .error {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  /* Action buttons container */
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px;
+  }
+  
+  /* Button styling */
+  .btn-action {
+    height: 38px;
+    width: 120px;
+    border: none;
+    margin: 5px;
+    background-color: #cb5c00;
+    font-family: 'Poppins';
+    letter-spacing: 2px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    border-radius: 50px;
+    box-shadow: 2px 2px 3px #ffffff49, inset 3px 3px 10px #ffffff39;
+    transition: 0.5s;
+    cursor: pointer;
+  }
+  
+  .btn-action:hover {
+    box-shadow: 2px 0px 3px #69696949, inset 3px 3px 10px #ffffff39;
+    transform: scale(0.95);
+  }
+  
+  /* Style adjustments for small screens */
+  @media (max-width: 600px) {
+    .update-profile {
+      width: 90%;
+    }
+  
+    .action-buttons {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .btn-action {
+      width: 100%;
+    }
+  }
+  

@@ -2,22 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useForm, ValidationError } from "@formspree/react";
 import "./Contact.css";
 import Nav from "@Nav";
-import Footer from "../footer/Footer";
+import Ftr from "../Ftr/Ftr"
 const Contact = () => {
   const [formStatus, setFormStatus] = useState("idle");
   const [state, handleSubmit] = useForm("xrbzykle");
 
-  // Use useEffect to update formStatus based on the state changes
+
   useEffect(() => {
     if (state.succeeded) {
       setFormStatus("sent");
     } else if (state.submitting) {
       setFormStatus("sending");
     }
-  }, [state.succeeded, state.submitting]); // Only run when state.succeeded or state.submitting changes
+  }, [state.succeeded, state.submitting]); 
 
   const onSubmit = (event) => {
-    event.preventDefault();  // Prevent the page from redirecting on form submit
+    event.preventDefault();  
     handleSubmit(event);
   };
 
@@ -71,8 +71,9 @@ const Contact = () => {
             </div>
           </div>
         </div>
+      
       </div>
-      <Footer />
+      < Ftr />
     </div>
   );
 };

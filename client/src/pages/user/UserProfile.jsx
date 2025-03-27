@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Nav from "@Nav";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./profile.css";
-
+import Ftr from "../../components/Ftr/Ftr";
 const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
@@ -58,43 +58,62 @@ const UserProfile = () => {
     navigate("/UpdateProfile");
   };
 
+  const userReservation = () => {
+    navigate("/UserReservation");
+  };
+
   return (
-    <div className="contener">
-      
+    <div>
+        
       <Nav />
-      <div className="user-profile">
-  <h2>User Profile</h2>
+    
+        <div className="user-profile">
+          <h1 style={{ color: "black", marginLeft: "-5px"}} >User Profile</h1>
 
-  <table className="user-info-table">
-    <tbody>
-      <tr>
-        <td><strong>Name:</strong></td>
-        <td>{user.name}</td>
-      </tr>
-      <tr>
-        <td><strong>Email:</strong></td>
-        <td>{user.email}</td>
-      </tr>
-      <tr>
-        <td><strong>Phone:</strong></td>
-        <td>{user.phoneNumber}</td>
-      </tr>
-      <tr>
-        <td><strong>Country:</strong></td>
-        <td>{user.country}</td>
-      </tr>
-    </tbody>
-  </table>
+          <table className="user-info-table">
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Name:</strong>
+                </td>
+                <td>{user.name}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Email:</strong>
+                </td>
+                <td>{user.email}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Phone:</strong>
+                </td>
+                <td>{user.phoneNumber}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Country:</strong>
+                </td>
+                <td>{user.country}</td>
+              </tr>
+            </tbody>
+          </table>
 
-  <div className="bottom-buttons">
-  <button className="nav-button" onClick={updateProfile}>Edit</button>
-  <button className="nav-button" onClick={deleteProfile}>Delete</button>
-  <Link to="/UserReservation" className="nav-button link-button">Reservation</Link>
-</div>
+          <div className="bottom-buttons">
+            <button className="nav-button" onClick={updateProfile}>
+              Edit
+            </button>
+            <button className="nav-button" onClick={deleteProfile}>
+              Delete
+            </button>
+            <button className="nav-button" onClick={userReservation}>
+              Reservation
+            </button>
+          </div>
+        </div>
+        <Ftr />
+      </div>
 
-</div>
-
-    </div>
   );
 };
 

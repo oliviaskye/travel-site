@@ -14,18 +14,20 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
+ 
 
 }
 
 .ModalContent {
-
   border-radius: 12px;
-  padding: 20px;
+  padding: 10px;
   max-width: 500px;
   width: 100%;
   animation: fadeIn 0.3s ease-out;
   position: relative;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+ 
 }
 
 .container-btn {
@@ -33,7 +35,7 @@
   justify-content: center;
   align-items: center;
   gap: 15px;
-  margin-top: 20px;
+  margin-top: -20px;
 }
 
 @keyframes fadeIn {
@@ -45,6 +47,11 @@
   }
 }
 
+
+
+.border {
+  border: 2px solid red;
+}
 
 
 

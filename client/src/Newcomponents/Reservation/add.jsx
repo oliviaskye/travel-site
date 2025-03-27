@@ -39,7 +39,7 @@ const Add = () => {
         </tr>
       </thead>
       <tbody>
-        {/* Table rows */}
+     
         <tr>
           <td className="feature-name">Wifi <span className="price">($10)</span></td>
           <td>

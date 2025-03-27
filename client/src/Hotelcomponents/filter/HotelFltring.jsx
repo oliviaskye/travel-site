@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import RoomModals from "./RoomModals";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import { FaStar } from "react-icons/fa";
+import HotelImagesModal from "./HotelImagesModal";
+import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import "./HotelFltring.css";
 
 const Hotels = ({ searchData }) => {
@@ -31,7 +30,7 @@ const Hotels = ({ searchData }) => {
       } catch (error) {
         setError(
           error.response?.data?.message ||
-            "Failed to fetch data, please try again later."
+            "Failed to fetch data. Please try again later."
         );
       } finally {
         setLoading(false);
@@ -42,7 +41,7 @@ const Hotels = ({ searchData }) => {
   }, [searchData]);
 
   const handleOpenModal = (hotelImages) => {
-    setCurrentHotelImages(hotelImages || []);
+    setCurrentHotelImages(hotelImages ?? []);
     setIsModalOpen(true);
   };
 
@@ -95,48 +94,41 @@ const Hotels = ({ searchData }) => {
               onClick={() => handleOpenModal(hotel.photos)}
             />
             <div className="hotel-info">
-              <div className="hotel-rating">
-                {renderStars(hotel.rating)}
-              </div>
+              <div className="hotel-rating">{renderStars(hotel.rating)}</div>
               <h2 className="hotel-name">{hotel.name}</h2>
               <div className="location">
                 <FaMapMarkerAlt className="location-icon" />
-                <span>{hotel.country} / {hotel.city}</span>
+                <span>
+                  {hotel.country} / {hotel.city}
+                </span>
               </div>
               <p className="hotel-price">
-  Price: <span className="min-price">${hotel.cheapestPrice}</span> 
-  <span className="separator">to</span> 
-  <span className="max-price">${hotel.maxPrice}</span> 
-  
-</p>
+                Price: <span className="min-price">${hotel.cheapestPrice}</span>
+                <span className="separator"> to </span>
+                <span className="max-price">${hotel.maxPrice}</span>
+              </p>
 
               <p className="hotel-description">
-                {hotel.description || "Experience the comfort and luxury at our hotel. Enjoy modern amenities, spacious rooms, and exceptional service."}
+                {hotel.description ||
+                  "Experience comfort and luxury at our hotel, featuring top-notch services and spacious rooms."}
               </p>
-              <button className="card-btn">
-                <Link
-                  to={`/Discover/${hotel._id}/Rooms`}
-                  onClick={() =>
-                    localStorage.setItem("selectedHotel", JSON.stringify(hotel))
-                  }
-                >
-                  Rooms
-                </Link>
-              </button>
+
+              <Link className="card-btn" to={`/Discover/${hotel._id}/Rooms`}>
+                <button className="card-btn">ROOMS</button>
+              </Link>
             </div>
           </div>
         ))
       ) : (
-        <p>No hotels found for this search.</p>
+        <p>No hotels were found for this search.</p>
       )}
-      <RoomModals
-        isImageModalOpen={isModalOpen}
-        closeImageModal={handleCloseModal}
-        currentRoomImages={currentHotelImages || []}
+      <HotelImagesModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        images={currentHotelImages ?? []}
       />
     </div>
   );
 };
 
 export default Hotels;
-

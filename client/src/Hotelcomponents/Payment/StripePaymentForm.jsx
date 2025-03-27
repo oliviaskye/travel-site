@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
-import "./StripePaymentForm.css"; // Import a CSS file for styling
+import "./StripePaymentForm.css"; 
 
 const StripePaymentForm = ({
   reservationId,

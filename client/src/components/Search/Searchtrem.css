@@ -1,150 +1,184 @@
 /* Sidebar Styling */
 .sidebar {
-  background-color: #ffffff;
-  width: 280px;
+  background-color: white;
+  width: 300px;
   height: 100vh;
-  padding: 25px;
+  padding: 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-left: 20px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
-  transition: all 0.3s ease-in-out;
-  gap: 20px;
-  justify-content: flex-start;
+  align-items: stretch;
+  margin-left: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  gap: 15px;
 }
 
-/* Title Styling */
-.sidebar h2 {
-  font-size: 28px;
-  font-weight: bold;
-  color: #222;
-  text-align: center;
-  margin-bottom: 25px;
-  margin-left: 5PX;
-  padding: 8px 18px;
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  width: 100%;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+/* Toggle Button */
+.toggle-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Search Container */
+.searchtrem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* Input Fields */
-.sidebar input[type="text"],
-.sidebar input[type="number"] {
-  width: 100%;
-  padding: 14px;
-  font-size: 15px;
-  border-radius: 10px;
-  border: 1px solid #bbb;
-  margin-bottom: 15px;
-  transition: all 0.3s ease-in-out;
-  outline: none;
-}
-
-/* Focused Input Fields */
-.sidebar input[type="text"]:focus,
-.sidebar input[type="number"]:focus {
-  border-color: #cb5c00;
-  box-shadow: 0 0 6px rgba(203, 92, 0, 0.5);
-}
-
-/* Price Range Slider Styling */
-.sidebar input[type="range"] {
-  width: 100%;
-  height: 4px; /* Reduced the height for a thinner line */
-  -webkit-appearance: none;
-  appearance: none;
-  background: linear-gradient(to right, #cb5c00 0%, #ddd 0%);
+.input {
+  padding: 10px;
   border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  margin-bottom: 12px;
-  position: relative;
+  border: 1px solid #ccc;
 }
 
-/* Slider Track */
-.sidebar input[type="range"]::-webkit-slider-runnable-track {
-  height: 4px; /* Matching the line height */
-  background: transparent;
-}
-
-/* Slider Thumb */
-.sidebar input[type="range"]::-webkit-slider-thumb {
+.range-input {
+  width: 100%;
   -webkit-appearance: none;
   appearance: none;
-  width: 14px; /* Reduced width of the thumb */
-  height: 14px; /* Reduced height of the thumb */
-  border-radius: 50%; /* Ensures the thumb remains a circle */
-  background: #cb5c00;
-  border: 2px solid white;
+  height: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease-in-out;
-  margin-top: -5px; /* Adjusted margin for better alignment */
+  background: linear-gradient(to right, #cb5c00 0%, #ddd 0%);
+  transition: background 0.3s ease;
 }
 
-.sidebar input[type="range"]::-webkit-slider-thumb:hover {
-  background: #e97f00;
-  transform: scale(1.3); /* Hover effect to increase size */
+
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #cb5c00;
+  border: 2px solid #fff;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  margin-top: -6px;
+
 }
 
-.sidebar input[type="range"]::-webkit-slider-thumb:active {
-  transform: scale(1.4); /* Active state to slightly enlarge the thumb */
+.range-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #cb5c00;
+  border: 2px solid #fff;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
 }
 
-/* Price Range Text */
-.sidebar p {
-  font-size: 15px;
-  color: #222;
+.searchtrem input {
+  margin-bottom: 15px;
+}
+
+
+.number-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
   text-align: center;
-  margin-top: 10px;
-  font-weight: bold;
-  margin-bottom: 10px;
 }
 
-/* Button Styling */
+
 .nav-button {
   background-color: #cb5c00;
   color: white;
-  font-size: 14px;
-  padding: 14px 22px;
+  font-size: 16px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 24px;
+  border-radius: 10vh;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-
-  /* Centering the button */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto; /* Centers horizontally */
+  width: fit-content;
+  min-width: 150px;
+  max-width: 200px;
+  display: block;
+  justify-self: center;
 }
 
-/* Hover effect */
 .nav-button:hover {
   background-color: #e97f00;
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nav-button:active {
+  transform: scale(0.98);
+}
+
+.nav-button:focus {
+  outline: none;
+}
+
+/* Styled Slider Input */
+.sidebar input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: linear-gradient(to right, #cb5c00 50%, #ddd 50%);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sidebar input[type="range"]:focus {
+  outline: none;
+}
+
+.sidebar input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  background: transparent;
+}
+
+.sidebar input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #cb5c00;
+  border: 2px solid #fff;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar input[type="range"]:focus::-webkit-slider-thumb {
+  background: #e97f00;
+}
+
+.sidebar input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #cb5c00;
+  border: 2px solid #fff;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar input[type="range"]:focus::-moz-range-thumb {
+  background: #e97f00;
 }
 
 /* Mobile Responsive Design */
 @media (max-width: 768px) {
   .sidebar {
-    padding: 18px;
+    padding: 15px;
     width: 100%;
-    margin-left: 0;
-  }
-
-  .sidebar h2 {
-    font-size: 22px;
-    padding: 6px 12px;
   }
 
   .nav-button {
-    padding: 12px 20px;
+    padding: 10px;
   }
 }

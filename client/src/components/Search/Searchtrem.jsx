@@ -1,14 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaChevronDown, FaChevronUp, FaStar } from "react-icons/fa";
 import "./Searchtrem.css";
 
 function Searchtrem({ onSearch }) {
   const [destination, setDestination] = useState("");
   const [maxPrice, setMaxPrice] = useState(1000);
+  const [rating, setRating] = useState(0); 
   const [isModalOpen, setIsModalOpen] = useState(true);
-  const [sliderBackground, setSliderBackground] = useState(
-    `linear-gradient(to right, #cb5c00 100%, #ddd 0%)`
-  );
   const datePickerRef = useRef(null);
 
   useEffect(() => {
@@ -33,51 +31,50 @@ function Searchtrem({ onSearch }) {
     }
 
     const priceRange = [0, maxPrice];
-
-    console.log("Sending search data to Discover:", {
-      destination,
-      priceRange,
-    });
+    console.log("Sending search data to Discover:", { destination, priceRange, rating });
 
     if (onSearch) {
-      onSearch({ destination, priceRange });
+      onSearch({ destination, priceRange, rating });
     }
   };
 
-  const handleRangeChange = (e) => {
-    const value = e.target.value;
-    setMaxPrice(value);
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 !== 0;
 
-    // Update the background gradient dynamically based on the slider value
-    const percentage = (value / 1000) * 100; // Calculate percentage based on 1000
-    const gradient = `linear-gradient(to right, #cb5c00 ${percentage}%, #ddd ${percentage}%)`;
-    setSliderBackground(gradient);
+
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <FaStar
+          key={`star-${i}`}
+          className={`star ${i <= fullStars ? "full" : i === fullStars + 1 && halfStar ? "half" : "empty"}`}
+          onClick={() => setRating(i)} 
+        />
+      );
+    }
+
+    return stars;
   };
 
   return (
     <div className="sidebar">
-      <p
-        onClick={() => setIsModalOpen(!isModalOpen)}
-        style={{ background: "none", border: "none", cursor: "pointer" }}
-      >
+      <p onClick={() => setIsModalOpen(!isModalOpen)} className="toggle-button">
         {isModalOpen ? (
           <FaChevronUp size={20} color="black" />
         ) : (
-          <FaChevronDown
-            size={20}
-            color="black"
-            style={{ paddingLeft: "200px" }}
-          />
+          <FaChevronDown size={20} color="black" />
         )}
       </p>
       {isModalOpen && (
-        <div className="searchtrem">
-          <h2>Hotel Search</h2>
+        <div className="searchtrem" ref={datePickerRef}>
+          <h2>City</h2>
           <input
             type="text"
             placeholder="City"
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
+            className="input"
           />
           <div>
             <input
@@ -85,19 +82,29 @@ function Searchtrem({ onSearch }) {
               min="0"
               max="1000"
               value={maxPrice}
-              onChange={handleRangeChange}
+              onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+              className="range-input"
               style={{
-                background: sliderBackground,  // Apply dynamic gradient
+                background: `linear-gradient(to right, #cb5c00 ${(maxPrice / 1000) * 100}%, #ddd ${(maxPrice / 1000) * 100}%)`,
               }}
             />
-            <p>{`Price Range: $0 - $${maxPrice}`}</p>
+            <p>{`$0 - $${maxPrice}`}</p>
             <input
-              className="input"
               type="number"
               value={maxPrice}
               onChange={(e) => setMaxPrice(parseInt(e.target.value) || 0)}
+              className="number-input"
             />
           </div>
+
+          <div className="rating-container">
+            <h3>Rating</h3>
+            <div className="hotel-rating">
+              {renderStars(rating)} 
+            </div>
+            <p>{`Rating: ${rating} Stars`}</p>
+          </div>
+
           <button className="nav-button" onClick={handleSearch}>
             Search
           </button>

@@ -17,3 +17,4 @@ export const fetchHotelsByCity = async (searchQuery) => {
   });
   return response.data;
 };
+

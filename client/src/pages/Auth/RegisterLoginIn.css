@@ -1,3 +1,4 @@
+
 :root {
   --text-color-light: #333;
   --text-color-dark: #fff;
@@ -13,6 +14,13 @@
   form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+  }
+  
+  .auth-title{
+    align-items: center;
+    justify-self: center;
+    padding-bottom: 3px;
   }
   
   body.light-mode label {
@@ -34,10 +42,11 @@
   input[type="text"],
   input[type="email"],
   input[type="password"] {
-    width: 100%;
+    width: 30%;
   }
   
   button {
+    width: 30%;
     padding: 10px;
     font-size: 1rem;
     color: white;

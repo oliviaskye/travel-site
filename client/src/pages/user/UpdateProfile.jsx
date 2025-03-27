@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"; 
 import CountrySelect from "../Auth/CountrySelect"; 
 import { useNavigate } from "react-router-dom";
+import Ftr from "../../components/Ftr/Ftr";
 import Nav from "@Nav";
+import "./updateProfile.css";
+
 const UpdateProfile = () => {
   const [user, setUser] = useState([]);
   const [inputs, setInputs] = useState([]); 
@@ -53,9 +56,8 @@ const UpdateProfile = () => {
         alert("Passwords don't match.");
       } else {
         try {
-          const userId = localStorage.getItem("userId");
+          const userId = sessionStorage.getItem("userId"); 
           const response = await axios.put(`http://localhost:5000/api/auth/users/${userId}`, inputs);
-          const user = response.data;
           setError(null);
           alert("Profile updated successfully!");
           navigate("/UserProfile");
@@ -72,12 +74,12 @@ const UpdateProfile = () => {
   };
 
   return (
-    <div className="contener">
+    <div>
       <Nav />
-      <div className="user-profile">
-        <h1>Update Profile</h1>
+      <div className="update-profile">
+        <h1 style={{ color: "black", marginLeft: "-30px"}}>Update Profile</h1>
         <form>
-          <label>name</label>
+          <label>Name</label>
           <input
             type="text"
             placeholder={user.name}
@@ -86,7 +88,7 @@ const UpdateProfile = () => {
             required
           />
 
-          <label>email</label>
+          <label>Email</label>
           <input
             type="email"
             placeholder={user.email}
@@ -95,7 +97,7 @@ const UpdateProfile = () => {
             required
           />
 
-          <label>password</label>
+          <label>Password</label>
           <input
             type="password"
             placeholder="Enter password"
@@ -112,7 +114,7 @@ const UpdateProfile = () => {
             required
           />
 
-          <label>phone number</label>
+          <label>Phone Number</label>
           <input
             type="text"
             placeholder={user.phoneNumber}
@@ -121,17 +123,18 @@ const UpdateProfile = () => {
             required
           />
 
-          <label>country</label>
+          <label>Country</label>
           <CountrySelect selectedCountry={user.country} onChange={handleChange} />
 
           {error && <p className="error">{error}</p>}
 
-          <div className="bottom-buttons">
-            <button className="nav-button1" onClick={handleClick}>Update</button>
-            <button className="nav-button1" onClick={cancelUpdate}>Cancel</button>
+          <div className="action-buttons">
+            <button className="btn-action" onClick={handleClick}>Update</button>
+            <button className="btn-action" onClick={cancelUpdate}>Cancel</button>
           </div>
         </form>
       </div>
+      <Ftr />
     </div>
   );
 };

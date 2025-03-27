@@ -1,9 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 
-
-
 mapboxgl.accessToken = import.meta.env.VITE_REACT_APP_MAP_TOKEN;
-
 
 export const initializeMap = (container) => {
   const map = new mapboxgl.Map({
@@ -17,11 +14,11 @@ export const initializeMap = (container) => {
   return map;
 };
 
-
 export const flyToLocation = (map, coordinates) => {
   map.flyTo({
     center: coordinates,
     zoom: 12,
-    essential: true,  
+    essential: true,
   });
 };
+

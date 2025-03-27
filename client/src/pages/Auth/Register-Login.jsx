@@ -7,7 +7,6 @@ import { useValue } from "../../Middleware/context/ContextProvider";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import "./Auth.css";
-import logiX from '../../../public/assets/images/logiX.webp';
 
 
 function RegisterLogin() {
@@ -41,7 +40,7 @@ function RegisterLogin() {
       <div className="auth-container">
         <div className="divider"></div>
 
-   <img src={logiX} alt="logiX" />
+   {/* <img src={logiX} alt="logiX" /> */}
         <p>{isLogin ? "Swipe to Register" : "Swipe to Login"}</p>
 
         <div className="auth-forms">

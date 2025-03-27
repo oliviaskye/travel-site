@@ -4,7 +4,7 @@ import Part13 from "./part-13";
 import Part12 from "./part-12";
 import Nav from "@Nav";
 import Rooms from "../../Hotelcomponents/room/Rooms"
-import Footer from "../../components/footer/Footer";
+
 
 const HotelEachRooms = () => {
   return (
@@ -22,7 +22,7 @@ const HotelEachRooms = () => {
         <Rooms />
       </div>
       <div className="part-15">
-        <Footer />
+      
       </div>
     </div>
   );

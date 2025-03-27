@@ -3,7 +3,6 @@ import Nav from "@Nav";
 import "./Reservation.css";
 import Add from "./add";
 import ReservationForm from "../../Hotelcomponents/Reservation/Reservation";
-import Footer from "../../components/footer/Footer";
 
 const Reservationgrid = () => {
   return (
@@ -21,7 +20,7 @@ const Reservationgrid = () => {
         </div>
       </div>
       <footer className="part-23">
-        <Footer />
+        
       </footer>
     </div>
   );

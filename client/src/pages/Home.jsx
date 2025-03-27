@@ -1,28 +1,41 @@
 import React from "react";
 import Header from "../components/header/Header";
-import Footer from "../components/footer/Footer";
+import Review from "./Review";
 import Nav from "@Nav";
-
+import Ftr from "../components/Ftr/Ftr";
 import FutureTrip from "../Hotelcomponents/Future/FutureTrip";
 import "../index.css";
-import Rewie from "./rewie";
 
 const Home = () => {
+
+  const stopOverflow = {
+    overflowX: "hidden",
+  };
+
+  const dividerStyle = {
+    margin: "20px 0",
+    borderTop: "1px solid #ccc"
+  };
+
   return (
-    <div>
+    <div style={stopOverflow}>
       <Nav />
 
       <Header />
 
-      <div className="divider" />
+      <div style={dividerStyle} />
+
 
       <FutureTrip />
 
-      <div className="divider" />
-     |
-    <Rewie />
-    < div className="divider" />
-      <Footer />
+     
+
+      <div style={dividerStyle} />
+      <Review />
+
+      <div style={dividerStyle} />
+
+      <Ftr />
     </div>
   );
 };

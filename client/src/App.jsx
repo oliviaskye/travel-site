@@ -6,7 +6,6 @@ import "./index.css";
 import RegisterLogin from "./pages/Auth/Register-Login";
 import Home from "./pages/Home";
 import HotelFltring from "./Hotelcomponents/filter/HotelFltring";
-import Hotels from "./Hotelcomponents/Hotel/Hotel";
 import Rooms from "./Hotelcomponents/room/Rooms";
 import ReservationForm from "./Hotelcomponents/Reservation/Reservation";
 import PaymentForm from "./Hotelcomponents/Payment/Payment";
@@ -20,9 +19,8 @@ import Contact from "./components/contact/Contact";
 const stripePromise = loadStripe(
   "pk_test_51QFvkhLAzYW8YRzjlm4VYKp19bMXpFMoHcCsHM3wda661NR4YOjHO2iyXMrDZmNqKfGUNXD5neKjeUmt1mTClIgc00RBYWEAAX"
 );
+import Searchtrem from "./components/Search/Searchtrem";
 
-
-import Login from "./components/Login"
 
 import Discover from "./Newcomponents/Discover/Discover";
 import HotelEachRooms from "./Newcomponents/RoomsHo/HotelEachRooms";
@@ -34,12 +32,12 @@ function App() {
         <Elements stripe={stripePromise}>
           <Routes>
 
-          <Route path="/Login" element={<Login />} />
+          <Route path="/Searchtrem" element={<Searchtrem />} />
+     
 
             <Route path="/" element={<Home />} />
             <Route path="/RegisterLogin" element={<RegisterLogin />} />
             <Route path="/map" element={<Map />} />
-            <Route path="/hotels" element={<Hotels />} />
 
             <Route path="/hotels/:hotelId/rooms" element={<Rooms />} />
               
@@ -60,6 +58,8 @@ function App() {
             <Route path="/Discover" element={<Discover />} />
             <Route path="/Discover/:hotelId/rooms" element={<HotelEachRooms />} />
             <Route path="/Discover/reservation/:hotelId/:roomId" element={<Reservationgrid />} />
+
+
 
          
 

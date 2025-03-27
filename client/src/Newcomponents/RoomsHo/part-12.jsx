@@ -48,17 +48,17 @@ const styles = {
   },
   hotelInfo: {
     display: "flex",
-    flexDirection: "row",  // Keep items in a row
-    justifyContent: "flex-start",  // Align items to the start of the container
+    flexDirection: "row",  
+    justifyContent: "flex-start",  
     gap: "10px", 
-    flexWrap: "nowrap",  // Prevent items from wrapping to the next line
+    flexWrap: "nowrap",  
     
   },
   hotelName: {
     fontSize: "30px",  
     fontWeight: "bold", 
     fontFamily: "'Arial', sans-serif", 
-    marginRight: "20px",  // Add some space between hotel name and other info
+    marginRight: "20px",  
   
   },
   hotelInfo1: {

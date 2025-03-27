@@ -7,10 +7,8 @@ const navItemses = [
   { label: "Home", path: "/" },
   { label: "Map", path: "/map" },
   { label: "Contact", path: "/Contact" },
-  { label: "Profile", path: "/UserProfile" },
   { label: "Discover", path: "/Discover" },
   { label: "Sound", action: "toggleSound" },
-  // The login/logout items will be conditionally added
 ];
 
 function Nav() {
@@ -21,12 +19,10 @@ function Nav() {
     () => localStorage.getItem("soundOn") === "true"
   );
   
-  
   const [isLoggedIn, setIsLoggedIn] = useState(
     sessionStorage.getItem("userId") !== null 
   );
   
-
   const audioRef = useRef(new Audio(XSound));
 
   const handleLogout = () => {
@@ -37,7 +33,6 @@ function Nav() {
   };
 
   const handleLogin = () => {
-
     setIsLoggedIn(true);
     navigate("/RegisterLogin");
   };
@@ -73,9 +68,12 @@ function Nav() {
   const navItems = [
     ...navItemses,
     isLoggedIn
-      ? { label: "Logout", action: "handleLogout" }
+      ? { label: "Profile", path: "/UserProfile" } 
       : { label: "Login", path: "/RegisterLogin", onClick: handleLogin },
-  ];
+    isLoggedIn
+      ? { label: "Logout", action: "handleLogout" }
+      : null, 
+  ].filter(Boolean); 
 
   return (
     <nav className={navCSS.nav_wrapper}>
@@ -85,7 +83,6 @@ function Nav() {
         </a>
       </div>
 
-      {/* Menu for screens larger than 1200px */}
       <div>
         {!isMobile && (
           <ul className={navCSS.navList}>

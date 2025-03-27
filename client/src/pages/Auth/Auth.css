@@ -8,7 +8,7 @@
 
 .auth-forms {
   width: 100%;
-  max-width: 600px; /* Max width for the card */
+  max-width: 600px; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,7 +36,7 @@
   align-items: center;
   height: 100%;
   width: 100%;
-  flex-direction: column; /* Ensure the form fields are stacked */
+  flex-direction: column; 
 }
 
 h2 {
@@ -57,7 +57,7 @@ p {
   margin-bottom: 10px;
 }
 
-/* Modify the swiper-slide to ensure proper layout */
+
 .swiper-slide {
   display: flex;
   justify-content: center;
@@ -66,7 +66,7 @@ p {
   height: 100%;
 }
 
-/* Style for the form's inputs in one line */
+
 .input-wrapper {
   display: flex;
   justify-content: space-between;
@@ -75,12 +75,12 @@ p {
 }
 
 .input-field {
-  width: 48%; /* Adjust to fit inputs side by side */
+  width: 48%; 
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
-  margin-right: 4%; /* Space between the inputs */
+  margin-right: 4%; 
 }
 
 .input-field:last-child {
@@ -110,6 +110,7 @@ p {
 .login-button:hover {
   background: #0056b3;
 }
+
 
 .forgot-pass-link {
   display: block;

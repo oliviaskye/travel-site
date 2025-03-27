@@ -145,6 +145,8 @@ const Rooms = () => {
             </div>
           </div>
         );
+
+        
       })}
       <RoomModals
         isImageModalOpen={isImageModalOpen}

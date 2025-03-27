@@ -1,11 +1,8 @@
-
-
 import React, { useState } from "react";
 import "./Discover.css"
 import Nav from "@Nav"
 import Searchtrem from "../../components/Search/Searchtrem"
 import HotelFltring from "../../Hotelcomponents/filter/HotelFltring";
-import Footer from "../../components/footer/Footer";
 const Discover = () => {
 
     const [searchData, setSearchData] = useState(null);
@@ -28,7 +25,6 @@ const Discover = () => {
       <HotelFltring searchData={searchData} />
       </div>
       <div className="part-4">
-        <Footer />
       </div>
     </div>
   );
