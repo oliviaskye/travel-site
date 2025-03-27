@@ -22,4 +22,7 @@ router.post('/:hotelId/rooms', upload.array('images', 10), createRoom);
 //DELETE
 router.delete('/:hotelId/rooms/:roomid', DeleteRoom);
 
+
+
+
 export default router;

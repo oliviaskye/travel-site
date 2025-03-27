@@ -1,103 +1,146 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import navCSS from "./Nav.module.css";
 import XSound from "@assets/XSound.wav";
-import { FaMoon, FaSun, FaVolumeUp, FaVolumeMute } from 'react-icons/fa'; // Importing the icons
-import "./Nav.css";
 
-export const navItems = [
+const navItemses = [
   { label: "Home", path: "/" },
   { label: "Map", path: "/map" },
-  { label: "Profile", path: "/UserProfile" },
-  { label: "Dark Mode", action: "toggleDarkMode" },
+  { label: "Contact", path: "/Contact" },
+  { label: "Discover", path: "/Discover" },
   { label: "Sound", action: "toggleSound" },
-  { label: "Sign In", action: "signIn" },
 ];
 
 function Nav() {
-  const menuRef = useRef();
-  const audioRef = useRef(new Audio(XSound));
   const navigate = useNavigate();
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1200);
+  const [isSoundOn, setIsSoundOn] = useState(
+    () => localStorage.getItem("soundOn") === "true"
+  );
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    sessionStorage.getItem("userId") !== null 
+  );
+  
+  const audioRef = useRef(new Audio(XSound));
 
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem("darkMode") === "true";
-  });
+  const handleLogout = () => {
+    sessionStorage.clear();
+    alert("You have logged out successfully.");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
 
-  const [isSoundOn, setIsSoundOn] = useState(() => {
-    return localStorage.getItem("soundOn") === "true";
-  });
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    navigate("/RegisterLogin");
+  };
 
   useEffect(() => {
-    const root = document.documentElement;
-    root.classList.toggle("dark", isDarkMode);
-    root.classList.toggle("light", !isDarkMode);
-    localStorage.setItem("darkMode", isDarkMode);
-
     if (!isSoundOn) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     } else {
       audioRef.current.play();
     }
-    localStorage.setItem("soundOn", isSoundOn);
-  }, [isDarkMode, isSoundOn]);
+    localStorage.setItem("soundOn", isSoundOn.toString());
+  }, [isSoundOn]);
 
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
-  const toggleDarkMode = () => setIsDarkMode((prev) => !prev);
-  const toggleSound = () => {
-    if (isSoundOn) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    } else {
-      audioRef.current.play();
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1200);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleSound = () => setIsSoundOn((prev) => !prev);
+
+  const handleAction = (action) => {
+    if (action === "toggleSound") {
+      toggleSound();
+    } else if (action === "handleLogout") {
+      handleLogout();
     }
-    setIsSoundOn((prev) => !prev);
   };
 
-  const handleNavigateToRegister = () => navigate("/RegisterLogin");
+  const navItems = [
+    ...navItemses,
+    isLoggedIn
+      ? { label: "Profile", path: "/UserProfile" } 
+      : { label: "Login", path: "/RegisterLogin", onClick: handleLogin },
+    isLoggedIn
+      ? { label: "Logout", action: "handleLogout" }
+      : null, 
+  ].filter(Boolean); 
 
   return (
-    <nav className={`navbar ${isDarkMode ? "dark" : "light"}`}>
-      <div className="logo">
-        <Link to="/">Traveler</Link>
+    <nav className={navCSS.nav_wrapper}>
+      <div className={navCSS.logo}>
+        <a href="/">
+          Traveler<span>X</span>
+        </a>
       </div>
-      <ul ref={menuRef} className={isMenuOpen ? "active" : ""}>
-        {navItems.map((item, index) => (
-          <li key={index}>
-            {item.path ? (
-              <Link to={item.path}>{item.label}</Link>
-            ) : (
-              <button
-                onClick={() => {
-                  if (item.action === "toggleDarkMode") toggleDarkMode();
-                  if (item.action === "toggleSound") toggleSound();
-                  if (item.action === "signIn") handleNavigateToRegister();
+
+      <div>
+        {!isMobile && (
+          <ul className={navCSS.navList}>
+            {navItems.map((item, index) => (
+              <li key={index}>
+                <a
+                  href={item.path || "#"}
+                  onClick={(e) => {
+                    if (item.action) {
+                      e.preventDefault();
+                      handleAction(item.action);
+                    } else if (item.onClick) {
+                      e.preventDefault();
+                      item.onClick();
+                    }
+                  }}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {isMobile && (
+        <div className={navCSS.Nav_btns}>
+          <button
+            className="nav-button"
+            onClick={() => setIsMenuVisible(!isMenuVisible)}
+          >
+            <i id={navCSS.bras}>menu</i>
+          </button>
+        </div>
+      )}
+
+      {isMobile && isMenuVisible && (
+        <ul className={navCSS.showNav}>
+          {navItems.map((item, index) => (
+            <li key={index}>
+              <a
+                href={item.path || "#"}
+                onClick={(e) => {
+                  if (item.action) {
+                    e.preventDefault();
+                    handleAction(item.action);
+                  } else if (item.onClick) {
+                    e.preventDefault();
+                    item.onClick();
+                  }
                 }}
               >
-                {item.label === "Dark Mode"
-                  ? isDarkMode
-                    ? <><FaSun /> Light Mode</>
-                    : <><FaMoon /> Dark Mode</>
-                  : item.label === "Sound"
-                  ? isSoundOn
-                    ? <><FaVolumeUp /> Sound On</>
-                    : <><FaVolumeMute /> Sound Off</>
-                  : item.label}
-              </button>
-            )}
-          </li>
-        ))}
-      </ul>
-      <div className="navbar-actions">
-        <button
-          className={`menu-toggle ${isMenuOpen ? "open" : ""}`}
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-        >
-          ☰
-        </button>
-      </div>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
     </nav>
   );
 }

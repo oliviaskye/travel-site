@@ -3,7 +3,7 @@ import axios from "axios";
 import { useValue } from "../../Middleware/context/ContextProvider";
 import { useNavigate } from "react-router-dom";
 import CountrySelect from "./CountrySelect";
-
+import "./Register.css";
 
 const Register = () => {
   const [inputs, setInputs] = useState({
@@ -15,7 +15,7 @@ const Register = () => {
   });
   const [confirmation, setConfirmation] = useState({
     confirmPassword: "",
-  })
+  });
   
   const [err, setErr] = useState(null);
   const { dispatch } = useValue();
@@ -45,8 +45,7 @@ const Register = () => {
               setErr(null);
               alert("Registration successful!"); 
               dispatch({ type: "UPDATE_USER", payload: response.data.user });
-              navigate("/");
-            
+              navigate("/");            
             } catch (error) {
               console.error('Error during registration:', error.response.data);
               setErr(error.response.data.message || 'Registration failed.'); 
@@ -56,11 +55,10 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-form-container">
-        <h2 className="auth-title">Register</h2>
+    <div>
+      <div>
+        <h2>Register</h2>
         <form>
-          <label>Name</label>
           <input
             type="text"
             placeholder="Name"
@@ -68,7 +66,6 @@ const Register = () => {
             onChange={handleChange}
             required
           />
-          <label>Email</label>
           <input
             type="email"
             placeholder="Email"
@@ -76,7 +73,6 @@ const Register = () => {
             onChange={handleChange}
             required
           />
-          <label>Password</label>
           <input
             type="password"
             placeholder="Password"
@@ -84,14 +80,13 @@ const Register = () => {
             onChange={handleChange}
             required
           />
-            <input
-              type="password"
-              placeholder="Confirm password"
-              name="confirmPassword"
-              onChange={handleConfirm}
-              required
-            /><br/>
-          <label>Phone Number</label>
+          <input
+            type="password"
+            placeholder="Confirm password"
+            name="confirmPassword"
+            onChange={handleConfirm}
+            required
+          />
           <input
             type="text"
             placeholder="Phone Number"
@@ -99,7 +94,6 @@ const Register = () => {
             onChange={handleChange}
             required
           />
-          <label>Country</label>
           <CountrySelect selectedCountry={inputs.country} onChange={handleChange} />
           {err && <p className="auth-error">{err}</p>}
           <button onClick={handleClick}>Register</button>

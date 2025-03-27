@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import { useValue } from "../../Middleware/context/ContextProvider";
 import StripePaymentForm from "../Payment/StripePaymentForm";
+import { Calendar } from "@hassanmojab/react-modern-calendar-datepicker";
+import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
+import { FaCalendarAlt } from "react-icons/fa";
+import "./Reservation.css";
 
 const customStyles = {
   content: {
@@ -24,84 +28,115 @@ const ReservationForm = () => {
   const { state } = useValue();
   const navigate = useNavigate();
   const location = useLocation();
+  const datePickerRef = useRef(null);
 
   const [formData, setFormData] = useState({
     roomId: "",
     userId: "",
-    startDate: "",
-    endDate: "",
     hotelId: "",
-    email: "", 
-    price: "", 
+    email: "",
+    price: "",
   });
 
+  const [selectedRange, setSelectedRange] = useState({ from: null, to: null });
   const [reservation, setReservation] = useState(null);
   const [error, setError] = useState(null);
   const [payNow, setPayNow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenCalendar, setIsModalOpenCalendar] = useState(false);
 
-  const todayDate = date1.toISOString().substring(0, 10);
+  const toggleCalendar = () => {
+    setIsModalOpenCalendar((prevState) => !prevState);
+  };
 
   useEffect(() => {
-   
-    const storedHotelId = localStorage.getItem("hotelId");
-    const storedRoomId = localStorage.getItem("roomId");
-    const storedEmail = localStorage.getItem("email");
-    const storedPrice = localStorage.getItem("price");
+    const storedReservationData = sessionStorage.getItem("reservationData");
+    const userIdFromSession = sessionStorage.getItem("userId");
 
-    if (storedHotelId && storedRoomId) {
-      setFormData((prev) => ({  
+    if (!userIdFromSession) {
+      alert("You must be logged in to make a reservation.");
+      navigate("/RegisterLogin", { state: { from: location } });
+      return;
+    }
+
+    if (storedReservationData) {
+      const parsedData = JSON.parse(storedReservationData);
+      setFormData((prev) => ({
         ...prev,
-        hotelId: storedHotelId,
-        roomId: storedRoomId,
-        userId: state.user ? state.user.id : "",
-        email: storedEmail || "",
-        price: storedPrice || "",
+        ...parsedData,
+        userId: userIdFromSession,
       }));
     }
-  }, [state.user]);
 
-  const handleChange = (e) => {
-      const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+    const searchParams = new URLSearchParams(location.search);
+    const hotelIdFromUrl = searchParams.get("hotelId");
+
+    if (hotelIdFromUrl) {
+      setFormData((prev) => ({
+        ...prev,
+        hotelId: hotelIdFromUrl,
+      }));
+    }
+  }, [state.user, location]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        datePickerRef.current &&
+        !datePickerRef.current.contains(event.target)
+      ) {
+        setIsModalOpenCalendar(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    if (!formData.hotelId || !formData.roomId || !formData.userId || !formData.startDate || !formData.endDate) {
-      setError("All fields are required.");
+ 
+    if (!selectedRange.from || !selectedRange.to) {
+      setError("Please select a valid date range.");
       setLoading(false);
       return;
     }
 
-    if (!state.user) {
-      alert("You must be logged in to make a reservation.");
-      navigate("/RegisterLogin", { state: { from: location } });
-      setLoading(false);
-      return;
-    }
+    const formatDate = (date) =>
+      `${date.year}-${String(date.month).padStart(2, "0")}-${String(
+        date.day
+      ).padStart(2, "0")}`;
 
     try {
-      const response = await axios.post("http://localhost:5000/api/reservations", formData);
+      const response = await axios.post(
+        "http://localhost:5000/api/reservations",
+        {
+          ...formData,
+          startDate: formatDate(selectedRange.from),
+          endDate: formatDate(selectedRange.to),
+        }
+      );
+
       setReservation(response.data);
       if (payNow) {
         setIsModalOpen(true);
       }
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred while creating the reservation.");
+      setError(
+        err.response?.data?.message ||
+          "An error occurred while creating the reservation."
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  const handlePaymentSuccess = (paymentData) => {
+  const handlePaymentSuccess = () => {
     alert("Payment Successful");
     setReservation((prev) => ({
       ...prev,
@@ -110,70 +145,81 @@ const ReservationForm = () => {
     setIsModalOpen(false);
   };
 
-  const handlePaymentError = (message) => {
-    alert("Payment Failed");
-    setError(`Payment error: ${message}`);
-  };
-
-
   return (
-    <div>
-
-      <h2>Create a Reservation</h2>
+    <div className="reservation-form-container">
+      <h2 className="reservation-adds">Create a Reservation</h2>
       {!reservation ? (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Start Date:</label>
-            <input
-              type="date"
-              name="startDate"
-              min={todayDate}
-              value={formData.startDate}
-              onChange={handleChange}
-              required
+        <form onSubmit={handleSubmit} className="styled-form">
+          <label>Select Date Range:</label>
+          <div style={{ position: "relative", display: "inline-block" }}>
+            <FaCalendarAlt
+              size={24}
+              style={{ cursor: "pointer", marginLeft: "10px" }}
+              onClick={toggleCalendar}
             />
-          </div>
-          <div>
-            <label>End Date:</label>
-            <input
-              type="date"
-              name="endDate"
-              min={todayDate}
-              value={formData.endDate}
-              onChange={handleChange}
-              required
-            />
+
+            {isModalOpenCalendar && (
+              <div
+                ref={datePickerRef}
+                style={{ position: "absolute", zIndex: 1000 }}
+                className="Calendar"
+              >
+                <Calendar
+                  value={selectedRange}
+                  onChange={setSelectedRange}
+                  colorPrimary="#007bff"
+                  shouldHighlightWeekends
+                  calendarClassName="custom-calendar"
+                  minimumDate={{
+                    year: new Date().getFullYear(),
+                    month: new Date().getMonth() + 1,
+                    day: new Date().getDate(),
+                  }}
+                />
+              </div>
+            )}
           </div>
 
-          {payNow && (
-            <>
-             
-             
-            </>
+          {selectedRange.from && selectedRange.to && (
+            <p>
+              <strong>Selected Dates:</strong>{" "}
+              {`${selectedRange.from.day}/${selectedRange.from.month}/${selectedRange.from.year}`}{" "}
+              →{" "}
+              {`${selectedRange.to.day}/${selectedRange.to.month}/${selectedRange.to.year}`}
+            </p>
           )}
 
+          <p>
+            <strong>Price:</strong> ${formData.price}
+          </p>
+
           <div>
-            <label>
-              <input
-                type="checkbox"
-                checked={payNow}
-                onChange={(e) => setPayNow(e.target.checked)}
-              />
+            <h3 className=" Pay_Nowh3">
               Pay Now
-            </label>
+              <label className="Pay-Now1">
+                <input
+                  type="checkbox"
+                  checked={payNow}
+                  onChange={(e) => setPayNow(e.target.checked)}
+                />
+
+              </label>
+            </h3>
           </div>
 
-          <button type="submit" disabled={loading}>
+          <button className="nav-buttontable" type="submit" disabled={loading}>
             {loading ? "Creating..." : "Create Reservation"}
           </button>
         </form>
       ) : (
-        <div>
+        <div className="styled-form">
           <h3>Reservation Details</h3>
           <p>Reservation ID: {reservation._id}</p>
           <p>Room Number: {reservation.roomnumber}</p>
           <p>User ID: {reservation.userId}</p>
-          <p>Start Date: {new Date(reservation.startDate).toLocaleDateString()}</p>
+          <p>
+            Start Date: {new Date(reservation.startDate).toLocaleDateString()}
+          </p>
           <p>End Date: {new Date(reservation.endDate).toLocaleDateString()}</p>
           <p>Status: {reservation.status}</p>
           <p>Payment Status: {reservation.isPaid ? "Paid" : "Not Paid"}</p>
@@ -190,9 +236,11 @@ const ReservationForm = () => {
         <StripePaymentForm
           reservationId={reservation?._id}
           onPaymentSuccess={handlePaymentSuccess}
-          onPaymentError={handlePaymentError}
         />
-        <button onClick={() => setIsModalOpen(false)} style={{ marginTop: "10px" }}>
+        <button
+          onClick={() => setIsModalOpen(false)}
+          style={{ marginTop: "10px" }}
+        >
           Close
         </button>
       </Modal>

@@ -1,15 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
+import "./StripePaymentForm.css"; 
 
-const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) => {
+const StripePaymentForm = ({
+  reservationId,
+  onPaymentSuccess,
+  onPaymentError,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
 
   const [email, setEmail] = useState("");
-  const [amount, setAmount] = useState(""); 
+  const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [additionalPrice, setAdditionalPrice] = useState(0);
+
+  useEffect(() => {
+    const reservationData = JSON.parse(sessionStorage.getItem("reservationData")) || {};
+    const addsData = JSON.parse(sessionStorage.getItem("addsData")) || {};
+
+    const roomPrice = parseFloat(reservationData.price) || 0;
+    setAmount(roomPrice);
+
+    const additionalPrice =
+      (addsData.wifiPrice || 0) +
+      (addsData.parkingPrice || 0) +
+      (addsData.roomServicePrice || 0) +
+      (addsData.breakfastPrice || 0);
+
+    setAdditionalPrice(additionalPrice);
+    setTotalPrice(roomPrice + additionalPrice);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,25 +48,23 @@ const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) 
 
     try {
       const { data } = await axios.post("http://localhost:5000/api/payment", {
-        amount: parseFloat(amount) * 100,
+        amount: totalPrice * 100,
         email,
         reservationId,
       });
 
       const clientSecret = data.clientSecret;
-
-      // Getting the CardElement from elements
       const cardElement = elements.getElement(CardElement);
 
-      // Confirm the payment
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            email,
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+            billing_details: { email },
           },
-        },
-      });
+        }
+      );
 
       if (error) {
         onPaymentError(error.message);
@@ -58,35 +80,41 @@ const StripePaymentForm = ({ reservationId, onPaymentSuccess, onPaymentError }) 
   };
 
   return (
-    <div>
+    <div className="payment-form-container">
       <h2>Stripe Payment Form</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="payment-form">
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
           <input
             type="email"
-            placeholder="Email"
+            id="email"
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
-        <div>
-          <input
-            type="number"
-            placeholder="Amount (USD)"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
-          />
+        <div className="form-group">
+          <label>Amount (USD):</label>
+          <p>{amount.toFixed(2)}</p>
         </div>
-        <div>
-          <CardElement />
+        <div className="form-group">
+          <label>Additional Charges (USD):</label>
+          <p>{additionalPrice.toFixed(2)}</p>
         </div>
-        <button type="submit" disabled={loading || !stripe}>
+        <div className="form-group">
+          <label>Total Price (USD):</label>
+          <p>{totalPrice.toFixed(2)}</p>
+        </div>
+        <div className="form-group">
+          <label htmlFor="card-element">Card Details</label>
+          <CardElement id="card-element" />
+        </div>
+        <button type="submit" disabled={loading || !stripe} className="pay-button">
           {loading ? "Processing..." : "Pay"}
         </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="error-message">{message}</p>}
     </div>
   );
 };

@@ -36,8 +36,9 @@ const Login = () => {
       if (response.data.success) {
         dispatch({ type: "UPDATE_USER", payload: response.data.result });
 
-        localStorage.setItem("userId", response.data.result.id);
-        localStorage.setItem("email", response.data.result.email);
+        sessionStorage.setItem("token", response.data.result.token);
+        sessionStorage.setItem("userId", response.data.result.id);
+        sessionStorage.setItem("email", response.data.result.email);
 
         navigate(redirectPath);
       }
@@ -52,11 +53,11 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-form-container">
-        <h2 className="auth-title">Login</h2>
+    <div >
+      <div >
+        <h2 >Login</h2>
         <form onSubmit={handleLogin}>
-          <label htmlFor="input">Email/Phone Number</label>
+          <label >Email/Phone Number</label>
           <input
             type="text"
             placeholder="Email or Phone Number"
@@ -64,7 +65,7 @@ const Login = () => {
             onChange={handleChange}
             required
           />
-          <label htmlFor="input">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             placeholder="Password"

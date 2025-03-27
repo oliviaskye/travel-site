@@ -1,133 +1,134 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
-import Map from "../../pages/Map/Map";
-import Nav from "@Nav";
+import { Link } from "react-router-dom";
+import HotelImagesModal from "./HotelImagesModal";
+import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
+import "./HotelFltring.css";
 
-const HotelFltring = () => {
+const Hotels = ({ searchData }) => {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(null);
-
-  const location = useLocation();
-  const { destination, date, options, priceRange } = location.state || {};
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentHotelImages, setCurrentHotelImages] = useState([]);
 
   useEffect(() => {
     const fetchHotels = async () => {
-      if (!destination || !priceRange || priceRange[1] <= 0) {
-        setError("Invalid parameters. Please ensure you selected a valid destination and price range.");
-        setLoading(false);
-        return;
-      }
-    
+      if (!searchData || !searchData.destination) return;
+
+      setLoading(true);
+
       try {
-        const response = await axios.get("http://localhost:5000/api/hotels/filter", {
-          params: {
-            city: destination,
-            maxPrice: priceRange[1],
-          },
-        });
+        let url = "http://localhost:5000/api/hotels/filter";
+        let params = {
+          city: searchData.destination,
+          maxPrice: searchData.priceRange[1],
+        };
+
+        const response = await axios.get(url, { params });
         setHotels(response.data);
       } catch (error) {
-        setError(error.response?.data?.message || "Failed to fetch hotels. Please try again later.");
+        setError(
+          error.response?.data?.message ||
+            "Failed to fetch data. Please try again later."
+        );
       } finally {
         setLoading(false);
       }
     };
-    
-    
 
     fetchHotels();
-  }, [destination, priceRange]);
+  }, [searchData]);
 
-  const handleShowLocation = (latitude, longitude) => {
-    setSelectedLocation([longitude, latitude]);
+  const handleOpenModal = (hotelImages) => {
+    setCurrentHotelImages(hotelImages ?? []);
+    setIsModalOpen(true);
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  if (!searchData || !searchData.destination)
+    return <p>Please enter search criteria to find hotels.</p>;
   if (loading) return <p>Loading hotels...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (error) return <p>{error}</p>;
+
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 !== 0;
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<FaStar key={`full-${i}`} className="star full" />);
+    }
+
+    if (halfStar) {
+      stars.push(<FaStar key="half" className="star half" />);
+    }
+
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(<FaStar key={`empty-${i}`} className="star empty" />);
+    }
+
+    return stars;
+  };
 
   return (
-    <div>
-      <Nav />
-      <h2>Available Hotels</h2>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "20px",
-        }}
-      >
-        {hotels.map((hotel) => (
-          <div
-            key={hotel._id}
-            className="container"
-            style={{ border: "1px solid #ccc", padding: "15px", borderRadius: "8px" }}
-          >
-            <div className="hotel-images">
-              {hotel.photos?.length > 0 ? (
-                hotel.photos.map((photo, index) => (
-                  <img
-                    key={index}
-                    src={`http://localhost:5000/${photo.replace(/\\/g, "/")}`}
-                    alt={`${hotel.name} ${index + 1}`}
-                    className="hotel-img"
-                    style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
-                  />
-                ))
-              ) : (
-                <img
-                  src="http://localhost:5000/uploads/default-image.jpg"
-                  alt="Default Hotel"
-                  className="hotel-img"
-                  style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }}
-                />
-              )}
+    <div className="hotels-container">
+      {hotels.length > 0 ? (
+        hotels.map((hotel) => (
+          <div key={hotel._id} className="hotel-card">
+            <img
+              src={
+                hotel.photos?.length
+                  ? `http://localhost:5000/${hotel.photos[0].replace(
+                      /\\/g,
+                      "/"
+                    )}`
+                  : "/default-image.jpg"
+              }
+              alt={hotel.name}
+              className="hotel-img"
+              onClick={() => handleOpenModal(hotel.photos)}
+            />
+            <div className="hotel-info">
+              <div className="hotel-rating">{renderStars(hotel.rating)}</div>
+              <h2 className="hotel-name">{hotel.name}</h2>
+              <div className="location">
+                <FaMapMarkerAlt className="location-icon" />
+                <span>
+                  {hotel.country} / {hotel.city}
+                </span>
+              </div>
+              <p className="hotel-price">
+                Price: <span className="min-price">${hotel.cheapestPrice}</span>
+                <span className="separator"> to </span>
+                <span className="max-price">${hotel.maxPrice}</span>
+              </p>
+
+              <p className="hotel-description">
+                {hotel.description ||
+                  "Experience comfort and luxury at our hotel, featuring top-notch services and spacious rooms."}
+              </p>
+
+              <Link className="card-btn" to={`/Discover/${hotel._id}/Rooms`}>
+                <button className="card-btn">ROOMS</button>
+              </Link>
             </div>
-
-            <h3>{hotel.name}</h3>
-            <p>
-              <strong>Country:</strong> {hotel.country}
-            </p>
-            <p>
-              <strong>City:</strong> {hotel.city}
-            </p>
-            <p>
-              <strong>Address:</strong> {hotel.address}
-            </p>
-            <p>
-              <strong>Cheapest Price:</strong> ${hotel.cheapestPrice}
-            </p>
-            <p>
-              <strong>Max Price:</strong> ${hotel.maxPrice}
-            </p>
-            <p>
-              <strong>Phone Number:</strong> {hotel.phoneNumber}
-            </p>
-
-            <Link
-              to={`/hotels/${hotel._id}/rooms`}
-              style={{
-                display: "block",
-                marginTop: "10px",
-                color: "#007BFF",
-                textDecoration: "underline",
-              }}
-            >
-              Go to Rooms
-            </Link>
           </div>
-        ))}
-      </div>
-
-      {selectedLocation && (
-        <div style={{ height: "400px", marginTop: "20px" }}>
-          <Map selectedLocation={selectedLocation} />
-        </div>
+        ))
+      ) : (
+        <p>No hotels were found for this search.</p>
       )}
+      <HotelImagesModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        images={currentHotelImages ?? []}
+      />
     </div>
   );
 };
 
-export default HotelFltring;
+export default Hotels;
