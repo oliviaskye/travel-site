@@ -248,6 +248,6 @@ const ReservationForm = () => {
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
-};
+}
 
 export default ReservationForm;

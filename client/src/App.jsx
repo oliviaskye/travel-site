@@ -26,6 +26,7 @@ import Discover from "./Newcomponents/Discover/Discover";
 import HotelEachRooms from "./Newcomponents/RoomsHo/HotelEachRooms";
 import Reservationgrid from "./Newcomponents/Reservation/Reservationgrid"
 function App() {
+  
   return (
     <div>
       <div className="container">
@@ -36,6 +37,7 @@ function App() {
      
 
             <Route path="/" element={<Home />} />
+
             <Route path="/RegisterLogin" element={<RegisterLogin />} />
             <Route path="/map" element={<Map />} />
 
@@ -71,5 +73,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
