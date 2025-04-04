@@ -59,7 +59,7 @@ Render: Cloud hosting service for deployment.
 
 Render
 -
-The project is hosted on Render cloud hosting, a production version can be viewed at https://traveler-brhm.onrender.com
+The project is hosted on Render cloud hosting, a production version can be viewed at https://travel-site-fkus.onrender.com
 
 Project Structure
 -
