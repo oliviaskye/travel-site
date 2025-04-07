@@ -84,11 +84,11 @@ h2 {
   margin-top: 20px;
   width: 100%;
   max-width: 400px;
-  margin-left: 30px;
- 
+  
+  margin-left: -55px;
 }
 
-.nav-button{
+.nav-button {
   height: 38px;
   width: 830px;
   border: none;

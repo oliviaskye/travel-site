@@ -50,35 +50,47 @@ export const getHotel = async (req, res, next) => {
   }
 };
 
+
 export const filterHotelsByCityAndPrice = async (req, res, next) => {
-  try {
-    const { city, maxPrice } = req.query;
 
-    if (!city || maxPrice === undefined) {
-      return res.status(400).json({ message: "City and maxPrice are required." });
-    }
+  const { city, maxPrice, rating } = req.query;
 
-    const parsedMaxPrice = Number(maxPrice);
-
-    if (isNaN(parsedMaxPrice)) {
-      return res.status(400).json({ message: "Invalid maxPrice value." });
-    }
-
-    const hotels = await Hotel.find({
-      city: city,
-      cheapestPrice: { $lte: parsedMaxPrice },
-    });
-
-    if (hotels.length === 0) {
-      return res.status(404).json({ message: "No hotels found for the given filters." });
-    }
-
-    res.status(200).json(hotels);
-  } catch (err) {
-    next(err);
+  if (!city || maxPrice === undefined) {
+    return res.status(400).json({ message: "City and maxPrice are required." });
   }
-};
-
+  
+  const cityCleaned = city.trim(); 
+  const parsedMaxPrice = Number(maxPrice);
+  if (isNaN(parsedMaxPrice)) {
+    return res.status(400).json({ message: "Invalid maxPrice value." });
+  }
+  
+  let parsedRating;
+  if (rating !== undefined) {
+    parsedRating = Number(rating);
+    if (isNaN(parsedRating) || parsedRating < 0 || parsedRating > 5) {
+      return res.status(400).json({ message: "Invalid rating value. Rating must be between 0 and 5." });
+    }
+  }
+  
+  const query = {
+    city: cityCleaned, 
+    cheapestPrice: { $lte: parsedMaxPrice },
+  };
+  
+  if (parsedRating !== undefined) {
+    query.rating = { $gte: parsedRating };
+  }
+  
+  const hotels = await Hotel.find(query);
+  
+  if (hotels.length === 0) {
+    return res.status(404).json({ message: "No hotels found for the given filters." });
+  }
+  
+  res.status(200).json(hotels);
+  
+}
 
 export const getHotels = async (req, res, next) => {
   const { min, max, ...others } = req.query;
@@ -93,35 +105,6 @@ export const getHotels = async (req, res, next) => {
   }
 };
 
-export const Map = async (req, res, next) => {
-  try {
-    const { query } = req.query;
-
-    if (!query) {
-      return res.status(400).json({ message: "Query parameter is required." });
-    }
-
-    const trimmedQuery = query.trim().toLowerCase();
-
-    const hotels = await Hotel.find({
-      $or: [
-        { city: { $regex: new RegExp(trimmedQuery, "i") } },
-        { country: { $regex: new RegExp(trimmedQuery, "i") } },
-      ],
-    });
-
-    if (hotels.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No hotels found for the given search criteria." });
-    }
-
-    res.status(200).json(hotels);
-  } catch (err) {
-    console.error("Error fetching hotels:", err);
-    next(err);
-  }
-};
 
 
 

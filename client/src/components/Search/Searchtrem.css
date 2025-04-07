@@ -103,6 +103,7 @@
   max-width: 200px;
   display: block;
   justify-self: center;
+  margin-left: 50px;
 }
 
 .nav-button:hover {
@@ -115,6 +116,12 @@
 
 .nav-button:focus {
   outline: none;
+}
+
+
+.nav-button-text {
+
+  bottom: -10px;
 }
 
 /* Styled Slider Input */

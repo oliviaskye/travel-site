@@ -13,29 +13,34 @@ const Hotels = ({ searchData }) => {
   const [currentHotelImages, setCurrentHotelImages] = useState([]);
 
   useEffect(() => {
+    if (!searchData || !searchData.destination) return;
+
     const fetchHotels = async () => {
-      if (!searchData || !searchData.destination) return;
-
       setLoading(true);
-
+      setError(null);
+    
       try {
         let url = "http://localhost:5000/api/hotels/filter";
         let params = {
-          city: searchData.destination,
+          city: searchData.destination.trim(), // إزالة أي مسافات غير مرئية
           maxPrice: searchData.priceRange[1],
         };
-
+    
+        if (searchData.rating) {
+          params.rating = Number(searchData.rating);
+        }
+    
+        console.log("🚀 Fetching hotels with params:", params);
         const response = await axios.get(url, { params });
+    
         setHotels(response.data);
       } catch (error) {
-        setError(
-          error.response?.data?.message ||
-            "Failed to fetch data. Please try again later."
-        );
+        setError(error.response?.data?.message || "Error fetching hotels");
       } finally {
         setLoading(false);
       }
     };
+    
 
     fetchHotels();
   }, [searchData]);
@@ -56,22 +61,11 @@ const Hotels = ({ searchData }) => {
 
   const renderStars = (rating) => {
     const stars = [];
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 !== 0;
-    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<FaStar key={`full-${i}`} className="star full" />);
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <FaStar key={i} className={i <= rating ? "star full" : "star empty"} />
+      );
     }
-
-    if (halfStar) {
-      stars.push(<FaStar key="half" className="star half" />);
-    }
-
-    for (let i = 0; i < emptyStars; i++) {
-      stars.push(<FaStar key={`empty-${i}`} className="star empty" />);
-    }
-
     return stars;
   };
 

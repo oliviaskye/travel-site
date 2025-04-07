@@ -106,7 +106,7 @@ function Searchtrem({ onSearch }) {
           </div>
 
           <button className="nav-button" onClick={handleSearch}>
-            Search
+            <p className="nav-button-text"> Search</p>
           </button>
         </div>
       )}

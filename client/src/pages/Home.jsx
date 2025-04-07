@@ -35,6 +35,8 @@ const Home = () => {
 
       <div style={dividerStyle} />
 
+      
+
       <Ftr />
     </div>
   );
