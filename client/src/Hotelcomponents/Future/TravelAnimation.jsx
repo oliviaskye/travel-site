@@ -10,19 +10,8 @@ const FutureTripWrapper = styled.div`
   overflow: hidden;
 `;
 
-const Canvas = styled.canvas`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;  
-  height: 80%;
-  z-index: 10;
-  pointer-events: none;
-`;
-
 function TravelAnimation() {
-  const canvasRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -31,11 +20,11 @@ function TravelAnimation() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
 
-    document.getElementById("inspiration").appendChild(renderer.domElement);
+    containerRef.current.appendChild(renderer.domElement);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(5, 10, 5);
-    scene.add(directionalLight);
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 10, 5);
+    scene.add(light);
 
     const loader = new GLTFLoader();
     let airplane, mixer;
@@ -44,12 +33,9 @@ function TravelAnimation() {
       "/assets/images/cartoon_plane.glb",
       (gltf) => {
         airplane = gltf.scene;
-
         airplane.scale.set(1.5, 1.5, 1.5);
-        camera.position.set(0, 5, 20); // إبعاد الكاميرا لرؤية أفضل
-
-        airplane.position.set(0, 3, 0);
         scene.add(airplane);
+        camera.position.set(0, 5, 20);
 
         if (gltf.animations.length > 0) {
           mixer = new THREE.AnimationMixer(airplane);
@@ -59,28 +45,35 @@ function TravelAnimation() {
         }
       },
       undefined,
-      (error) => {
-        console.error("Error loading model:", error);
-      }
+      (error) => console.error("Error loading model:", error)
     );
 
-    camera.position.set(0, 3, 15);
+    // 🎯 منحنى بيزيه لحركة الطائرة
+    const curve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(-5, 3, 5),  // 🟢 نقطة البداية (x-, y+)
+      new THREE.Vector3(-2, -1, 3), // 🔽 النزول إلى المنتصف
+      new THREE.Vector3(2, 5, 0),   // 🔼 الصعود إلى اليسار
+      new THREE.Vector3(-5, 3, 5)   // 🔄 العودة للبداية لإكمال الحلقة
+    ], true); // ⚠️ "true" تعني أن المسار مغلق ويكرر نفسه تلقائياً
 
     const clock = new THREE.Clock();
-    let angle = 0;
-    const radius = 3;
-    const speed = 0.02;
+    let t = 0; 
+    let speed = 0.002; // سرعة الحركة
 
     const animate = () => {
       requestAnimationFrame(animate);
-
       if (mixer) mixer.update(clock.getDelta());
 
       if (airplane) {
-        airplane.position.x = Math.cos(angle) * radius;
-        airplane.position.z = Math.sin(angle) * radius;
-        angle += speed;
-        airplane.rotation.y = -angle;
+        t += speed; 
+        if (t >= 1) t = 0; // 🔄 إعادة `t` إلى `0` لجعل الحركة تتكرر
+
+        const position = curve.getPoint(t); // 📍 تحديد الموقع الحالي
+        airplane.position.copy(position);
+
+        const tangent = curve.getTangent(t).normalize(); // 📏 حساب الاتجاه
+        const lookAtPosition = position.clone().add(tangent); 
+        airplane.lookAt(lookAtPosition);
       }
 
       renderer.render(scene, camera);
@@ -89,15 +82,11 @@ function TravelAnimation() {
     animate();
 
     return () => {
-      document.getElementById("inspiration").removeChild(renderer.domElement);
+      containerRef.current.removeChild(renderer.domElement);
     };
   }, []);
 
-  return (
-    <FutureTripWrapper id="inspiration">
-      <Canvas ref={canvasRef} />
-    </FutureTripWrapper>
-  );
+  return <FutureTripWrapper ref={containerRef} />;
 }
 
 export default TravelAnimation;

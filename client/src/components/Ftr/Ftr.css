@@ -5,6 +5,8 @@
 .footer {
   background-color: #2d2d32;
   color: white;
+  border: 2px solid antiquewhite;
+  height: 150px;;
 }
 
 .sb__footer {

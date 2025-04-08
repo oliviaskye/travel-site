@@ -13,11 +13,10 @@ import processPayment from "./routes/payment.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-
 dotenv.config();
 const app = express();
 
-
+// إنشاء مجلد "uploads" إذا لم يكن موجوداً
 if (!fs.existsSync("uploads")) {
     fs.mkdirSync("uploads");
 }
@@ -36,14 +35,12 @@ app.use(express.urlencoded({ extended: true }));
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
+// Static files for uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
 app.use("/api/auth", authRoutes);
-
 app.use("/api/", GetUsers);
-
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/hotels", roomRoutes);
 app.use("/api/reservations", reservationRoutes);
@@ -51,4 +48,3 @@ app.use("/api/payment", processPayment);
 
 // Start Server
 startServer(app);
-

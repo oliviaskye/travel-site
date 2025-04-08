@@ -1,10 +1,24 @@
-.contener {
-    background-color: #201b17;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px; /* أضف بعض الحشو لتجنب تلاصق المحتوى مع الحواف */
+
+/* Container for the Update Profile page */
+.update-profile {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  height: auto; 
+  background-color: antiquewhite;
+  color: white;
+
+  border: 2px solid #cb5c00;}
+
+
+  h1 {
+    color: black;
+    margin-left: 200px;
+    font-size: 24px;
+    text-align: center;
+
   }
   
   .user-profile {

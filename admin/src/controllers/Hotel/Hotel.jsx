@@ -87,6 +87,7 @@ const Hotel = () => {
               <th>Phone Number</th>
               <th>Cheapest Price</th>
               <th>Max Price</th>
+              <th>rating</th>
               {/* Commented out room count column */}
               {/* <th>Rooms Count</th> */}
               <th>Actions</th>
@@ -101,6 +102,7 @@ const Hotel = () => {
                 <td>{hotel.phoneNumber}</td>
                 <td>${hotel.cheapestPrice}</td>
                 <td>${hotel.maxPrice}</td>
+                <td>{hotel.rating}</td>
                 {/* Commented out the room count */}
                 {/* <td>{hotel.roomsCount}</td> */}
                 <td>

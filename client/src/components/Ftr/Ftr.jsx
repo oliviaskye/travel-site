@@ -3,7 +3,15 @@ import { Link } from "react-router-dom";
 import "./Ftr.css"; 
 
 const Ftr = () => {
+  const color = 'antiquewhite';
+  const stopOverflow = {
+    overflowX: "hidden",
+    overflowY: "hidden",
+  };
+  
+
   return (
+    <div style={stopOverflow}>
     <div className="footer">
       <div className="sb__footer section__padding">
         <div className="sb__footer-links_div">
@@ -14,7 +22,10 @@ const Ftr = () => {
           </div>
         </div>
 
-        <hr />
+
+   
+        <hr style={{ borderColor: color }} />
+       
 
         <div className="sb__footer-below">
           <div className="sb__footer-copyright">
@@ -28,6 +39,7 @@ const Ftr = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import futureTripCSS from "./FutureTrip.module.css";
-
+import TravelAnimation from "./TravelAnimation";
 import image3 from "@assets/newyork.jpg";
 import image2 from "@assets/paris.jpg";
 import image1 from "@assets/ski.jpg";
@@ -10,6 +10,9 @@ import image6 from "@assets/fingirl.jpg";
 
 function FutureTrip() {
   return (
+
+    <div>
+  
     <div className={`${futureTripCSS.FutureTrip_Wrapper} section`} id="inspiration">
       <div className={futureTripCSS.FutureTripCards}>
         {[{ image: image1, title: "10 European Ski Resorts You Should Visit This Winter", date: "Jan-06-2024" },
@@ -27,6 +30,7 @@ function FutureTrip() {
             <p>{trip.date}</p>
           </div>
         ))}
+      </div>
       </div>
     
     </div>

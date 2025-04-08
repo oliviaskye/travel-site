@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Discover.css"
 import Nav from "@Nav"
+import Ftr from "../../components/Ftr/Ftr";
 import Searchtrem from "../../components/Search/Searchtrem"
 import HotelFltring from "../../Hotelcomponents/filter/HotelFltring";
 const Discover = () => {
@@ -25,6 +26,7 @@ const Discover = () => {
       <HotelFltring searchData={searchData} />
       </div>
       <div className="part-4">
+        <Ftr />
       </div>
     </div>
   );
