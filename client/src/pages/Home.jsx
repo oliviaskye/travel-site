@@ -5,6 +5,7 @@ import Nav from "@Nav";
 import Ftr from "../components/Ftr/Ftr";
 import FutureTrip from "../Hotelcomponents/Future/FutureTrip";
 import "../index.css";
+import "../Middleware/mood/Light-Dark.css";
 
 const Home = () => {
 
